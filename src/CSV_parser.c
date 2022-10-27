@@ -3,12 +3,14 @@
 #include <string.h>
 #include "../include/CSV_parser.h"
 
+/* wrapper of fopen */
 FILE* open_file(char* path){
     FILE* fp = fopen(path, "r");
     if(fp == NULL){ printf("file couldn't be read.\n"); exit(1); }
     return fp;
 }
 
+/* get the number of column by counting how many delimiter have the header */
 int size_column(FILE* fp, char delimiter){
     fseek(fp, 0, SEEK_SET);
     int c = EOF;
@@ -24,6 +26,8 @@ int size_column(FILE* fp, char delimiter){
     return counter;
 }
 
+
+/*Get the line splitted into an array of strings (array 2D)*/
 char** access_content(FILE* fp, int n){
     char* buf = malloc(sizeof(char) * 1000);
     if(fgets(buf, 1000, fp) == NULL){ 
@@ -36,6 +40,7 @@ char** access_content(FILE* fp, int n){
     return line_splitted;
 }
 
+/* print the contnet of a line that was been sliced */
 void print_line(char** line_splitted, int n){
 
     for(int i = 0; i < n; i++){
@@ -44,6 +49,7 @@ void print_line(char** line_splitted, int n){
     printf("\n");
 }
 
+/* split the line into an array */
 char** split_line(char* line, char* delimiter, int n){
     char** spl = (char**)malloc(sizeof(char*) * (n));
     if(spl  == NULL){ printf("malloc failed in split_line.\n"); exit(1); }
@@ -61,6 +67,8 @@ char** split_line(char* line, char* delimiter, int n){
     return spl;
 }
 
+
+/* Skip the first line of the file. (CSV header) */
 void skip_header(FILE* fp){
     fseek(fp, 0, SEEK_SET);
     int c = EOF;
