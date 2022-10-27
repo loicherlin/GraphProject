@@ -1,6 +1,5 @@
 CC ?= gcc
-CFLAGS ?= -Wall
-DEBUG ?= -g
+CFLAGS ?= -Wall -g
 LDLIBS ?=
 
 EXEC = main
