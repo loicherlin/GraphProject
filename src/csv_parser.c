@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/CSV_parser.h"
+#include "../include/csv_parser.h"
 
 /* wrapper of fopen */
 FILE* open_file(char* path){

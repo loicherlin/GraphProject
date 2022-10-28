@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/BIN_builder.h"
-#include "../include/CSV_parser.h"
+#include "../include/bin_builder.h"
+#include "../include/csv_parser.h"
 
 void build_bin(FILE* fp){
     // get the number of column by counting 

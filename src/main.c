@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/CSV_parser.h"
-#include "../include/BIN_builder.h"
+#include "../include/csv_parser.h"
+#include "../include/bin_builder.h"
 
 int main(int argc, char* argv[]){
     FILE* fp = fopen("petitbou", "r");
