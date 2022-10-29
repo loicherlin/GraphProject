@@ -23,12 +23,12 @@ int size_column(FILE* fp, char delimiter){
             counter++;
         }
     }
-    return counter;
+    return counter + 1;
 }
 
 
 /*Get the line splitted into an array of strings (array 2D)*/
-char** access_content(FILE* fp, int n){
+char** get_line(FILE* fp, int n){
     char* buf = malloc(sizeof(char) * 1000);
     if(fgets(buf, 1000, fp) == NULL){ 
         free(buf); return NULL; 
@@ -73,8 +73,8 @@ void skip_header(FILE* fp){
     fseek(fp, 0, SEEK_SET);
     int c = EOF;
     while ((c=fgetc(fp)) != EOF) {
-    if (c=='\n')
-        break;
+        if (c=='\n')
+            break;
     }
 }
 

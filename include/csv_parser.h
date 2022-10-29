@@ -4,7 +4,7 @@
 FILE* open_file(char* path);
 
 /*Get the line splitted into an array of strings (array 2D)*/
-char** access_content(FILE* fp, int n);
+char** get_line(FILE* fp, int n);
 
 /* print the contnet of a line that was been sliced */
 void print_line(char** line_splitted, int n);
