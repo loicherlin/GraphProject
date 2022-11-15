@@ -29,7 +29,7 @@ int build_bin(FILE* fp, char* path_bin){
     skip_header(fp);
     char** contents;  
     while((contents = get_line(fp, n)) != NULL){ 
-        print_line(contents, n);
+        //print_line(contents, n);
         if(write_to_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
             exterminate_malloc(contents, n); 
             return EXIT_FAILURE;

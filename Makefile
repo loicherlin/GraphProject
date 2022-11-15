@@ -1,6 +1,6 @@
 CC ?= gcc
 CFLAGS ?= -Wall -g
-LDLIBS ?=
+LDLIBS ?= -ltps -lSDL2 -lSDL2_ttf
 
 EXEC = main
 
