@@ -23,6 +23,8 @@ int size_column(FILE* fp, char delimiter){
             counter++;
         }
     }
+    // Important
+    if(counter == 0){ return 0; }
     return counter + 1;
 }
 
