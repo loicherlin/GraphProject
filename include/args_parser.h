@@ -8,7 +8,7 @@ const char *argp_program_version =
 
 /* Program documentation. */
 static char doc[] =
-  "Give the Minimum Spanning Tree based on input file (normaly Tree's of Paris)\n\nThe programs firstly parse the input file and store in binary format into output file. And then starts to work on this binary file to create the MST based of this binary file.";
+  "Give the Minimum Spanning Tree based on input file (normaly Tree's of Paris).\n\nThe programs firstly parse the input file and store in binary format into output file. And then starts to work on this binary file to create the MST based of this binary file.";
 
 
 /* The options we understand. */
