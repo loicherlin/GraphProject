@@ -5,16 +5,16 @@
 
 
 
-char* serialize_data_t(double x, double y){
-    data_t da = {.x = x, .y = y };
+char* serialize_data_t(double latitude, double longitude){
+    data_t da = {.latitude = latitude, .longitude = longitude };
     char* data = malloc(sizeof(data_t));
     memcpy(data, &da, sizeof(da));
     return data;
 }
 
 
-data_t deserialize_data_t(char* data_b){
-    data_t da;
-    memcpy(&da, data_b, sizeof(data_t));
+data_t* deserialize_data_t(char* data_b){
+    data_t* da = malloc(sizeof(data_t));
+    memcpy(da, data_b, sizeof(data_t));
     return da;
 }

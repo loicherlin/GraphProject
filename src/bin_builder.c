@@ -1,18 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <tps.h>
 #include "../include/bin_builder.h"
 #include "../include/csv_parser.h"
 #include "../include/serializer.h"
-#include <string.h>
+#include "../include/array_list.h"
+
+void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates){
+    char* endPtr;
+    *lattitude = strtod(coordinates, &endPtr);
+    // Remove ","" because the data is in form "x,y"
+    // Needs to be done in a better way I think, maybe later ..
+    memmove(&endPtr[0], &endPtr[0 + 1], strlen(endPtr) - 0);
+    *longitude = strtod(endPtr, NULL);
+}
 
 int write_to_bin(char** contents, FILE* fp_bin, int n){
-    char* endPtr;
-    double x = strtod(contents[n-1], &endPtr);
-    //Remove ","" because the data is in form "x,y"
-    memmove(&endPtr[0], &endPtr[0 + 1], strlen(endPtr) - 0);
-    double y = strtod(endPtr, NULL);
-
-    char* data = serialize_data_t(x,y);
+    double lattitude, longitude;
+    sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
+    char* data = serialize_data_t(lattitude,longitude);
     fwrite(data, sizeof(data_t), 1, fp_bin);
     free(data);
     return EXIT_SUCCESS;
@@ -20,17 +27,17 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
 
 int build_bin(FILE* fp, char* path_bin){
     FILE* fp_bin = fopen(path_bin, "w+b");
-    if(fp_bin == NULL){perror("failed to fopen path_bin"); return EXIT_FAILURE; }
+    if(fp_bin == NULL){ perror("failed to fopen to path_bin\n"); return EXIT_FAILURE; }
 
-    // get the number of column by counting 
-    // how much ; there are in the header
+    // Get the number of column by counting how much ; there are in the header
     int n = size_column(fp, ';');
-    // skip header (first line)
+    // Skip header (first line)
     skip_header(fp);
     char** contents;  
     while((contents = get_line(fp, n)) != NULL){ 
-        //print_line(contents, n);
         if(write_to_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
+            printf("Failed to write to file\n");
+            fclose(fp_bin);
             exterminate_malloc(contents, n); 
             return EXIT_FAILURE;
         }
@@ -40,11 +47,12 @@ int build_bin(FILE* fp, char* path_bin){
     return EXIT_SUCCESS;
 }
 
-int read_bin(FILE* fp){
+list_t* get_data_bin(FILE* fp){
     char data[sizeof(data_t)];
+    list_t* data_list = list_create();
     while(fread(data, sizeof(data_t), 1, fp)){
-        data_t d = deserialize_data_t(data);
-        printf("%f\n%f\n\n", d.x, d.y);
+        data_t* d = deserialize_data_t(data);
+        list_append(data_list, d);
     }
-    return EXIT_SUCCESS;
+    return data_list;
 }

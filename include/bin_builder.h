@@ -1,4 +1,11 @@
 #pragma once
+#include "./array_list.h"
+
+
+/*
+    Sanatize coordinates that are in form of "lattitude,longitude"
+*/
+void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates);
 
 /* 
     Write serialized data to fp.
@@ -16,6 +23,7 @@ int write_to_bin(char** str, FILE* fp, int n);
 int build_bin(FILE* fp, char* path_bin);
 
 /* 
-    Read and deserialize  
+    Read and deserialize data from fp 
+    and return a list of theses data. 
 */
-int read_bin(FILE* fp);
+list_t* get_data_bin(FILE* fp);
