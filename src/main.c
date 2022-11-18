@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <argp.h>
 #include "../include/args_parser.h"
 #include "../include/array_list.h"
 #include "../include/csv_parser.h"
@@ -14,13 +13,11 @@ int main(int argc, char* argv[]){
     arguments.input_file = "-";
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-    FILE* fp = fopen(arguments.input_file , "r");
-    if(fp == NULL){ printf("file couldn't be read.\n"); exit(1); }
-    
-    if(build_bin(fp, arguments.output_file) == EXIT_FAILURE){ exit(1); }
+    FILE* fp = open_file(arguments.input_file);
 
-    FILE* fp_bin = fopen(arguments.output_file, "r");
-    if(fp_bin == NULL){ printf("file couldn't be read.\n"); exit(1); }
+    int result = build_bin(fp, arguments.output_file);
+    if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
+    FILE* fp_bin = open_file(arguments.output_file);
 
     list_t* data_list = get_data_bin(fp_bin);
     show_data(1300, 900, data_list);
