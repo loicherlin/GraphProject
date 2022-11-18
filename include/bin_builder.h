@@ -1,6 +1,12 @@
 #pragma once
 #include "./array_list.h"
 
+
+/*
+    Sanatize coordinates that are in form of "lattitude,longitude"
+*/
+void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates);
+
 /* 
     Write serialized data to fp.
     Return 1 if done it successfuly, otherwise 0.

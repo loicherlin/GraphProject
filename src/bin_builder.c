@@ -7,14 +7,19 @@
 #include "../include/serializer.h"
 #include "../include/array_list.h"
 
-int write_to_bin(char** contents, FILE* fp_bin, int n){
+void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates){
     char* endPtr;
-    double x = strtod(contents[n-1], &endPtr);
+    *lattitude = strtod(coordinates, &endPtr);
     // Remove ","" because the data is in form "x,y"
+    // Needs to be done in a better way I think, maybe later ..
     memmove(&endPtr[0], &endPtr[0 + 1], strlen(endPtr) - 0);
-    double y = strtod(endPtr, NULL);
+    *longitude = strtod(endPtr, NULL);
+}
 
-    char* data = serialize_data_t(x,y);
+int write_to_bin(char** contents, FILE* fp_bin, int n){
+    double lattitude, longitude;
+    sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
+    char* data = serialize_data_t(lattitude,longitude);
     fwrite(data, sizeof(data_t), 1, fp_bin);
     free(data);
     return EXIT_SUCCESS;
@@ -22,16 +27,17 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
 
 int build_bin(FILE* fp, char* path_bin){
     FILE* fp_bin = fopen(path_bin, "w+b");
-    if(fp_bin == NULL){ perror("failed to fopen path_bin"); return EXIT_FAILURE; }
+    if(fp_bin == NULL){ perror("failed to fopen to path_bin\n"); return EXIT_FAILURE; }
 
     // Get the number of column by counting how much ; there are in the header
     int n = size_column(fp, ';');
-    printf("%d\n", n);
     // Skip header (first line)
     skip_header(fp);
     char** contents;  
     while((contents = get_line(fp, n)) != NULL){ 
         if(write_to_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
+            printf("Failed to write to file\n");
+            fclose(fp_bin);
             exterminate_malloc(contents, n); 
             return EXIT_FAILURE;
         }

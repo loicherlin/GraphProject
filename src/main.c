@@ -9,13 +9,16 @@ int main(int argc, char* argv[]){
     FILE* fp = fopen("../les-arbres.csv", "r");
     if(fp == NULL){ printf("file couldn't be read.\n"); exit(1); }
     
-    build_bin(fp, "coor.bin");
+    if(build_bin(fp, "coor.bin") == EXIT_FAILURE){ exit(1); }
 
     FILE* fp_bin = fopen("coor.bin", "r");
     if(fp_bin == NULL){ printf("file couldn't be read.\n"); exit(1); }
 
     list_t* data_list = get_data_bin(fp_bin);
     show_data(1300, 900, data_list);
+    for(size_t i = 0; i < list_size(data_list); i++)
+        free(list_get(data_list, i));
+    list_free(data_list);
     fclose(fp_bin);
     return 0;
 }

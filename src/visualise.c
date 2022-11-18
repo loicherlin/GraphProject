@@ -43,13 +43,14 @@ void show_data(int width, int height, list_t* node_list){
             data_t d = *((data_t*)list_get(node_list, i));
             double xNorm = normalize_to_screen(d.latitude, x_max, x_min);
             double yNorm = normalize_to_screen(d.longitude, y_max, y_min);
-            tps_drawEllipse(xNorm * width, yNorm * height, 2, 2);
+            tps_drawEllipse(xNorm * width, yNorm * height, 0.5, 0.5);
         }
         tps_render();
     }
     tps_closeWindow();
+    /*
     for(size_t i = 0; i < list_size(node_list); i++)
         free(list_get(node_list, i));
-
     list_free(node_list);
+    */
 }
