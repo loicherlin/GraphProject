@@ -1,3 +1,3 @@
 #pragma once
 
-void ll_to_cartesian(double latitude, double longitude, double* x, double* y);
+void ll_to_cartesian(float latitude, float longitude, float* x, float* y);

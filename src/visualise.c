@@ -6,12 +6,12 @@
 #include "../include/serializer.h"
 
 
-double normalize_to_screen(double coord, double coord_max, double coord_min){
+double normalize_to_screen(float coord, float coord_max, float coord_min){
     return (coord - coord_min) / (coord_max - coord_min);
 }
 
 
-int get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_max, double* y_min){
+int get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, float* y_min){
     for(size_t i = 0; i < list_size(node_list); i++){
         if((*(data_t*)list_get(node_list, i)).latitude >= *x_max){
             *x_max = (*(data_t*)list_get(node_list, i)).latitude;
@@ -31,18 +31,18 @@ int get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_ma
 
 void show_data(int width, int height, list_t* node_list){
     tps_createWindow("Tree of Paris", width, height);
-    double x_max;
-    double x_min = 50;
-    double y_max;
-    double y_min = 10;
+    float x_max;
+    float x_min = 50;
+    float y_max;
+    float y_min = 10;
     get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
     while(tps_isRunning()) {
         tps_background(255,255,255);
         tps_setColor(0,0,0);
         for(size_t i = 0; i < list_size(node_list); i++){
             data_t d = *((data_t*)list_get(node_list, i));
-            double xNorm = normalize_to_screen(d.latitude, x_max, x_min);
-            double yNorm = normalize_to_screen(d.longitude, y_max, y_min);
+            float xNorm = normalize_to_screen(d.latitude, x_max, x_min);
+            float yNorm = normalize_to_screen(d.longitude, y_max, y_min);
             tps_drawEllipse(xNorm * width, yNorm * height, 0.5, 0.5);
         }
         tps_render();
