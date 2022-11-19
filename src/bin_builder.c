@@ -7,7 +7,7 @@
 #include "../include/serializer.h"
 #include "../include/array_list.h"
 
-void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates){
+void sanatize_coordinates(float* lattitude, float* longitude, char* coordinates){
     char* endPtr;
     *lattitude = strtod(coordinates, &endPtr);
     // Remove ","" because the data is in form "x,y"
@@ -17,7 +17,7 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
 }
 
 int write_to_bin(char** contents, FILE* fp_bin, int n){
-    double lattitude, longitude;
+    float lattitude, longitude;
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
     char* data = serialize_data_t(lattitude,longitude);
     fwrite(data, sizeof(data_t), 1, fp_bin);
