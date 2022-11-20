@@ -5,7 +5,6 @@
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
 #include "../include/visualise.h"
-#include "../include/delauney.h"
 
 void free_list(list_t* data_list){
     for(size_t i = 0; i < list_size(data_list); i++)
@@ -14,7 +13,6 @@ void free_list(list_t* data_list){
 }
 
 int main(int argc, char* argv[]){
-    /*
     // Initiate arguments for args parsing
     struct arguments arguments;
     arguments.output_file = "-";
@@ -32,23 +30,6 @@ int main(int argc, char* argv[]){
     show_data(1300, 900, data_list);
     // Free content of the list and the list itself
     free_list(data_list);
-    fclose(fp_bin);
-    return 0;*/
-    FILE* fp = fopen("les-arbres.csv", "r");
-    if(fp == NULL){ printf("file couldn't be read.\n"); exit(1); }
-    
-    if(build_bin(fp, "coor.bin") == EXIT_FAILURE){ exit(1); }
-
-    FILE* fp_bin = fopen("coor.bin", "r");
-    if(fp_bin == NULL){ printf("file couldn't be read.\n"); exit(1); }
-
-    list_t* data_list = get_data_bin(fp_bin);
-    triangulate(data_list);
-    //printf("taille : %ld\n",list_size(edge_list));
-    show_data(1300, 900, data_list);
-    for(size_t i = 0; i < list_size(data_list); i++)
-        free(list_get(data_list, i));
-    list_free(data_list);
     fclose(fp_bin);
     return 0;
 }
