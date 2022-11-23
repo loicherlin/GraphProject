@@ -12,7 +12,7 @@ double normalize_to_screen(float coord, float coord_max, float coord_min);
     Based on a node_list, get x=lattitude y=longitude min max value.
     return 0 if no problems, otherwise 1.
 */
-int get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, float* y_min);
+void get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, float* y_min);
 
 
 /* 

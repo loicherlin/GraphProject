@@ -107,7 +107,8 @@ list_t* delaunay_bowyer_watson(list_t* nodes){
     
     //printf("%f %f %f %f %f %f\n",super_triangle->s1->latitude,super_triangle->s1->longitude,super_triangle->s2->latitude,super_triangle->s2->longitude,super_triangle->s3->latitude,super_triangle->s3->longitude);
     list_append(triangulation, super_triangle);
-    for(int i = 0 ; i < list_size(nodes);i++){
+    // CHANGE 4 AFTER THE BUG HAVE BEEN FOUND !!!!!!!
+    for(int i = 0 ; i < 4;i++){
         printf("%d nb triangle : %ld \n",i, list_size(triangulation));
         list_t* badTriangles = list_create();
          node_t* a = list_get(nodes, i);
