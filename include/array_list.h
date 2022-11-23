@@ -79,3 +79,5 @@ size_t list_size(list_t* list);
  * libère la liste (et pas les éléments)
  */
 void list_free(list_t* list);
+
+void list_remove(list_t* list, void* to_remove);

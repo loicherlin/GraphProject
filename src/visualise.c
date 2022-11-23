@@ -37,15 +37,7 @@ void show_data(int width, int height, list_t* node_list){
     float y_min = 10;
     get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
 
-    FILE* fp = fopen("/home/yanovskyy/Documents/Softwares/DelaunayTriangulation/input/normalized.txt", "w+");
-    for(size_t i = 0; i < list_size(node_list); i++){
-        node_t d = *((node_t*)list_get(node_list, i));
-        float xNorm = normalize_to_screen(d.latitude, x_max, x_min);
-        float yNorm = normalize_to_screen(d.longitude, y_max, y_min);
-        fprintf(fp, "%f %f\n", xNorm*1920*125.72, yNorm*1080*125.72);
-        //tps_drawEllipse(xNorm * width, yNorm * height, 0.5, 0.5);
-    }
-    fclose(fp);
+
     while(tps_isRunning()) {
         tps_background(255,255,255);
         tps_setColor(0,0,0);
