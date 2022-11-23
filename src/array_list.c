@@ -159,3 +159,12 @@ void list_free(list_t* list){
     if(list->tab != NULL){ free(list->tab); }
     free(list);
 }
+
+// list_remove
+void list_remove(list_t* list, void* to_remove){
+    for(size_t i = 0; i < list->size; i++){
+        if(list->tab[i] == to_remove){
+            list_take(list, i);
+        }
+    }
+}

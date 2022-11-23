@@ -13,17 +13,17 @@ double normalize_to_screen(float coord, float coord_max, float coord_min){
 
 int get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, float* y_min){
     for(size_t i = 0; i < list_size(node_list); i++){
-        if((*(data_t*)list_get(node_list, i)).latitude >= *x_max){
-            *x_max = (*(data_t*)list_get(node_list, i)).latitude;
+        if((*(node_t*)list_get(node_list, i)).latitude >= *x_max){
+            *x_max = (*(node_t*)list_get(node_list, i)).latitude;
         }
-        if((*(data_t*)list_get(node_list, i)).latitude < *x_min){
-            *x_min = (*(data_t*)list_get(node_list, i)).latitude;
+        if((*(node_t*)list_get(node_list, i)).latitude < *x_min){
+            *x_min = (*(node_t*)list_get(node_list, i)).latitude;
         }
-        if((*(data_t*)list_get(node_list, i)).longitude >= *y_max){
-            *y_max = (*(data_t*)list_get(node_list, i)).longitude;
+        if((*(node_t*)list_get(node_list, i)).longitude >= *y_max){
+            *y_max = (*(node_t*)list_get(node_list, i)).longitude;
         }
-        if((*(data_t*)list_get(node_list, i)).longitude < *y_min){
-            *y_min = (*(data_t*)list_get(node_list, i)).longitude;
+        if((*(node_t*)list_get(node_list, i)).longitude < *y_min){
+            *y_min = (*(node_t*)list_get(node_list, i)).longitude;
         }
     }   
     return EXIT_SUCCESS;
@@ -36,11 +36,21 @@ void show_data(int width, int height, list_t* node_list){
     float y_max;
     float y_min = 10;
     get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
+
+    FILE* fp = fopen("/home/yanovskyy/Documents/Softwares/DelaunayTriangulation/input/normalized.txt", "w+");
+    for(size_t i = 0; i < list_size(node_list); i++){
+        node_t d = *((node_t*)list_get(node_list, i));
+        float xNorm = normalize_to_screen(d.latitude, x_max, x_min);
+        float yNorm = normalize_to_screen(d.longitude, y_max, y_min);
+        fprintf(fp, "%f %f\n", xNorm*1920*125.72, yNorm*1080*125.72);
+        //tps_drawEllipse(xNorm * width, yNorm * height, 0.5, 0.5);
+    }
+    fclose(fp);
     while(tps_isRunning()) {
         tps_background(255,255,255);
         tps_setColor(0,0,0);
         for(size_t i = 0; i < list_size(node_list); i++){
-            data_t d = *((data_t*)list_get(node_list, i));
+            node_t d = *((node_t*)list_get(node_list, i));
             float xNorm = normalize_to_screen(d.latitude, x_max, x_min);
             float yNorm = normalize_to_screen(d.longitude, y_max, y_min);
             tps_drawEllipse(xNorm * width, yNorm * height, 0.5, 0.5);

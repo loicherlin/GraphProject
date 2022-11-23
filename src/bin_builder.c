@@ -20,7 +20,7 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
     float lattitude, longitude;
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
     char* data = serialize_data_t(lattitude,longitude);
-    fwrite(data, sizeof(data_t), 1, fp_bin);
+    fwrite(data, sizeof(node_t), 1, fp_bin);
     free(data);
     return EXIT_SUCCESS;
 }
@@ -48,10 +48,10 @@ int build_bin(FILE* fp, char* path_bin){
 }
 
 list_t* get_data_bin(FILE* fp){
-    char data[sizeof(data_t)];
+    char data[sizeof(node_t)];
     list_t* data_list = list_create();
-    while(fread(data, sizeof(data_t), 1, fp)){
-        data_t* d = deserialize_data_t(data);
+    while(fread(data, sizeof(node_t), 1, fp)){
+        node_t* d = deserialize_data_t(data);
         list_append(data_list, d);
     }
     return data_list;

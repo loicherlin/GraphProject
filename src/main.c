@@ -43,8 +43,6 @@ int main(int argc, char* argv[]){
     if(fp_bin == NULL){ printf("file couldn't be read.\n"); exit(1); }
 
     list_t* data_list = get_data_bin(fp_bin);
-    triangulate(data_list);
-    //printf("taille : %ld\n",list_size(edge_list));
     show_data(1300, 900, data_list);
     for(size_t i = 0; i < list_size(data_list); i++)
         free(list_get(data_list, i));
