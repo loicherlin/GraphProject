@@ -146,13 +146,17 @@ list_t* delaunay_bowyer_watson(list_t* nodes){
                 list_append(polygon,b3);
                 if(j!=k){
                     if(!edge_shared(a1,a2,a3,*b1)){
-                        list_remove(polygon,b1);
+                        //list_remove(polygon,b1);
+                        edge_t* e = list_take(polygon, list_size(polygon)-3);
+                        free(e);
                     }
                     else if(!edge_shared(a1,a2,a3,*b2)){
-                        list_remove(polygon,b1);
+                        edge_t* e = list_take(polygon, list_size(polygon)-2);
+                        free(e);
                     }
                     else if(!edge_shared(a1,a2,a3,*b3)){
-                        list_remove(polygon,b1);
+                        edge_t* e = list_take(polygon, list_size(polygon)-1);
+                        free(e);
                     }
                 }
             }
