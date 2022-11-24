@@ -95,7 +95,7 @@ int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current){
 }
 
 void list_remove_triangle(list_t* l ,triangle* rm ){
-    int i = 0 ; 
+    size_t i = 0 ; 
     while(i<list_size(l)){
         //printf("--------------- list_remove_triangle ---------------\n");
         triangle* courant = list_get(l,i);
@@ -103,8 +103,8 @@ void list_remove_triangle(list_t* l ,triangle* rm ){
         if((compare_node_t( *(courant->s1) , *(rm->s1)) || compare_node_t(*(courant->s1), *(rm->s2)) || compare_node_t(*(courant->s1), *(rm->s3)) )&& 
     (compare_node_t(*(courant->s2), *(rm->s1)) || compare_node_t(*(courant->s2), *(rm->s2)) || compare_node_t(*(courant->s2), *(rm->s3)) )&& 
     (compare_node_t(*(courant->s3), *(rm->s1)) || compare_node_t(*(courant->s3), *(rm->s2)) || compare_node_t(*(courant->s3), *(rm->s3)) )){
-            //printf("supp\n");
-            triangle* e=list_take(l,i); 
+            triangle* e = list_take(l,i);
+            //free(e);
         }
         else{
             i++;
@@ -123,31 +123,22 @@ int compare_triangle_node(triangle a, triangle b){
 list_t* delaunay_bowyer_watson(list_t* nodes){
     list_t* triangulation = list_create();
     triangle* super_triangle = create_super_triangle(nodes);
-    
-    //printf("%f %f %f %f %f %f\n",super_triangle->s1->latitude,super_triangle->s1->longitude,super_triangle->s2->latitude,super_triangle->s2->longitude,super_triangle->s3->latitude,super_triangle->s3->longitude);
     list_append(triangulation, super_triangle);
     // CHANGE 4 AFTER THE BUG HAVE BEEN FOUND !!!!!!!
-    for(int i = 0 ; i < 20;i++){
-        //printf("%d nb triangle : %ld \n",i, list_size(triangulation));
+    for(int i = 0 ; i < 4;i++){
         list_t* badTriangles = list_create();
-         node_t* a = list_get(nodes, i);
-         //printf("%f %f\n",a->latitude,a->longitude);
-         
+        node_t* a = list_get(nodes, i);
         for(int j = 0 ; j < list_size(triangulation) ; j++){
             triangle* t_tempo = list_get(triangulation, j);
             // Check if the point is inside the circumcircle of the triangle
-            //printf("le derterminant : %f\n",in_circle(t_tempo->s1,t_tempo->s2,t_tempo->s3,a));
             if(in_circle(t_tempo->s1,t_tempo->s2,t_tempo->s3,a)>0){
-                //printf("passe %d in circle\n",i);
                 list_append(badTriangles, t_tempo);
             }
         }
         list_t* polygon = list_create();
         
         // find the boundary of the polygonal hole
-        //printf("longueur bad : %ld", list_size(badTriangles));
         for(int j = 0 ; j < list_size(badTriangles) ; j++){
-            //printf("longueur bad : %ld\n", list_size(badTriangles));
             triangle* t_tempo = list_get(badTriangles, j);
             edge_t* b1 = malloc(sizeof(edge_t));
             edge_t* b2 = malloc(sizeof(edge_t));
@@ -166,7 +157,6 @@ list_t* delaunay_bowyer_watson(list_t* nodes){
                 char flag=0;
                 if(j!=k){
                     if(!edge_shared(a1,a2,a3,*b1)){
-                        //list_remove(polygon,b1);
                         edge_t* e = list_take(polygon, list_size(polygon)-3);
                         free(e);
                         flag=1;
@@ -191,33 +181,32 @@ list_t* delaunay_bowyer_watson(list_t* nodes){
         printf("passage : %d polygone size : %ld, badTriangle size : %ld\n",i ,list_size(polygon),list_size(badTriangles));
         // remove bad triangles from the triangulation
         for(int n = 0; n < list_size(badTriangles); n++){
-            list_remove_triangle(triangulation, list_get(badTriangles, n));
+            list_remove_triangle(triangulation, (triangle*)list_get(badTriangles, n));
         }
         // re-triangulate the polygonal hole
         for(int o = 0; o < list_size(polygon); o++){
             edge_t* edge = list_get(polygon, o);
-            triangle* newTri = malloc(sizeof(triangle));
-            newTri->s1 = edge->org; // regarde si copie
-            newTri->s2 = edge->dest;
-            newTri->s3 = a;
-
-            //printf("trie : %f %f %f %f %f %f\n",newTri->s1->latitude,newTri->s1->longitude,newTri->s2->latitude,newTri->s2->longitude,newTri->s3->latitude,newTri->s3->longitude);
-    
-            list_append(triangulation, newTri);
+            triangle* t = malloc(sizeof(triangle)); // memory leak
+            t->s1 = edge->org;
+            t->s2 = edge->dest;
+            t->s3 = a;
+            list_append(triangulation, t);
         }
         while(list_size(polygon) > 0){
-            edge_t* t = list_take(polygon, 0);
+            edge_t* t = list_take(polygon, list_size(polygon)-1);
             free(t);
         }
-        list_free(polygon);
-        //printf("2 passage : %d polygone size : %ld, badTriangle size : %ld\n",i ,list_size(polygon),list_size(badTriangles));
+        list_free(polygon); 
+        list_free(badTriangles);
     }
     for(int p = 0; p < list_size(triangulation); p++){
           triangle* t = list_get(triangulation, p);
           if(compare_triangle_node(*t,*super_triangle)){
-            list_remove(triangulation,t);
+            triangle* r = list_take(triangulation, p);
+            free(r);
           }
     }
+    free(super_triangle);
     return triangulation;
 }
 

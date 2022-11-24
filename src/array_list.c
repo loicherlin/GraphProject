@@ -13,9 +13,6 @@
 
 list_t* list_create(){
     list_t* l = malloc(sizeof(list_t));
-    // to pass test error_malloc_2
-    free(l);
-    l = malloc(sizeof(list_t));
     if(l == 0){ return 0; }
     l->allocated = 0;
     l->size = 0;
@@ -33,19 +30,18 @@ list_t* list_create(){
 
 
 int list_append(list_t* list, void* element){
-    if(list == 0) { return 0;}
-    if(list->size == 0){
+    if(list == 0){ return 0; }
+    if(list->allocated == 0){
+        list->allocated = 1;
         list->tab = malloc(sizeof(void*));
         if(list->tab == 0){ return 0; }
-        list->allocated = 1;
-    } 
-    else if(list->size == list->allocated){
-        void** tmp = realloc(list->tab, sizeof(void*)*list->allocated*2);
-        if(tmp == 0){ return 0; }
-        list->allocated *= 2;
-        list->tab = tmp;
     }
-    (list->tab)[list->size] = element;
+    else if(list->allocated == list->size){
+        list->allocated *= 2;
+        list->tab = realloc(list->tab, list->allocated * sizeof(void*));
+        if(list->tab == 0){ return 0; }
+    }
+    list->tab[list->size] = element;
     list->size++;
     return 1;
 }
@@ -128,9 +124,7 @@ void list_set(list_t* list, int idx, void* element){
  */
 void* list_take(list_t* list, int idx){
     void* tmp = list->tab[idx];
-    for(size_t i = idx; i < list->size; i++){
-        list->tab[i] = list->tab[i+1];
-    }
+    memmove(list->tab+idx, list->tab+idx+1, sizeof(void*)*(list->size-idx-1));
     list->size--;
     return tmp;
 }

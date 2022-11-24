@@ -50,13 +50,15 @@ int main(int argc, char* argv[]){
         printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
     }*/
     printf("size : %ld\n",list_size(d));
-    show_data(1300, 900, d);
-    for(size_t i = 0; i < list_size(d); i++)
-        free(list_get(d, i));
-    list_free(d);
-    for(size_t i = 0; i < list_size(data_list); i++)
-        free(list_get(data_list, i));
-    list_free(data_list);
+    //show_data(1300, 900, d);
+    for(size_t i = 0; i < list_size(d); i++){
+        if(list_get(d, i) != NULL){
+            triangle* t = (triangle*)list_get(d, i);
+            printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
+        }
+    }
+    free_list(d);
+    free_list(data_list);
     fclose(fp_bin);
     return 0;
 }
