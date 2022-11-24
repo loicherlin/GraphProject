@@ -3,11 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-struct list{
-    void** tab;
-    size_t allocated;
-    size_t size;
-};
 
 /**
  * Fonction list_create

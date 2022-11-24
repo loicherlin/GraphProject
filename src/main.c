@@ -50,7 +50,7 @@ int main(int argc, char* argv[]){
         printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
     }*/
     printf("size : %ld\n",list_size(d));
-    //show_data(1300, 900, d);
+    show_data(1300, 900, d);
     for(size_t i = 0; i < list_size(d); i++)
         free(list_get(d, i));
     list_free(d);

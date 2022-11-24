@@ -3,6 +3,12 @@
 struct list;
 typedef struct list list_t;
 
+struct list{
+    void** tab;
+    size_t allocated;
+    size_t size;
+};
+
 /**
  * Fonction list_create
  * 
