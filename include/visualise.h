@@ -18,4 +18,4 @@ int get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, 
 /* 
     Show a visualisation of nodes in a SDL window 
 */
-void show_data(int width, int height, list_t* node_list);
+void show_data(int width, int height, list_t* node_list, int* mst);

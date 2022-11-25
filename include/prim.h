@@ -1,8 +1,7 @@
 #pragma once
 #include "serializer.h"
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "min_heap.h"
+
 
 typedef struct node_adj {
     int id;
@@ -32,3 +31,4 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2);
 
 void show_graph_ajd(graph_t* g);
 
+int* prim_mst(graph_t* graph);
