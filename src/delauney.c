@@ -94,7 +94,6 @@ triangle create_super_triangle(list_t* nodes){
 
 char in_circle(node_t p0, node_t p1, node_t p2, node_t p3, double epsilon)
 {
-    //printf("In Circle : %f %f %f %f %f %f %f %f\n",p0.latitude,p0.longitude,p1.latitude,p1.longitude,p2.latitude,p2.longitude,p3.latitude,p3.longitude);
     double rsqr = 0;
     double fabs_y1y2 = fabs(p1.longitude-p2.longitude);
     double fabs_y2y3 = fabs(p2.longitude-p3.longitude);
@@ -138,8 +137,6 @@ char in_circle(node_t p0, node_t p1, node_t p2, node_t p3, double epsilon)
     dx = p0.latitude - pc.latitude;
     dy = p0.longitude - pc.longitude;
     double drsqr = dx*dx + dy*dy;
-    //printf("InCicle : %f %f\n",drsqr,rsqr);
-
     return ((drsqr - rsqr) <= epsilon);
 }
 
@@ -152,18 +149,12 @@ int compare_node_t_equal(node_t* a, node_t* b){
 
 // check if current is equals to bad_t_a, ... , bad_t_c.
 int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current){
-    if((compare_node_t_equal(current.org, bad_t_a.org) && compare_node_t_equal(current.dest, bad_t_a.dest)) || 
-       (compare_node_t_equal(current.org, bad_t_b.org) && compare_node_t_equal(current.dest, bad_t_b.dest)) || 
-       (compare_node_t_equal(current.org, bad_t_c.org) && compare_node_t_equal(current.dest, bad_t_c.dest)) || 
-       
-       (compare_node_t_equal(current.org, bad_t_a.dest) && compare_node_t_equal(current.dest, bad_t_a.org)) || 
-       (compare_node_t_equal(current.org, bad_t_b.dest) && compare_node_t_equal(current.dest, bad_t_b.org)) || 
-       (compare_node_t_equal(current.org, bad_t_c.dest) && compare_node_t_equal(current.dest, bad_t_c.org))){
-        return 1;
-       }
-       else{
-        return 0;
-       }
+    return (compare_node_t_equal(bad_t_a.org, current.org) && compare_node_t_equal(bad_t_a.dest, current.dest)) ||
+           (compare_node_t_equal(bad_t_a.org, current.dest) && compare_node_t_equal(bad_t_a.dest, current.org)) ||
+           (compare_node_t_equal(bad_t_b.org, current.org) && compare_node_t_equal(bad_t_b.dest, current.dest)) ||
+           (compare_node_t_equal(bad_t_b.org, current.dest) && compare_node_t_equal(bad_t_b.dest, current.org)) ||
+           (compare_node_t_equal(bad_t_c.org, current.org) && compare_node_t_equal(bad_t_c.dest, current.dest)) ||
+           (compare_node_t_equal(bad_t_c.org, current.dest) && compare_node_t_equal(bad_t_c.dest, current.org));
 }
 
 
@@ -194,11 +185,10 @@ int compare_triangle(triangle a, triangle b){
 triangle** delaunay_bowyer_watson(list_t* nodes){
     triangle* triangulation = malloc(sizeof(triangle)*1000000);
     triangle super_triangle = create_super_triangle(nodes);
-    //triRapid(nodes,0,list_size(nodes)-1);
     int size_triangle = 1;
     triangulation[0]=super_triangle;
     // CHANGE 4 AFTER THE BUG HAVE BEEN FOUND !!!!!!!
-    for(int i = 0 ; i < 8;i++){
+    for(int i = 0 ; i < 5000;i++){
 
         triangle* badTriangles = malloc(sizeof(triangle)*10000);
         int size_badTriangle = 0;
@@ -207,7 +197,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         for(int j = 0 ; j < size_triangle ; j++){
             triangle t_tempo = triangulation[j];
             // Check if the point is inside the circumcircle of the triangle
-            if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3),0.0001)){
+            if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), 0.0000001)){
                 badTriangles[size_badTriangle]=t_tempo;
                 size_badTriangle++;
                 //list_remove(triangulation,t_tempo);

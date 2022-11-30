@@ -67,9 +67,9 @@ void show_data(int width, int height, triangle** node_list){
                 float y_s3 = normalize_to_screen(t->s3->longitude, y_max, y_min);
                 int diveded = 1;
                 // draw nodes
-                tps_drawEllipse(x_s1 * width/diveded, y_s1 * height/diveded, 10, 10);
-                tps_drawEllipse(x_s2 * width/diveded, y_s2 * height/diveded, 10, 10);
-                tps_drawEllipse(x_s3 * width/diveded, y_s3 * height/diveded, 10, 10);
+                tps_drawEllipse(x_s1 * width/diveded, y_s1 * height/diveded, 1, 1);
+                tps_drawEllipse(x_s2 * width/diveded, y_s2 * height/diveded, 1, 1);
+                tps_drawEllipse(x_s3 * width/diveded, y_s3 * height/diveded, 1, 1);
                 // draw edges
                 if(t->s1->latitude != 0 && t->s1->latitude < 249){
                     tps_drawLine(normalize_to_screen(t->s1->latitude, x_max, x_min) * width, normalize_to_screen(t->s1->longitude, y_max, y_min) * height, normalize_to_screen(t->s2->latitude, x_max, x_min) * width, normalize_to_screen(t->s2->longitude, y_max, y_min) * height);
