@@ -1,47 +1,9 @@
 #include "../include/delauney.h"
 #include <math.h>
 #include <stdbool.h>
+#define EPSILON  0.00000000000000000000001
 
 /* create_triangle */
-
-void permuter(node_t *a, node_t *b) {
-    //printf("passe permuter\n");
-    node_t tmp;
-    tmp = *a;
-    *a = *b;
-    *b = tmp;
-    //printf("passe permuter2\n");
-}
-void triRapid(list_t* tab, int first, int last) {
-    int pivot, i, j;
-    if(first < last) {
-        pivot = first;
-        i = first;
-        j = last;
-        while (i < j) {
-            //printf("passe get\n");
-            node_t* n1 = list_get(tab,i);
-            node_t* n2 = list_get(tab,pivot);
-            node_t* n3 = list_get(tab,j);
-            //printf("%f %f %f %f %f %f\n",n1->latitude,n1->longitude,n2->latitude,n2->longitude,n3->latitude,n2->longitude);
-            while(n1->latitude <= n2->latitude && i < last){
-                i++;
-                n1 = list_get(tab,i);}
-            while(n3->latitude > n2->latitude){
-                j--;
-                n3 = list_get(tab,j);}
-            if(i < j) {
-                permuter(n1, n3);
-            }
-        }
-        node_t* n2 = list_get(tab,pivot);
-        node_t* n3 = list_get(tab,j);
-        permuter(n2, n3);
-        triRapid(tab, first, j - 1);
-        triRapid(tab, j + 1, last);
-    }
-}
-
 
 triangle create_triangle(node_t* a, node_t* b, node_t* c){
     triangle t;
@@ -143,8 +105,7 @@ char in_circle(node_t p0, node_t p1, node_t p2, node_t p3, double epsilon)
 
 
 int compare_node_t_equal(node_t* a, node_t* b){
-    float epsilon = 0.0000001;
-    return ((fabs(a->latitude-b->latitude) < epsilon) && (fabs(a->longitude-b->longitude) < epsilon)) ? 1 : 0;
+    return ((fabs(a->latitude-b->latitude) < EPSILON) && (fabs(a->longitude-b->longitude) < EPSILON)) ? 1 : 0;
 }
 
 // check if current is equals to bad_t_a, ... , bad_t_c.
@@ -182,14 +143,16 @@ int compare_triangle(triangle a, triangle b){
     }
 }
 
+
+// up to 45000 triangles it starts to be slow and convegers to around 46000... 
+// TO DO: find a way to optimize this function
+//        fix memory leaks
 triangle** delaunay_bowyer_watson(list_t* nodes){
-    triangle* triangulation = malloc(sizeof(triangle)*1000000);
+    triangle* triangulation = malloc(sizeof(triangle)*1000000); // that malloc is huge !!
     triangle super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
-    triangulation[0]=super_triangle;
-    // CHANGE 4 AFTER THE BUG HAVE BEEN FOUND !!!!!!!
-    for(int i = 0 ; i < 5000;i++){
-
+    triangulation[0] = super_triangle;
+    for(int i = 0 ; i < 1000;i++){
         triangle* badTriangles = malloc(sizeof(triangle)*10000);
         int size_badTriangle = 0;
         node_t* a = list_get(nodes, i);
@@ -197,15 +160,13 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         for(int j = 0 ; j < size_triangle ; j++){
             triangle t_tempo = triangulation[j];
             // Check if the point is inside the circumcircle of the triangle
-            if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), 0.0000001)){
-                badTriangles[size_badTriangle]=t_tempo;
+            if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
+                badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
-                //list_remove(triangulation,t_tempo);
             }
         }
         edge_t* polygon = malloc(sizeof(triangle)*size_badTriangle*3);
         int size_polygone= 0;
-
         // find the boundary of the polygonal hole
         for(int j = 0 ; j < size_badTriangle; j++){
             triangle t_tempo = badTriangles[j];
@@ -230,34 +191,31 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
                     if(supp_e1 && edge_shared(a1,a2,a3,b1)){
                         edge_t temp ={.org = 0, .dest= 0};
                         polygon[size_polygone]=temp;
-                        printf("entreedge1\n");
                         supp_e1=0;
                     }
                     else if(supp_e2 && edge_shared(a1,a2,a3,b2)){
                         edge_t temp ={.org = 0, .dest= 0};
                         polygon[size_polygone+1]=temp;
-                        printf("entreedge2\n");
                         supp_e2=0;
                     }
                     else if(supp_e3 && edge_shared(a1,a2,a3,b3)){
-                        edge_t temp ={.org = 0, .dest= 0};//marche pas je pense
+                        edge_t temp ={.org = 0, .dest= 0};
                         polygon[size_polygone+2]=temp;
-                        printf("entreedge3 : \n");
                         supp_e3=0;
                     }
                 }
             }
             size_polygone+=3;
         }
-        
+        printf("\e[1;1H\e[2J"); // clear screen
         printf("passage : %d polygone size : %d, badTriangle size : %d\n",i ,size_polygone,size_badTriangle);
+
         // remove bad triangles from the triangulation
         triangle triangle_vide={.s1=NULL,.s2=NULL,.s3=NULL};
         for(int n = 0; n < size_badTriangle; n++){
             for(int m=0; m < size_triangle; m++){
                 if(triangulation[m].s1!=NULL && compare_triangle(badTriangles[n],triangulation[m])){
-                    triangulation[m]= triangle_vide;
-                    //printf("entretriangleRemove\n");
+                    triangulation[m] = triangle_vide; // needs to be done in a better way
                 }
             }
         }
@@ -265,7 +223,6 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         for(int o = 0; o < size_polygone; o++){
             edge_t edge = polygon[o];
             if(edge.dest!=0){
-                //printf("polygone : %d\n",i);
                 triangle t;
                 t.s1 = edge.org;
                 t.s2 = edge.dest;
@@ -291,6 +248,8 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
     t->s1=n;
 
     int indice_relatif=1;
+    // I think it should be avoided to do a triangulationFinal
+    // and better to clean triangulation
     for (int i = 0 ; i < size_triangle ; i++){
         if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
             triangulationFinal[indice_relatif] = malloc(sizeof(triangle));

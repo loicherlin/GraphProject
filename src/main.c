@@ -58,21 +58,18 @@ int main(int argc, char* argv[]){
 
     list_t* data_list = get_data_bin(fp_bin);
     triangle** d = delaunay_bowyer_watson(data_list);
-    /*
-    for(size_t i = 0; i < list_size(d); i++){
-        triangle* t = (triangle*)list_get(d, i);
-        printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
-    }*/
     printf("ok in Main\n");
     printf("size : %f\n",d[0][0].s1->latitude);
     printf("ok in Main2\n");
     show_data(1300, 900, d);
+    /*
     for(size_t i = 1; i < d[0][0].s1->latitude; i++){
         if(d[i] != NULL){
             triangle* t = d[i];
             printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
         }
     }
+    */
     free(d);
     free_list_n(data_list);
     fclose(fp_bin);
