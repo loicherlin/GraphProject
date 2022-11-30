@@ -198,7 +198,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
     int size_triangle = 1;
     triangulation[0]=super_triangle;
     // CHANGE 4 AFTER THE BUG HAVE BEEN FOUND !!!!!!!
-    for(int i = 0 ; i < 4;i++){
+    for(int i = 0 ; i < 8;i++){
 
         triangle* badTriangles = malloc(sizeof(triangle)*10000);
         int size_badTriangle = 0;
@@ -236,6 +236,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
                 edge_t a1 ={.org = t_tempo2.s1, .dest=t_tempo2.s2};
                 edge_t a2 ={.org = t_tempo2.s1, .dest=t_tempo2.s3};
                 edge_t a3 ={.org = t_tempo2.s2, .dest=t_tempo2.s3};
+                if(k!=j){
                     if(supp_e1 && edge_shared(a1,a2,a3,b1)){
                         edge_t temp ={.org = 0, .dest= 0};
                         polygon[size_polygone]=temp;
@@ -251,9 +252,10 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
                     else if(supp_e3 && edge_shared(a1,a2,a3,b3)){
                         edge_t temp ={.org = 0, .dest= 0};//marche pas je pense
                         polygon[size_polygone+2]=temp;
-                        printf("entreedge3\n");
+                        printf("entreedge3 : \n");
                         supp_e3=0;
                     }
+                }
             }
             size_polygone+=3;
         }
@@ -273,6 +275,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         for(int o = 0; o < size_polygone; o++){
             edge_t edge = polygon[o];
             if(edge.dest!=0){
+                //printf("polygone : %d\n",i);
                 triangle t;
                 t.s1 = edge.org;
                 t.s2 = edge.dest;
@@ -282,6 +285,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
             }
         }
         free(badTriangles);
+        free(polygon);
     }
 
     size_t taille_real = 1;
