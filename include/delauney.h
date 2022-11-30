@@ -2,6 +2,7 @@
 #include "../include/array_list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#pragma once
 
 typedef struct triangle
 {
@@ -15,6 +16,5 @@ typedef struct edge{
     node_t* dest;
 } edge_t;
 
-triangle* create_triangle(node_t* a, node_t* b, node_t* c);
-triangle* create_super_triangle(list_t* nodes);
-list_t* delaunay_bowyer_watson(list_t* nodes);
+
+triangle** delaunay_bowyer_watson(list_t* nodes);

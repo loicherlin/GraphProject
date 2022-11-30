@@ -7,9 +7,23 @@
 #include "../include/visualise.h"
 #include "../include/delauney.h"
 
-void free_list(list_t* data_list){
-    for(size_t i = 0; i < list_size(data_list); i++)
-        free(list_get(data_list, i));
+
+void free_list_n(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        node_t* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
+    list_free(data_list);
+}
+
+
+void free_list_t(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        triangle* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
     list_free(data_list);
 }
 
@@ -43,22 +57,24 @@ int main(int argc, char* argv[]){
     if(fp_bin == NULL){ printf("file couldn't be read.\n"); exit(1); }
 
     list_t* data_list = get_data_bin(fp_bin);
-    list_t* d = delaunay_bowyer_watson(data_list);
+    triangle** d = delaunay_bowyer_watson(data_list);
     /*
     for(size_t i = 0; i < list_size(d); i++){
         triangle* t = (triangle*)list_get(d, i);
         printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
     }*/
-    printf("size : %ld\n",list_size(d));
-    //show_data(1300, 900, d);
-    for(size_t i = 0; i < list_size(d); i++){
-        if(list_get(d, i) != NULL){
-            triangle* t = (triangle*)list_get(d, i);
+    printf("ok in Main\n");
+    printf("size : %f\n",d[0][0].s1->latitude);
+    printf("ok in Main2\n");
+    show_data(1300, 900, d);
+    for(size_t i = 1; i < d[0][0].s1->latitude; i++){
+        if(d[i] != NULL){
+            triangle* t = d[i];
             printf("triange %ld:\n\t[%f.%f,\n\t%f.%f,\n\t%f.%f]\n", i,t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
         }
     }
-    free_list(d);
-    free_list(data_list);
+    free(d);
+    free_list_n(data_list);
     fclose(fp_bin);
     return 0;
 }
