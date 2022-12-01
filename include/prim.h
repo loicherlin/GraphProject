@@ -1,6 +1,7 @@
 #pragma once
 #include "serializer.h"
 #include "min_heap.h"
+#include "../include/delaunay.h"
 
 
 typedef struct node_adj {
@@ -32,3 +33,5 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2);
 void show_graph_ajd(graph_t* g);
 
 int* prim_mst(graph_t* graph);
+
+void convert_to_graph(triangle** triangles, graph_t* graph);

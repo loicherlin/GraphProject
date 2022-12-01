@@ -5,7 +5,7 @@
 
 /* create_triangle */
 
-triangle create_triangle(node_t* a, node_t* b, node_t* c){
+triangle create_triangle(data_t* a, data_t* b, data_t* c){
     triangle t;
     t.s1=a;
     t.s2=b;
@@ -21,7 +21,7 @@ triangle create_super_triangle(list_t* nodes){
     int max_y = 0;
     int i;
     for(i = 0; i < list_size(nodes); i++){
-        node_t* node = (node_t*)(list_get(nodes, i));
+        data_t* node = (data_t*)(list_get(nodes, i));
         if(node->latitude < min_x){
             min_x = node->latitude;
         }
@@ -40,26 +40,29 @@ triangle create_super_triangle(list_t* nodes){
     int dmax = (dx > dy) ? dx : dy;
     int xmid = min_x + dx / 2;
     int ymid = min_y + dy / 2;
-    node_t* p1 = malloc(sizeof(node_t));
+    data_t* p1 = malloc(sizeof(data_t));
     p1->latitude = xmid - 20 * dmax;
     p1->longitude = ymid - dmax;
-    node_t* p2 =  malloc(sizeof(node_t));
+    p1->id = -1;
+    data_t* p2 =  malloc(sizeof(data_t));
     p2->latitude = xmid;
     p2->longitude = ymid + 20 * dmax;
-    node_t* p3 =  malloc(sizeof(node_t));;
+    p2->id = -1;
+    data_t* p3 =  malloc(sizeof(data_t));;
     p3->latitude = xmid + 20 * dmax;
     p3->longitude = ymid - dmax;
+    p3->id = -1;
     return create_triangle(p1,p3,p2);
 }
 
 
 
-char in_circle(node_t p0, node_t p1, node_t p2, node_t p3, double epsilon)
+char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
 {
     double rsqr = 0;
     double fabs_y1y2 = fabs(p1.longitude-p2.longitude);
     double fabs_y2y3 = fabs(p2.longitude-p3.longitude);
-    node_t pc ={.latitude=0,.longitude=0};
+    data_t pc ={.latitude=0,.longitude=0, .id=-1};
 
     /* Check for coincident points */
     if (fabs_y1y2 < epsilon && fabs_y2y3 < epsilon)
@@ -104,7 +107,7 @@ char in_circle(node_t p0, node_t p1, node_t p2, node_t p3, double epsilon)
 
 
 
-int compare_node_t_equal(node_t* a, node_t* b){
+int compare_node_t_equal(data_t* a, data_t* b){
     return ((fabs(a->latitude-b->latitude) < EPSILON) && (fabs(a->longitude-b->longitude) < EPSILON)) ? 1 : 0;
 }
 
@@ -152,10 +155,10 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
     triangle super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;
-    for(int i = 0 ; i < 1000;i++){
+    for(int i = 0 ; i < list_size(nodes);i++){
         triangle* badTriangles = malloc(sizeof(triangle)*10000);
         int size_badTriangle = 0;
-        node_t* a = list_get(nodes, i);
+        data_t* a = list_get(nodes, i);
 
         for(int j = 0 ; j < size_triangle ; j++){
             triangle t_tempo = triangulation[j];
@@ -243,7 +246,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
     }
     triangle** triangulationFinal = malloc(sizeof(triangle)*(taille_real+1));
     triangle* t = malloc(sizeof(triangle));
-    node_t *  n= malloc(sizeof(node_t));
+    data_t *  n= malloc(sizeof(data_t));
     n->latitude=taille_real;
     t->s1=n;
 

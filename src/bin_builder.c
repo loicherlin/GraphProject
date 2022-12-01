@@ -50,10 +50,10 @@ int build_bin(FILE* fp, char* path_bin){
 }
 
 list_t* get_data_bin(FILE* fp){
-    char data[sizeof(node_t)];
+    char data[sizeof(data_t)];
     list_t* data_list = list_create();
-    while(fread(data, sizeof(node_t), 1, fp)){
-        node_t* d = deserialize_data_t(data);
+    while(fread(data, sizeof(data_t), 1, fp)){
+        data_t* d = deserialize_data_t(data);
         list_append(data_list, d);
     }
     return data_list;

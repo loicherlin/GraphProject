@@ -6,14 +6,14 @@
 
 typedef struct triangle
 {
-    node_t* s1;
-    node_t* s2;
-    node_t* s3;
+    data_t* s1;
+    data_t* s2;
+    data_t* s3;
 } triangle;
 
 typedef struct edge{
-    node_t* org;
-    node_t* dest;
+    data_t* org;
+    data_t* dest;
 } edge_t;
 
 
