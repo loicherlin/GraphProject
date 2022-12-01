@@ -6,15 +6,15 @@
 
 
 char* serialize_data_t(float latitude, float longitude){
-    data_t da = {.latitude = latitude, .longitude = longitude };
-    char* data = malloc(sizeof(data_t));
+    node_t da = {.latitude = latitude, .longitude = longitude };
+    char* data = malloc(sizeof(node_t));
     memcpy(data, &da, sizeof(da));
     return data;
 }
 
 
-data_t* deserialize_data_t(char* data_b){
-    data_t* da = malloc(sizeof(data_t));
-    memcpy(da, data_b, sizeof(data_t));
+node_t* deserialize_data_t(char* data_b){
+    node_t* da = malloc(sizeof(node_t));
+    memcpy(da, data_b, sizeof(node_t));
     return da;
 }

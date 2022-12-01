@@ -5,10 +5,25 @@
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
 #include "../include/visualise.h"
+#include "../include/delaunay.h"
 
-void free_list(list_t* data_list){
-    for(size_t i = 0; i < list_size(data_list); i++)
-        free(list_get(data_list, i));
+
+void free_list_n(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        node_t* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
+    list_free(data_list);
+}
+
+
+void free_list_t(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        triangle* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
     list_free(data_list);
 }
 
@@ -26,10 +41,12 @@ int main(int argc, char* argv[]){
     // Open bin file to read it
     FILE* fp_bin = open_file(arguments.output_file);
     list_t* data_list = get_data_bin(fp_bin);
-    // Show a visualization of data from the binary file
-    show_data(1300, 900, data_list);
-    // Free content of the list and the list itself
-    free_list(data_list);
+    triangle** d = delaunay_bowyer_watson(data_list);
+    //printf("size : %f\n",d[0][0].s1->latitude);
+    show_data(1300, 900, d);
+
+    free(d);
+    free_list_n(data_list);
     fclose(fp_bin);
     return 0;
 }
