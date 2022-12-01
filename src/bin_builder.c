@@ -18,10 +18,12 @@ void sanatize_coordinates(float* lattitude, float* longitude, char* coordinates)
 
 int write_to_bin(char** contents, FILE* fp_bin, int n){
     float lattitude, longitude;
+    static int i = 0;
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
-    char* data = serialize_data_t(lattitude,longitude);
-    fwrite(data, sizeof(node_t), 1, fp_bin);
+    char* data = serialize_data_t(lattitude,longitude, i);
+    fwrite(data, sizeof(data_t), 1, fp_bin);
     free(data);
+    i++;
     return EXIT_SUCCESS;
 }
 

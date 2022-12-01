@@ -5,8 +5,11 @@ typedef struct data
 {
     float latitude;
     float longitude;
-}node_t;
+    int id;
+}data_t;
 
-char* serialize_data_t(float latitude, float longitude);
+char* serialize_data_t(float latitude, float longitude, int id);
 
-node_t* deserialize_data_t(char* data_b);
+data_t* deserialize_data_t(char* data_b);
+
+void print_data_t(data_t* da);

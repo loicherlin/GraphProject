@@ -5,7 +5,7 @@
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
 #include "../include/visualise.h"
-#include "../include/delaunay.h"
+#include "../include/prim.h"
 
 
 void free_list_n(list_t* data_list){
@@ -41,12 +41,28 @@ int main(int argc, char* argv[]){
     // Open bin file to read it
     FILE* fp_bin = open_file(arguments.output_file);
     list_t* data_list = get_data_bin(fp_bin);
-    triangle** d = delaunay_bowyer_watson(data_list);
-    //printf("size : %f\n",d[0][0].s1->latitude);
-    show_data(1300, 900, d);
+    // Show a visualization of data from the binary file
+    data_t* d0 = (data_t*)list_get(data_list, 0);
+    data_t* d1 = (data_t*)list_get(data_list, 1);
+    data_t* d2 = (data_t*)list_get(data_list, 2);
+    data_t* d3 = (data_t*)list_get(data_list, 3);
 
-    free(d);
-    free_list_n(data_list);
+    graph_t* g = create_graph(4);
+    add_edge(g, d0, d1);
+    add_edge(g, d0, d2);
+    add_edge(g, d0, d3);
+    add_edge(g, d2, d1);
+    add_edge(g, d3, d2);
+    add_edge(g, d3, d1);
+    
+    show_graph_ajd(g);
+    int* mst = prim_mst(g);
+
+    free_graph(g);
+    //show_data(1300, 900, data_list, mst);
+    free(mst);
+    // Free content of the list and the list itself
+    free_list(data_list);
     fclose(fp_bin);
     return 0;
 }
