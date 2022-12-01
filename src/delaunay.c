@@ -1,4 +1,4 @@
-#include "../include/delauney.h"
+#include "../include/delaunay.h"
 #include <math.h>
 #include <stdbool.h>
 #define EPSILON  0.00000000000000000000001

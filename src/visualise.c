@@ -4,7 +4,7 @@
 #include "../include/visualise.h"
 #include "../include/array_list.h"
 #include "../include/serializer.h"
-#include "../include/delauney.h"
+#include "../include/delaunay.h"
 
 
 double normalize_to_screen(float coord, float coord_max, float coord_min){

@@ -5,7 +5,7 @@
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
 #include "../include/visualise.h"
-#include "../include/delauney.h"
+#include "../include/delaunay.h"
 
 
 void free_list_n(list_t* data_list){
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
     FILE* fp_bin = open_file(arguments.output_file);
     list_t* data_list = get_data_bin(fp_bin);
     triangle** d = delaunay_bowyer_watson(data_list);
-    printf("size : %f\n",d[0][0].s1->latitude);
+    //printf("size : %f\n",d[0][0].s1->latitude);
     show_data(1300, 900, d);
 
     free(d);

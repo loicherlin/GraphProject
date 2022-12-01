@@ -1,5 +1,5 @@
 #pragma once
-#include "./delauney.h"
+#include "./delaunay.h"
 
 
 /*
