@@ -7,9 +7,23 @@
 #include "../include/visualise.h"
 #include "../include/prim.h"
 
-void free_list(list_t* data_list){
-    for(size_t i = 0; i < list_size(data_list); i++)
-        free(list_get(data_list, i));
+
+void free_list_n(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        node_t* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
+    list_free(data_list);
+}
+
+
+void free_list_t(list_t* data_list){
+    size_t longueur = list_size(data_list);
+    for(size_t i = 0; i < longueur; i++){
+        triangle* a = list_take(data_list,list_size(data_list)-1);
+        free(a);
+    }
     list_free(data_list);
 }
 

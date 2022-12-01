@@ -24,8 +24,8 @@ int get_xy_min_max(list_t* node_list, float* x_max, float* x_min, float* y_max, 
         if((*(data_t*)list_get(node_list, i)).longitude < *y_min){
             *y_min = (*(data_t*)list_get(node_list, i)).longitude;
         }
+
     }   
-    return EXIT_SUCCESS;
 }
 
 void show_data(int width, int height, list_t* node_list, int* mst){
@@ -35,6 +35,8 @@ void show_data(int width, int height, list_t* node_list, int* mst){
     float y_max;
     float y_min = 10;
     get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
+    printf("%f %f %f %f\n", x_max, x_min, y_max, y_min);
+
     while(tps_isRunning()) {
         tps_background(255,255,255);
         tps_setColor(0,0,0);
