@@ -147,7 +147,7 @@ int compare_triangle(triangle a, triangle b){
 }
 
 
-// up to 45000 triangles it starts to be slow and convegers to around 46000... 
+// up to 56000 triangles it starts to be slow and convegers to around 46000... 
 // TO DO: find a way to optimize this function
 //        fix memory leaks
 triangle** delaunay_bowyer_watson(list_t* nodes){
