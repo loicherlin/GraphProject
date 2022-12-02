@@ -213,13 +213,14 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         printf("\e[1;1H\e[2J"); // clear screen
         printf("passage : %d polygone size : %d, badTriangle size : %d\n",i ,size_polygone,size_badTriangle);
 
-        // remove bad triangles from the triangulation
-        triangle triangle_vide={.s1=NULL,.s2=NULL,.s3=NULL};
+        long int decalage = 0;
         for(int n = 0; n < size_badTriangle; n++){
+            decalage=0;
             for(int m=0; m < size_triangle; m++){
                 if(triangulation[m].s1!=NULL && compare_triangle(badTriangles[n],triangulation[m])){
-                    triangulation[m] = triangle_vide; // needs to be done in a better way
+                    decalage++;
                 }
+                triangulation[m] = triangulation[m+decalage];
             }
         }
         // re-triangulate the polygonal hole

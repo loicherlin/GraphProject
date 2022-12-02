@@ -49,9 +49,9 @@ int main(int argc, char* argv[]){
     int* mst = prim_mst(g);
 
     free_graph(g);
-    show_mst(1300, 900, data_list, mst);
+    //show_mst(1300, 900, data_list, mst);
     free(mst);
-    //show_delaunay(1300, 900, data_list, triangles);
+    show_delaunay(1300, 900, data_list, triangles);
     free(triangles);
     // Free content of the list and the list itself
     free_list_n(data_list);
