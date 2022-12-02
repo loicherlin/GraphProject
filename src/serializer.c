@@ -13,9 +13,9 @@ char* serialize_data_t(float latitude, float longitude, int id){
 }
 
 
-node_t* deserialize_data_t(char* data_b){
-    node_t* da = malloc(sizeof(node_t));
-    memcpy(da, data_b, sizeof(node_t));
+data_t* deserialize_data_t(char* data_b){
+    data_t* da = malloc(sizeof(data_t));
+    memcpy(da, data_b, sizeof(data_t));
     return da;
 }
 

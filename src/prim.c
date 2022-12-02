@@ -1,4 +1,5 @@
 #include "../include/prim.h"
+#include "../include/delaunay.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -118,12 +119,27 @@ int* prim_mst(graph_t* graph){
         free(min_heap_node);
     }
 
+    /*
     // show mst
     for (int i = 1; i < size_vertices; i++)
         printf("%d - %d\n", parent[i], i);
-
+    */
+   
     // free memory
     free(key);
     free_min_heap(min_heap);
     return parent;
+}
+
+void convert_to_graph(triangle** triangles, graph_t* graph){
+    for (int i = 1; i < triangles[0][0].s1->latitude; i++){
+        triangle* t = triangles[i];
+        if(t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1 &&
+          t->s1 != NULL && t->s2 != NULL && t->s3 != NULL){
+            add_edge(graph, t->s1, t->s2);
+            add_edge(graph, t->s1, t->s2);
+            add_edge(graph, t->s2, t->s3);
+            add_edge(graph, t->s3, t->s1);
+        }
+    }
 }
