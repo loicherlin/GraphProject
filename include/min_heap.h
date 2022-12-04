@@ -8,7 +8,7 @@
 
 typedef struct min_heap_node {
     int v;
-    float key;
+    double key;
 }min_heap_node_t;
 
 typedef struct min_heap {
@@ -18,7 +18,7 @@ typedef struct min_heap {
     struct min_heap_node** array;
 }min_heap_t;
 
-min_heap_node_t* create_min_heap_node(int v, float key);
+min_heap_node_t* create_min_heap_node(int v, double key);
 
 min_heap_t* create_min_heap(int capacity);
 
@@ -30,7 +30,7 @@ int is_empty(min_heap_t* min_heap);
 
 min_heap_node_t* extract_min(min_heap_t* min_heap);
 
-void decrease_key(min_heap_t* min_heap, int v, float key);
+void decrease_key(min_heap_t* min_heap, int v, double key);
 
 int is_in_min_heap(min_heap_t* min_heap, int v);
 
