@@ -5,7 +5,7 @@
 
 
 
-char* serialize_data_t(float latitude, float longitude, int id){
+char* serialize_data_t(double latitude, double longitude, int id){
     data_t da = {.latitude = latitude, .longitude = longitude, .id = id };
     char* data = malloc(sizeof(data_t));
     memcpy(data, &da, sizeof(da));

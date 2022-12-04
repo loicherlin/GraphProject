@@ -41,18 +41,18 @@ triangle create_super_triangle(list_t* nodes){
     int xmid = min_x + dx / 2;
     int ymid = min_y + dy / 2;
     data_t* p1 = malloc(sizeof(data_t));
-    p1->latitude = xmid - 20 * dmax;
+    p1->latitude = xmid - 1.2 * dmax;
     p1->longitude = ymid - dmax;
     p1->id = -1;
     data_t* p2 =  malloc(sizeof(data_t));
     p2->latitude = xmid;
-    p2->longitude = ymid + 20 * dmax;
+    p2->longitude = ymid + 10 * dmax;
     p2->id = -1;
     data_t* p3 =  malloc(sizeof(data_t));;
-    p3->latitude = xmid + 20 * dmax;
+    p3->latitude = xmid + 1.2 * dmax;
     p3->longitude = ymid - dmax;
     p3->id = -1;
-    return create_triangle(p1,p3,p2);
+    return create_triangle(p1,p2,p3);
 }
 
 
@@ -147,16 +147,16 @@ int compare_triangle(triangle a, triangle b){
 }
 
 
-// up to 56000 triangles it starts to be slow and convegers to around 46000... 
 // TO DO: find a way to optimize this function
 //        fix memory leaks
 triangle** delaunay_bowyer_watson(list_t* nodes){
-    triangle* triangulation = malloc(sizeof(triangle)*1000000); // that malloc is huge !!
+    triangle* triangulation = malloc(sizeof(triangle)*100000000); // that malloc is huge !!
     triangle super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;
+    
     for(int i = 0 ; i < list_size(nodes);i++){
-        triangle* badTriangles = malloc(sizeof(triangle)*10000);
+        triangle* badTriangles = malloc(sizeof(triangle));
         int size_badTriangle = 0;
         data_t* a = list_get(nodes, i);
 
@@ -164,6 +164,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
             triangle t_tempo = triangulation[j];
             // Check if the point is inside the circumcircle of the triangle
             if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
+                badTriangles = realloc(badTriangles, sizeof(triangle)*(size_badTriangle+1));
                 badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
             }
@@ -214,6 +215,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         printf("passage : %d polygone size : %d, badTriangle size : %d\n",i ,size_polygone,size_badTriangle);
 
         long int decalage = 0;
+        // remove bad triangles from the triangulation
         for(int n = 0; n < size_badTriangle; n++){
             decalage=0;
             for(int m=0; m < size_triangle; m++){
@@ -224,14 +226,10 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
             }
         }
         // re-triangulate the polygonal hole
-        for(int o = 0; o < size_polygone; o++){
-            edge_t edge = polygon[o];
-            if(edge.dest!=0){
-                triangle t;
-                t.s1 = edge.org;
-                t.s2 = edge.dest;
-                t.s3 = a;
-                triangulation[size_triangle]=t;
+        for(int o = 0 ; o < size_polygone ; o++){
+            if(polygon[o].org!=NULL && polygon[o].dest!=NULL){
+                triangle t_tempo = {.s1 = a, .s2 = polygon[o].org, .s3 = polygon[o].dest};
+                triangulation[size_triangle] = t_tempo;
                 size_triangle++;
             }
         }

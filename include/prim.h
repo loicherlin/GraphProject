@@ -7,7 +7,7 @@
 typedef struct node_adj {
     int id;
     data_t* data;
-    float weight;
+    double weight;
     struct node_adj *next;
 }node_adj_t;
 
@@ -20,13 +20,13 @@ typedef struct graph{
     struct adj_list* arr;
 }graph_t;
 
-float dist(data_t p1, data_t p2);
+double dist(data_t p1, data_t p2);
 
 void free_graph(graph_t* graph);
 
 graph_t* create_graph(int size_vertices);
 
-node_adj_t* create_node_adj(int id, data_t* data, float weight);
+node_adj_t* create_node_adj(int id, data_t* data, double weight);
 
 void add_edge(graph_t* graph, data_t* data1, data_t* data2);
 

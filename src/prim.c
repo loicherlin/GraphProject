@@ -6,7 +6,7 @@
 #include <limits.h>
 #include <float.h>
 
-float dist(data_t p1, data_t p2){
+double dist(data_t p1, data_t p2){
     return sqrt((p1.latitude - p2.latitude)*(p1.latitude - p2.latitude) +
                 (p1.longitude - p2.longitude)*(p1.longitude - p2.longitude));
 }
@@ -35,7 +35,7 @@ graph_t* create_graph(int size_vertices){
     return graph;
 }
 
-node_adj_t* create_node_adj(int id, data_t* data, float weight){
+node_adj_t* create_node_adj(int id, data_t* data, double weight){
     node_adj_t* node = (node_adj_t*)malloc(sizeof(node_adj_t));
     node->id = id;
     node->data = data;
@@ -47,7 +47,7 @@ node_adj_t* create_node_adj(int id, data_t* data, float weight){
 void add_edge(graph_t* graph, data_t* data1, data_t* data2){
     int id1 = data1->id;
     int id2 = data2->id;
-    float weight = dist(*data1, *data2);
+    double weight = dist(*data1, *data2);
     // add edge from data1 to data2
     node_adj_t* node1 = create_node_adj(id2, data2, weight);
     node1->next = graph->arr[id1].head;
@@ -75,7 +75,7 @@ void show_graph_ajd(graph_t* g){
 int* prim_mst(graph_t* graph){
     int size_vertices = graph->size_vertices;
     int* parent = (int*)malloc(size_vertices * sizeof(int));
-    float* key = (float*)malloc(size_vertices * sizeof(float));
+    double* key = (double*)malloc(size_vertices * sizeof(double));
 
     min_heap_t* min_heap = create_min_heap(size_vertices);
     // Initialize a min heap with all vertices (except first vertex)

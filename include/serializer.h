@@ -3,12 +3,12 @@
 
 typedef struct data
 {
-    float latitude;
-    float longitude;
+    double latitude;
+    double longitude;
     int id;
 }data_t;
 
-char* serialize_data_t(float latitude, float longitude, int id);
+char* serialize_data_t(double latitude, double longitude, int id);
 
 data_t* deserialize_data_t(char* data_b);
 

@@ -9,6 +9,7 @@
 #include "../include/delaunay.h"
 
 
+
 void free_list_n(list_t* data_list){
     size_t longueur = list_size(data_list);
     for(size_t i = 0; i < longueur; i++){
@@ -52,6 +53,9 @@ int main(int argc, char* argv[]){
     //show_mst(1300, 900, data_list, mst);
     free(mst);
     show_delaunay(1300, 900, data_list, triangles);
+    for(int i = 0; i < list_size(data_list); i++){
+        free(triangles[i]);
+    }
     free(triangles);
     // Free content of the list and the list itself
     free_list_n(data_list);

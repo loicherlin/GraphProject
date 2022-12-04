@@ -5,7 +5,7 @@
 /*
     Sanatize coordinates that are in form of "lattitude,longitude"
 */
-void sanatize_coordinates(float* lattitude, float* longitude, char* coordinates);
+void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates);
 
 /* 
     Write serialized data to fp.

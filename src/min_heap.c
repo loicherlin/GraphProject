@@ -1,6 +1,6 @@
 #include "../include/min_heap.h"
 
-min_heap_node_t* create_min_heap_node(int v, float key){
+min_heap_node_t* create_min_heap_node(int v, double key){
     min_heap_node_t* min_heap_node = malloc(sizeof(min_heap_node_t));
     min_heap_node->v = v;
     min_heap_node->key = key;
@@ -69,7 +69,7 @@ min_heap_node_t* extract_min(min_heap_t* min_heap){
     return root;
 }
 
-void decrease_key(min_heap_t* min_heap, int v, float key){
+void decrease_key(min_heap_t* min_heap, int v, double key){
     int i = min_heap->pos[v];
 
     min_heap->array[i]->key = key;
