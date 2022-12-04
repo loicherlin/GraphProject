@@ -260,6 +260,10 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         }
     }
     triangulationFinal[0]=t;
+    free(triangulation);
+    free(super_triangle.s1);
+    free(super_triangle.s2);
+    free(super_triangle.s3);
     return triangulationFinal;
 }
 
