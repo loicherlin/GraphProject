@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
     int* mst = prim_mst(g);
     // Visualize Prim and Delaunay result
     tps_onKeyDown(onKeyDown);
-    //visualize(1300, 900, data_list, mst, delaunay);
+    visualize(1300, 900, data_list, mst, delaunay);
     // Free memory
     free_graph(g);
     free(mst);
