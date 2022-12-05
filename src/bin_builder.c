@@ -21,10 +21,14 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
     static int i = 0;
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
     char* data = serialize_data_t(lattitude,longitude, i);
-    fwrite(data, sizeof(data_t), 1, fp_bin);
+    if(fwrite(data, sizeof(data_t), 1, fp_bin) != 1){
+        perror("Failed to write to file\n");
+        return EXIT_FAILURE;
+    }
     free(data);
     i++;
     return EXIT_SUCCESS;
+
 }
 
 int build_bin(FILE* fp, char* path_bin){
