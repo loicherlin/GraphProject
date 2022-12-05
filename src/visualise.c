@@ -32,7 +32,7 @@ void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_m
     }   
 }
 
-void visualize(int width, int height, list_t* node_list, int* mst, triangle** delaunay){
+void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay){
     tps_createWindow("Trees of Paris", width, height);
     double x_max;
     double x_min = 50;
@@ -85,7 +85,7 @@ void show_mst(screen_t s, list_t* node_list, int* mst){
     }
 }
 
-void show_delaunay(screen_t s, list_t* node_list, triangle** triangles){
+void show_delaunay(screen_t s, list_t* node_list, triangle_t** triangles){
     double x_max = s.x_max;
     double x_min = s.x_min;
     double y_max = s.y_max;
@@ -93,7 +93,7 @@ void show_delaunay(screen_t s, list_t* node_list, triangle** triangles){
     int width = s.width;
     int height = s.height;
     for(size_t i = 1; i < triangles[0][0].s1->latitude; i++){
-        triangle* t = triangles[i];
+        triangle_t* t = triangles[i];
         // draw edges
         if(t->s1->latitude != 0 && t->s1->latitude < 249){
             tps_drawLine(normalize_to_screen(t->s1->latitude, x_max, x_min) * width, normalize_to_screen(t->s1->longitude, y_max, y_min) * height, normalize_to_screen(t->s2->latitude, x_max, x_min) * width, normalize_to_screen(t->s2->longitude, y_max, y_min) * height);

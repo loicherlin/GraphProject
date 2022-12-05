@@ -9,7 +9,7 @@ typedef struct triangle
     data_t* s1;
     data_t* s2;
     data_t* s3;
-} triangle;
+} triangle_t;
 
 typedef struct edge{
     data_t* org;
@@ -17,4 +17,4 @@ typedef struct edge{
 } edge_t;
 
 
-triangle** delaunay_bowyer_watson(list_t* nodes);
+triangle_t** delaunay_bowyer_watson(list_t* nodes);
