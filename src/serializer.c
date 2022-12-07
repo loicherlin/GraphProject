@@ -7,9 +7,12 @@
 
 
 char* serialize_data_t(double latitude, double longitude, int id){
-    data_t da = {.latitude = latitude, .longitude = longitude, .id = id };
-    char* data = malloc(sizeof(data_t));
-    memcpy(data, &da, sizeof(da));
+    //data_t da = {.latitude = latitude, .longitude = longitude, .id = id };
+    char* data = calloc(sizeof(data_t),1);
+    ((data_t*)data)->id = id;
+    ((data_t*)data)->latitude = latitude;
+    ((data_t*)data)->longitude = longitude;
+    //memcpy(data, &da, sizeof(data_t));
     return data;
 }
 
