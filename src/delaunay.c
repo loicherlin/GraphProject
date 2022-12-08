@@ -238,13 +238,11 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     }
     triangle_t** triangulationFinal = malloc(sizeof(triangle_t)*(taille_real+1));
     triangle_t* t = malloc(sizeof(triangle_t));
-    data_t *  n= malloc(sizeof(data_t));
+    data_t* n= malloc(sizeof(data_t));
     n->latitude=taille_real;
     t->s1=n;
 
     int indice_relatif=1;
-    // I think it should be avoided to do a triangulationFinal
-    // and better to clean triangulation
     for (int i = 0 ; i < size_triangle ; i++){
         if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
             triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
@@ -259,5 +257,3 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     free(super_triangle.s3);
     return triangulationFinal;
 }
-
-//note : regarder l'ensemble des polygone ajouté
