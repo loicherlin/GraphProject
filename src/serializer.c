@@ -28,5 +28,5 @@ int compare_data_t(data_t* a, data_t* b, double epsilon){
 }
 
 void print_data_t(data_t* da){
-    printf("%d [%f, %f] ", da->id, da->latitude, da->longitude);
+    printf("%d [%f, %f]\n", da->id, da->latitude, da->longitude);
 }
