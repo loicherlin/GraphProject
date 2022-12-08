@@ -18,6 +18,7 @@ typedef struct adj_list {
 typedef struct graph{
     int size_vertices;
     struct adj_list* arr;
+    int size_edges;
 }graph_t;
 
 double dist(data_t p1, data_t p2);
@@ -35,3 +36,5 @@ void show_graph_ajd(graph_t* g);
 int* prim_mst(graph_t* graph);
 
 void convert_to_graph(triangle_t** triangles, graph_t* graph);
+
+double sum_weight_graph(int* mst, list_t* nodes);

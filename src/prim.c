@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>
+#include <stdbool.h>
 
 double dist(data_t p1, data_t p2){
     return sqrt((p1.latitude - p2.latitude)*(p1.latitude - p2.latitude) +
@@ -29,6 +30,7 @@ void free_graph(graph_t* graph){
 graph_t* create_graph(int size_vertices){
     graph_t* graph = (graph_t*)malloc(sizeof(graph_t));
     graph->size_vertices = size_vertices;
+    graph->size_edges = 0;
     graph->arr = (adj_list_t*)malloc(size_vertices * sizeof(adj_list_t));
     for (int i = 0; i < size_vertices; i++)
         graph->arr[i].head = NULL;
@@ -52,6 +54,7 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2){
     node_adj_t* node1 = create_node_adj(id2, data2, weight);
     node1->next = graph->arr[id1].head;
     graph->arr[id1].head = node1;
+    graph->size_edges++;
     // add edge from data2 to data1
     node_adj_t* node2 = create_node_adj(id1, data1, weight);
     node2->next = graph->arr[id2].head;
@@ -118,27 +121,55 @@ int* prim_mst(graph_t* graph){
         }
         free(min_heap_node);
     }
-
-    /*
-    // show mst
-    for (int i = 1; i < size_vertices; i++)
-        printf("%d - %d\n", parent[i], i);
-    */
-   
     // free memory
     free(key);
     free_min_heap(min_heap);
     return parent;
 }
 
+/**
+ * Check vertices d1 and d2 are connected by an edge in graph
+ * @param graph
+ * @param d1 vertex 1
+ * @param d2 vertex 2
+ * @return true if d1 and d2 are connected by an edge in graph
+ */
+bool is_edge_in_graph(graph_t* graph, data_t* d1, data_t* d2){
+    node_adj_t* node = graph->arr[d1->id].head;
+    while(node != NULL)
+    {
+        if(node->id == d2->id)
+            return true;
+        node = node->next;
+    }
+    return false;
+}
+
+
 void convert_to_graph(triangle_t** triangles, graph_t* graph){
     for (int i = 1; i < triangles[0][0].s1->latitude; i++){
         triangle_t* t = triangles[i];
-        if(t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1 &&
-          t->s1 != NULL && t->s2 != NULL && t->s3 != NULL){
-            add_edge(graph, t->s1, t->s2);
-            add_edge(graph, t->s2, t->s3);
-            add_edge(graph, t->s3, t->s1);
+        if(t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1){
+            if(!is_edge_in_graph(graph, t->s1, t->s2))
+                add_edge(graph, t->s1, t->s2);
+            if(!is_edge_in_graph(graph, t->s2, t->s3))
+                add_edge(graph, t->s2, t->s3);
+            if(!is_edge_in_graph(graph, t->s3, t->s1))
+                add_edge(graph, t->s3, t->s1);
+        } else {
+            printf("Triangle %d has a vertex with id = -1", i);
         }
     }
+}
+
+double sum_weight_graph(int* mst, list_t* nodes){
+    double sum = 0;
+    for (int i = 1; i < list_size(nodes); i++){
+        if(mst[i] == -1)
+            continue;
+        data_t* data1 = list_get(nodes, mst[i]);
+        data_t* data2 = list_get(nodes, i);
+        sum += dist(*data1, *data2);
+    }
+    return sum;
 }
