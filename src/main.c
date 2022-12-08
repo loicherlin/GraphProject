@@ -21,7 +21,7 @@ void free_list_n(list_t* data_list){
 }
 
 
-void free_list_t(triangle** triangles, size_t size){
+void free_list_t(triangle_t** triangles, size_t size){
     free(triangles[0][0].s1);
     for(int i = 0; i < size; i++){
         free(triangles[i]);
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]){
     FILE* fp_bin = open_file(arguments.output_file);
     list_t* data_list = get_data_bin(fp_bin);
     // Apply Delaunay algorithm
-    triangle** delaunay = delaunay_bowyer_watson(data_list);
+    triangle_t** delaunay = delaunay_bowyer_watson(data_list);
     // Apply Prim's algorithm
     graph_t* g = create_graph(list_size(data_list));
     convert_to_graph(delaunay, g);

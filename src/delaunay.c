@@ -1,12 +1,12 @@
 #include "../include/delaunay.h"
 #include <math.h>
+#include "../include/serializer.h"
 #include <stdbool.h>
 #define EPSILON  0.00000000000000000000001
 
-/* create_triangle */
 
-triangle create_triangle(data_t* a, data_t* b, data_t* c){
-    triangle t;
+triangle_t create_triangle(data_t* a, data_t* b, data_t* c){
+    triangle_t t;
     t.s1=a;
     t.s2=b;
     t.s3=c;
@@ -14,12 +14,13 @@ triangle create_triangle(data_t* a, data_t* b, data_t* c){
 }
 
 
-triangle create_super_triangle(list_t* nodes){
+triangle_t create_super_triangle(list_t* nodes){
     int min_x = 0;
     int max_x = 0;
     int min_y = 0;
     int max_y = 0;
     int i;
+    // Find the max and min of the nodes
     for(i = 0; i < list_size(nodes); i++){
         data_t* node = (data_t*)(list_get(nodes, i));
         if(node->latitude < min_x){
@@ -107,73 +108,65 @@ char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
 
 
 
-int compare_node_t_equal(data_t* a, data_t* b){
-    return ((fabs(a->latitude-b->latitude) < EPSILON) && (fabs(a->longitude-b->longitude) < EPSILON)) ? 1 : 0;
-}
-
 // check if current is equals to bad_t_a, ... , bad_t_c.
 int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current){
-    return (compare_node_t_equal(bad_t_a.org, current.org) && compare_node_t_equal(bad_t_a.dest, current.dest)) ||
-           (compare_node_t_equal(bad_t_a.org, current.dest) && compare_node_t_equal(bad_t_a.dest, current.org)) ||
-           (compare_node_t_equal(bad_t_b.org, current.org) && compare_node_t_equal(bad_t_b.dest, current.dest)) ||
-           (compare_node_t_equal(bad_t_b.org, current.dest) && compare_node_t_equal(bad_t_b.dest, current.org)) ||
-           (compare_node_t_equal(bad_t_c.org, current.org) && compare_node_t_equal(bad_t_c.dest, current.dest)) ||
-           (compare_node_t_equal(bad_t_c.org, current.dest) && compare_node_t_equal(bad_t_c.dest, current.org));
+    return (compare_data_t(bad_t_a.org, current.org, EPSILON) && compare_data_t(bad_t_a.dest, current.dest, EPSILON)) ||
+           (compare_data_t(bad_t_a.org, current.dest, EPSILON) && compare_data_t(bad_t_a.dest, current.org, EPSILON)) ||
+           (compare_data_t(bad_t_b.org, current.org, EPSILON) && compare_data_t(bad_t_b.dest, current.dest, EPSILON)) ||
+           (compare_data_t(bad_t_b.org, current.dest, EPSILON) && compare_data_t(bad_t_b.dest, current.org, EPSILON)) ||
+           (compare_data_t(bad_t_c.org, current.org, EPSILON) && compare_data_t(bad_t_c.dest, current.dest, EPSILON)) ||
+           (compare_data_t(bad_t_c.org, current.dest, EPSILON) && compare_data_t(bad_t_c.dest, current.org, EPSILON));
 }
 
 
-int compare_triangle_node(triangle a, triangle b){
-    if (
-    compare_node_t_equal(a.s1, b.s1) || compare_node_t_equal(a.s1, b.s2) || compare_node_t_equal(a.s1, b.s3) || 
-    compare_node_t_equal(a.s2, b.s1) || compare_node_t_equal(a.s2, b.s2) || compare_node_t_equal(a.s2, b.s3) ||
-    compare_node_t_equal(a.s3, b.s1) || compare_node_t_equal(a.s3, b.s2) || compare_node_t_equal(a.s3, b.s3) ){
-        return 1;
-    }
-    else{
-        return 0;
-    }
+int compare_triangle_node(triangle_t a, triangle_t b){
+    return (compare_data_t(a.s1, b.s1, EPSILON) || compare_data_t(a.s1, b.s2, EPSILON) || compare_data_t(a.s1, b.s3, EPSILON) || 
+    compare_data_t(a.s2, b.s1, EPSILON) || compare_data_t(a.s2, b.s2, EPSILON) || compare_data_t(a.s2, b.s3, EPSILON) ||
+    compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
+
 }
 
-int compare_triangle(triangle a, triangle b){
-    if (
-    (compare_node_t_equal(a.s1, b.s1) || compare_node_t_equal(a.s1, b.s2) || compare_node_t_equal(a.s1, b.s3)) && 
-    (compare_node_t_equal(a.s2, b.s1) || compare_node_t_equal(a.s2, b.s2) || compare_node_t_equal(a.s2, b.s3)) &&
-    (compare_node_t_equal(a.s3, b.s1) || compare_node_t_equal(a.s3, b.s2) || compare_node_t_equal(a.s3, b.s3)) ){
-        return 1;
-    }
-    else{
-        return 0;
-    }
+int compare_triangle(triangle_t a, triangle_t b){
+    return (compare_data_t(a.s1, b.s1, EPSILON) || compare_data_t(a.s1, b.s2, EPSILON) || compare_data_t(a.s1, b.s3, EPSILON)) && 
+    (compare_data_t(a.s2, b.s1, EPSILON) || compare_data_t(a.s2, b.s2, EPSILON) || compare_data_t(a.s2, b.s3, EPSILON)) &&
+    (compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
 }
 
+// compare two data_t for qsort functions
+int qsort_compare_data_t(const void* d1, const void* d2){
+    const float f1 = ((data_t*)d1)->latitude;
+    const float f2 = ((data_t*)d2)->latitude;
+    if(f1 < f2)
+        return -1;
+    return f1 > f2;
+}
 
-// TO DO: find a way to optimize this function
-//        fix memory leaks
-triangle** delaunay_bowyer_watson(list_t* nodes){
-    triangle* triangulation = malloc(sizeof(triangle)*100000000); // that malloc is huge !!
-    triangle super_triangle = create_super_triangle(nodes);
+triangle_t** delaunay_bowyer_watson(list_t* nodes){
+    list_sort(nodes, qsort_compare_data_t);
+    triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // that malloc is huge !!
+    triangle_t super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;
     
     for(int i = 0 ; i < list_size(nodes);i++){
-        triangle* badTriangles = malloc(sizeof(triangle));
+        triangle_t* badTriangles = malloc(sizeof(triangle_t));
         int size_badTriangle = 0;
         data_t* a = list_get(nodes, i);
 
         for(int j = 0 ; j < size_triangle ; j++){
-            triangle t_tempo = triangulation[j];
-            // Check if the point is inside the circumcircle of the triangle
+            triangle_t t_tempo = triangulation[j];
+            // Check if the point is inside the circumcircle of the triangle_t
             if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
-                badTriangles = realloc(badTriangles, sizeof(triangle)*(size_badTriangle+1));
+                badTriangles = realloc(badTriangles, sizeof(triangle_t)*(size_badTriangle+1));
                 badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
             }
         }
-        edge_t* polygon = malloc(sizeof(triangle)*size_badTriangle*3);
+        edge_t* polygon = malloc(sizeof(triangle_t)*size_badTriangle*3);
         int size_polygone= 0;
         // find the boundary of the polygonal hole
         for(int j = 0 ; j < size_badTriangle; j++){
-            triangle t_tempo = badTriangles[j];
+            triangle_t t_tempo = badTriangles[j];
             edge_t b1;
             edge_t b2;
             edge_t b3;
@@ -187,7 +180,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
             char supp_e2=1;
             char supp_e3=1;
             for(int k=0 ;  k < size_badTriangle ; k++){
-                triangle t_tempo2 = badTriangles[k];
+                triangle_t t_tempo2 = badTriangles[k];
                 edge_t a1 ={.org = t_tempo2.s1, .dest=t_tempo2.s2};
                 edge_t a2 ={.org = t_tempo2.s1, .dest=t_tempo2.s3};
                 edge_t a3 ={.org = t_tempo2.s2, .dest=t_tempo2.s3};
@@ -228,7 +221,7 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
         // re-triangulate the polygonal hole
         for(int o = 0 ; o < size_polygone ; o++){
             if(polygon[o].org!=NULL && polygon[o].dest!=NULL){
-                triangle t_tempo = {.s1 = a, .s2 = polygon[o].org, .s3 = polygon[o].dest};
+                triangle_t t_tempo = {.s1 = a, .s2 = polygon[o].org, .s3 = polygon[o].dest};
                 triangulation[size_triangle] = t_tempo;
                 size_triangle++;
             }
@@ -243,18 +236,16 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
             taille_real++;
         }
     }
-    triangle** triangulationFinal = malloc(sizeof(triangle)*(taille_real+1));
-    triangle* t = malloc(sizeof(triangle));
-    data_t *  n= malloc(sizeof(data_t));
+    triangle_t** triangulationFinal = malloc(sizeof(triangle_t)*(taille_real+1));
+    triangle_t* t = malloc(sizeof(triangle_t));
+    data_t* n= malloc(sizeof(data_t));
     n->latitude=taille_real;
     t->s1=n;
 
     int indice_relatif=1;
-    // I think it should be avoided to do a triangulationFinal
-    // and better to clean triangulation
     for (int i = 0 ; i < size_triangle ; i++){
         if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
-            triangulationFinal[indice_relatif] = malloc(sizeof(triangle));
+            triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
             triangulationFinal[indice_relatif][0] = triangulation[i];
             indice_relatif++;
         }
@@ -266,5 +257,3 @@ triangle** delaunay_bowyer_watson(list_t* nodes){
     free(super_triangle.s3);
     return triangulationFinal;
 }
-
-//note : regarder l'ensemble des polygone ajouté

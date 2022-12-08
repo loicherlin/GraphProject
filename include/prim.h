@@ -34,4 +34,4 @@ void show_graph_ajd(graph_t* g);
 
 int* prim_mst(graph_t* graph);
 
-void convert_to_graph(triangle** triangles, graph_t* graph);
+void convert_to_graph(triangle_t** triangles, graph_t* graph);

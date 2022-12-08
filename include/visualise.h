@@ -10,9 +10,6 @@ typedef struct screen_t{
     double y_min;
 } screen_t;
 
-extern char is_prim_active;
-extern char is_delaunay_active;
-
 /*
     Return à normalize value based on
     a coordinate and his max and min value.
@@ -26,7 +23,7 @@ double normalize_to_screen(double coord, double coord_max, double coord_min);
 void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_max, double* y_min);
 
 
-void visualize(int width, int height, list_t* node_list, int* mst, triangle** delaunay);
+void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay);
 
 /* 
     Show a visualisation of nodes in a SDL window 
@@ -36,6 +33,6 @@ void show_mst(screen_t s, list_t* node_list, int* mst);
 /*
     Show Delaunay triangulation in a SDL window
 */
-void show_delaunay(screen_t s, list_t* node_list, triangle** triangles);
+void show_delaunay(screen_t s, list_t* node_list, triangle_t** triangles);
 
 void onKeyDown(int keyPressed);
