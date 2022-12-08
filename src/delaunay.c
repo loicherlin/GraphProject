@@ -20,6 +20,7 @@ triangle_t create_super_triangle(list_t* nodes){
     int min_y = 0;
     int max_y = 0;
     int i;
+    // Find the max and min of the nodes
     for(i = 0; i < list_size(nodes); i++){
         data_t* node = (data_t*)(list_get(nodes, i));
         if(node->latitude < min_x){
@@ -131,9 +132,18 @@ int compare_triangle(triangle_t a, triangle_t b){
     (compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
 }
 
+// compare two data_t for qsort functions
+int qsort_compare_data_t(const void* d1, const void* d2){
+    const float f1 = ((data_t*)d1)->latitude;
+    const float f2 = ((data_t*)d2)->latitude;
+    if(f1 < f2)
+        return -1;
+    return f1 > f2;
+}
 
 triangle_t** delaunay_bowyer_watson(list_t* nodes){
-    triangle_t* triangulation = malloc(sizeof(triangle_t)*100000000); // that malloc is huge !!
+    list_sort(nodes, qsort_compare_data_t);
+    triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // that malloc is huge !!
     triangle_t super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;

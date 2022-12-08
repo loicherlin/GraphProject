@@ -1,4 +1,5 @@
 #include "../include/array_list.h"
+#include "../include/serializer.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -129,13 +130,6 @@ void* list_take(list_t* list, int idx){
     return tmp;
 }
 
-void* list_take_loic(list_t* list){
-    void* r = list->tab[0];
-    list->size--;
-    list->tab=&(list->tab[1]);
-    return r;
-}
-
 /**
  * Fonction list_size
  * 
@@ -162,4 +156,8 @@ void list_remove(list_t* list, void* to_remove){
             list_take(list, i);
         }
     }
+}
+
+void list_sort(list_t* list, int (*compare_function)(const void*, const void*)){
+    qsort(list->tab, list->size, sizeof(void*), compare_function);
 }
