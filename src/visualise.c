@@ -116,7 +116,7 @@ void show_delaunay(screen_t s, list_t* node_list, triangle_t** triangles){
     double y_max = s.y_max;
     double y_min = s.y_min;
     int width = s.width;
-    int height = s.height/1.2;
+    int height = s.height;
     for(size_t i = 1; i < triangles[0][0].s1->latitude; i++){
         triangle_t* t = triangles[i];
         // draw edges

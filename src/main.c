@@ -47,7 +47,7 @@ int main(int argc, char* argv[]){
     triangle_t** delaunay = delaunay_bowyer_watson(data_list);
     // Apply Prim's algorithm
     graph_t* g = create_graph(list_size(data_list));
-    convert_to_graph(delaunay, g);
+    delaunay_to_graph(delaunay, g);
     int* mst = prim_mst(g);
     // Visualize Prim and Delaunay result
     tps_onKeyDown(onKeyDown);
