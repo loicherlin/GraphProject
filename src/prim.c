@@ -77,8 +77,8 @@ void show_graph_ajd(graph_t* g){
 
 int* prim_mst(graph_t* graph){
     int size_vertices = graph->size_vertices;
-    int* parent = (int*)malloc(size_vertices * sizeof(int));
-    double* key = (double*)malloc(size_vertices * sizeof(double));
+    int* parent = malloc(size_vertices * sizeof(int));
+    double* key = malloc(size_vertices * sizeof(double));
 
     min_heap_t* min_heap = create_min_heap(size_vertices);
     // Initialize a min heap with all vertices (except first vertex)
@@ -98,6 +98,9 @@ int* prim_mst(graph_t* graph){
 
     min_heap->size = size_vertices;
 
+    // to keep track of vertices included in mst
+    // -1 to cancel the first vertex
+    int counter = -1;
     // min_heap contains all nodes not yet added to mst
     while (!is_empty(min_heap))
     {
@@ -120,20 +123,18 @@ int* prim_mst(graph_t* graph){
             node = node->next;
         }
         free(min_heap_node);
+        counter++;
     }
+    // check if parent is correct
+    if(counter == size_vertices-1)
+        printf("counter = %d, size_vertices = %d\n", counter, size_vertices);
+
     // free memory
     free(key);
     free_min_heap(min_heap);
     return parent;
 }
 
-/**
- * Check vertices d1 and d2 are connected by an edge in graph
- * @param graph
- * @param d1 vertex 1
- * @param d2 vertex 2
- * @return true if d1 and d2 are connected by an edge in graph
- */
 bool is_edge_in_graph(graph_t* graph, data_t* d1, data_t* d2){
     node_adj_t* node = graph->arr[d1->id].head;
     while(node != NULL)
@@ -158,6 +159,7 @@ void delaunay_to_graph(triangle_t** triangles, graph_t* graph){
                 add_edge(graph, t->s3, t->s1);
         } else {
             printf("Triangle %d has a vertex with id = -1", i);
+            exit(EXIT_FAILURE);
         }
     }
 }

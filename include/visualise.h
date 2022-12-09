@@ -38,11 +38,11 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
 /* 
     Show a visualisation of nodes in a SDL window 
 */
-void show_mst(screen_t s, list_t* node_list, int* mst);
+void show_mst(list_t* node_list, int* mst);
 
 /*
     Show Delaunay triangulation in a SDL window
 */
-void show_delaunay(screen_t s, list_t* node_list, triangle_t** triangles);
+void show_delaunay(list_t* node_list, triangle_t** triangles);
 
 void onKeyDown(int keyPressed);
