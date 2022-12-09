@@ -142,7 +142,7 @@ int qsort_compare_data_t(const void* d1, const void* d2){
 }
 
 triangle_t** delaunay_bowyer_watson(list_t* nodes){
-    list_sort(nodes, qsort_compare_data_t);
+    //list_sort(nodes, qsort_compare_data_t);
     triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // that malloc is huge !!
     triangle_t super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
