@@ -72,7 +72,7 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2);
  * Show nodes of a graph and their adjacent nodes
  * @param g
  */
-void show_graph_ajd(graph_t* g);
+void show_graph_adj(graph_t* g);
 
 /**
  * Create a MST using Prim's algorithm and a min heap
@@ -80,6 +80,7 @@ void show_graph_ajd(graph_t* g);
  * @return parent array
  */
 int* prim_mst(graph_t* graph);
+
 
 /**
  * Check vertices d1 and d2 are connected by an edge in graph

@@ -23,18 +23,18 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
 int write_to_bin(char** str, FILE* fp, int n);
 
 /**
- * Read the content of fp, serialized and write it into path_bin. 
- * Return 1 if done it succesfuly, otherwise 0.
- * fp is not closed into this function. 
+ * Build binary file from fp that represent a csv file, saved to path_bin 
  * @param fp
  * @param path_bin
+ * @param delimiter
  * @return 1 if done it succesfuly, otherwise 0
  * @note fp is not closed into this function.
+ * @note delimiter is by default ';'
  */
-int build_bin(FILE* fp, char* path_bin);
+int build_bin(FILE* fp, char* path_bin, char delimiter);
 
 /**
- * Read and deserialize data from fp 
+ * Read and deserialize binary file from fp and return a list of theses data.
  * and return a list of theses data. 
  * @param fp
  * @return list of data_t

@@ -47,7 +47,7 @@ min_heap_t* create_min_heap(int capacity);
 void swap_min_heap_node(min_heap_node_t** a, min_heap_node_t** b);
 
 /**
- * Sort min heap at index
+ * Restructure min heap at index to make it hold min heap property
  * @param min_heap
  * @param index
  */

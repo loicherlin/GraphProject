@@ -2,6 +2,11 @@
 #include <math.h>
 #include "../include/serializer.h"
 #include <stdbool.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include "../include/sdebug.h"
 #define EPSILON  0.00000000000000000000001
 
 
@@ -57,7 +62,6 @@ triangle_t create_super_triangle(list_t* nodes){
 }
 
 
-
 char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
 {
     double rsqr = 0;
@@ -103,12 +107,11 @@ char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
     dx = p0.latitude - pc.latitude;
     dy = p0.longitude - pc.longitude;
     double drsqr = dx*dx + dy*dy;
-    return ((drsqr - rsqr) <= epsilon);
+    return ((drsqr - rsqr) < epsilon);
 }
 
 
 
-// check if current is equals to bad_t_a, ... , bad_t_c.
 int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current){
     return (compare_data_t(bad_t_a.org, current.org, EPSILON) && compare_data_t(bad_t_a.dest, current.dest, EPSILON)) ||
            (compare_data_t(bad_t_a.org, current.dest, EPSILON) && compare_data_t(bad_t_a.dest, current.org, EPSILON)) ||
@@ -147,7 +150,6 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     triangle_t super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;
-    
     for(int i = 0 ; i < list_size(nodes);i++){
         triangle_t* badTriangles = malloc(sizeof(triangle_t));
         int size_badTriangle = 0;
@@ -256,4 +258,79 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     free(super_triangle.s2);
     free(super_triangle.s3);
     return triangulationFinal;
+}
+
+
+void save_delaunay(triangle_t** delaunay, FILE* fp, list_t* data_list){
+    fwrite(&data_list->size, sizeof(size_t), 1, fp);
+    size_t size = delaunay[0][0].s1->latitude;
+    fwrite(&size, sizeof(size_t), 1, fp);
+    for(int i = 1; i < size; i++){
+        fwrite(&delaunay[i][0].s1->id, sizeof(int), 1, fp);
+        fwrite(&delaunay[i][0].s2->id, sizeof(int), 1, fp);
+        fwrite(&delaunay[i][0].s3->id, sizeof(int), 1, fp);
+    }
+}
+
+triangle_t** get_delaunay(FILE* fp, list_t* data_list){
+    size_t size_data_list;
+    fread(&size_data_list, sizeof(size_t), 1, fp);
+    if(size_data_list != data_list->size){
+        deprintf("previous size of data_list : %ld, current size of data_list : %ld\n", size_data_list, data_list->size);
+        printf("Error: the number of points in delaunay binary is not the same as the number of points in the list\n");
+        exit(1);
+    }
+    size_t size;
+    fread(&size, sizeof(size_t), 1, fp);
+    triangle_t** delaunay = (triangle_t**)malloc(size * sizeof(triangle_t*));
+    delaunay[0] = (triangle_t*)malloc(sizeof(triangle_t));
+    delaunay[0][0].s1 = (data_t*)malloc(sizeof(data_t));
+    delaunay[0][0].s1->latitude = size;
+    for(int i = 1; i < size; i++){
+        delaunay[i] = (triangle_t*)malloc(sizeof(triangle_t));
+        int id1, id2, id3;
+        fread(&id1, sizeof(int), 1, fp);
+        fread(&id2, sizeof(int), 1, fp);
+        fread(&id3, sizeof(int), 1, fp);
+        delaunay[i][0].s1 = list_get(data_list, id1);
+        delaunay[i][0].s2 = list_get(data_list, id2);
+        delaunay[i][0].s3 = list_get(data_list, id3);
+    }
+    return delaunay;
+}
+
+triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path_to_load){
+    triangle_t** delaunay;
+    if(access(path_to_save, F_OK) != -1){
+        deprintf("Loading delaunay from %s ...\n", path_to_save);
+        //get delaunay from a binary file
+        FILE* fp_delaunay2 = fopen(path_to_save, "rb");
+        delaunay = get_delaunay(fp_delaunay2, data_list);
+        fclose(fp_delaunay2);
+        goto end;
+    } 
+    else if (strcmp(path_to_load, "")){
+        deprintf("Loading delaunay from %s ...\n", path_to_load);
+        // Apply Delaunay algorithm
+        delaunay = delaunay_bowyer_watson(data_list);
+        //save delaunay in a binary file
+        FILE* fp_delaunay = fopen(path_to_load, "wb");
+        save_delaunay(delaunay, fp_delaunay, data_list);
+        fclose(fp_delaunay);
+        goto end;
+    } else {
+        delaunay = delaunay_bowyer_watson(data_list);
+        goto end;
+    }
+    end:
+    deprintf("Delaunay loaded\n");
+    return delaunay;
+}
+
+void free_list_t(triangle_t** triangles, size_t size){
+    free(triangles[0][0].s1);
+    for(int i = 0; i < size; i++){
+        free(triangles[i]);
+    }
+    free(triangles);
 }

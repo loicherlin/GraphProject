@@ -2,16 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <tps.h>
-
+#include "../include/sdebug.h"
+#define BUFFER_SIZE 1000
 
 char _is_prim_active = 1;
 char _is_delaunay_active = 0;
 
+
 // texts
-char _number_nodes[100];
-char _press_key[100];
-char _number_edges[100];
-char _sum_weight[100] = " ";
+char _number_nodes[BUFFER_SIZE];
+char _press_key[BUFFER_SIZE];
+char _number_edges[BUFFER_SIZE];
+char _sum_weight[BUFFER_SIZE] = " ";
+char _binds[BUFFER_SIZE];
 
 screen_t* _screen;
 
@@ -80,6 +83,30 @@ void draw_edge(double x1, double y1, double x2, double y2){
     }
 }
 
+void set_color(enum COLOR c){
+    switch (c){
+    case COLOR_RED:
+        tps_setColor(255, 0, 0);
+        break;
+    case COLOR_GREEN:
+        tps_setColor(0, 255, 0);
+        break;  
+    case COLOR_BLUE:
+        tps_setColor(0, 0, 255);
+        break;
+    case COLOR_BLACK:
+        tps_setColor(0, 0, 0);
+        break;
+    }
+}
+
+void draw_node(double x, double y, int rx, int ry, enum COLOR c){
+    set_color(c);
+    tps_drawEllipse(normalize_to_screen(x, _screen->x_max, _screen->x_min) * _screen->width, 
+                    normalize_to_screen(y, _screen->y_max, _screen->y_min) * _screen->height, rx, ry);
+    set_color(COLOR_BLACK);
+}
+
 
 void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_max, double* y_min){
     for(size_t i = 0; i < list_size(node_list); i++){
@@ -96,24 +123,26 @@ void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_m
             *y_min = (*(data_t*)list_get(node_list, i)).longitude;
         }
     }   
+    deprintf("x_max: %f, x_min: %f, y_max: %f, y_min: %f\n", *x_max, *x_min, *y_max, *y_min);   
 }
 
-void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst,int flag){
+void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst, enum TXT flag){
     switch (flag){
     case TXT_DEFAULT:
-        snprintf(_press_key,100, "Show Prim: [key O]");
-        snprintf(_number_nodes,100, "Number of nodes: %ld", list_size(node_list));
-        snprintf(_number_edges,100, "Number of edges: %f", (delaunay[0][0].s1->latitude - 1) * 3);
+        snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
+        snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %ld", list_size(node_list));
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %f", (delaunay[0][0].s1->latitude - 1) * 3);
+        snprintf(_binds, BUFFER_SIZE, "Up [Arrow Up],\n Down [Arrow Down], Left [Arrow Left], Right [Arrow Right], Zoom in [A], Zoom out [SPACE]");
         break;
     case TXT_DELAUNAY:
-        snprintf(_press_key,100, "Show Prim: [key O]");
-        snprintf(_number_edges,100, "Number of edges: %d", g->size_edges);
-        snprintf(_sum_weight,100, " ");
+        snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %d", g->size_edges);
+        snprintf(_sum_weight, BUFFER_SIZE, " ");
         break;
     case TXT_PRIM:
-        snprintf(_press_key,100, "Show Delaunay: [key O]");
-        snprintf(_number_edges,100, "Number of edges: %ld", (list_size(node_list) - 1));
-        snprintf(_sum_weight,100, "Sum of weights: %f", sum_weight_graph(mst, node_list));
+        snprintf(_press_key,BUFFER_SIZE, "Show Delaunay: [O]");
+        snprintf(_number_edges,BUFFER_SIZE, "Number of edges: %ld", (list_size(node_list) - 1));
+        snprintf(_sum_weight,BUFFER_SIZE, "Sum of weights: %f", sum_weight_graph(mst, node_list));
         break;
     default:
         break;
@@ -122,15 +151,16 @@ void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst
 
 void draw_texts(){
     tps_drawText(20, 20, _press_key, 30);
-    tps_drawText(20, 60, _number_nodes, 15);
-    tps_drawText(20, 80, _number_edges, 15);
-    tps_drawText(20, 100, _sum_weight, 15);
+    tps_drawText(20, 60, _binds, 15);
+    tps_drawText(20, 80, _number_nodes, 15);
+    tps_drawText(20, 100, _number_edges, 15);
+    tps_drawText(20, 120, _sum_weight, 15);
 }
 
 void initialize_screen(int width, int height, list_t* node_list){
-    double x_max;
+    double x_max = 0;
     double x_min = 50;
-    double y_max;
+    double y_max = 0;
     double y_min = 10;
     get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
     _screen = malloc(sizeof(screen_t));
@@ -143,7 +173,7 @@ void initialize_screen(int width, int height, list_t* node_list){
 }
 
 void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay, graph_t* g){
-    tps_createWindow("Trees of Paris", width, height);
+    tps_createWindow("Tree's of Paris", width, height);
     initialize_screen(width, height, node_list);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
     while(tps_isRunning()){
@@ -165,17 +195,18 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
 }
 
 void show_mst(list_t* node_list, int* mst){
-    int error = 0;
     for(size_t i = 1; i < list_size(node_list); i++){
+        // No parent node or double node have the same coordinate to one has to be -1
         if(mst[i] == -1){
-            error++;
+            data_t d1 = *(data_t*)list_get(node_list, i);
+            draw_node(d1.latitude, d1.longitude, 15, 15, COLOR_RED);
             continue;
         }
         data_t d1 = *(data_t*)list_get(node_list, i);
         data_t d2 = *(data_t*)list_get(node_list, mst[i]);
+        //draw_node(d1.latitude, d1.longitude, 2, 2, COLOR_BLUE);
         draw_edge(d1.latitude, d1.longitude, d2.latitude, d2.longitude);
     }
-    printf("Error in MST (count how many -1): %d\n", error);
 }
 
 void show_delaunay(list_t* node_list, triangle_t** triangles){

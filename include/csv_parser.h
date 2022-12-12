@@ -11,9 +11,11 @@ FILE* open_file(char* path);
  * Get the line of fp, splitted into an array of strings
  * @param fp
  * @param n
+ * @param delimiter
  * @return array of strings
+ * @note delimiter is by default ';'
  */
-char** get_line(FILE* fp, int n);
+char** get_line(FILE* fp, int n, char delimiter);
 
 /**
  * Print the content of a line that was been sliced

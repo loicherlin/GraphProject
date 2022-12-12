@@ -22,17 +22,20 @@ int size_column(FILE* fp, char delimiter){
         }
     }
     // Important
-    if(counter == 0){ return 0; }
+    if(counter == 0 && c == '\n'){ return 0; }
     return counter + 1;
 }
 
 
-char** get_line(FILE* fp, int n){
+char** get_line(FILE* fp, int n, char delimiter){
     char* buf = malloc(sizeof(char) * 1000);
     if(fgets(buf, 1000, fp) == NULL){ 
         free(buf); return NULL; 
     }
-    char** line_splitted = split_line(buf, ";", n);
+    char delim[2];
+    delim[0] = delimiter;
+    delim[1] = '\0';
+    char** line_splitted = split_line(buf, delim, n);
     if(line_splitted == NULL){ free(buf); printf("malloc failed in access_content.\n"); exit(1); }
 
     free(buf);

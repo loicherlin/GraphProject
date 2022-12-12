@@ -5,3 +5,5 @@
 /petitbou
 .vscode/
 coor.bin
+delaunay.bin
+prim_mst.txt
