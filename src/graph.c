@@ -8,9 +8,26 @@
 #include <float.h>
 #include <stdbool.h>
 
-double dist(data_t p1, data_t p2){
-    return sqrt((p1.latitude - p2.latitude)*(p1.latitude - p2.latitude) +
-                (p1.longitude - p2.longitude)*(p1.longitude - p2.longitude));
+double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type){
+    switch(type){
+        case EUCLIDEAN:
+            return sqrt((p1.latitude - p2.latitude)*(p1.latitude - p2.latitude) +
+                        (p1.longitude - p2.longitude)*(p1.longitude - p2.longitude));
+        case HAVESINE:
+            double radius = 6371.0;
+            double plat = p1.latitude * M_PI / 180.0;
+            double mlat = p2.latitude * M_PI / 180.0;
+            double dlat = (p2.latitude - p1.latitude) * M_PI / 180.0;
+            double dlong = (p2.longitude - p1.longitude) * M_PI / 180.0;
+            double a = sin(dlat/2) * sin(dlat/2) +
+                    cos(plat) * cos(mlat) *
+                    sin(dlong/2) * sin(dlong/2);
+            double c = 2 * atan2(sqrt(a), sqrt(1-a));
+            return radius * c;
+        default:
+            return sqrt((p1.latitude - p2.latitude)*(p1.latitude - p2.latitude) +
+                        (p1.longitude - p2.longitude)*(p1.longitude - p2.longitude));
+    }
 }
 
 void free_graph(graph_t* graph){
@@ -48,7 +65,7 @@ node_adj_t* create_node_adj(int id, data_t* data, double weight){
 void add_edge(graph_t* graph, data_t* data1, data_t* data2){
     int id1 = data1->id;
     int id2 = data2->id;
-    double weight = dist(*data1, *data2);
+    double weight = dist(*data1, *data2, HAVESINE);
     // add edge from data1 to data2
     node_adj_t* node1 = create_node_adj(id2, data2, weight);
     node1->next = graph->arr[id1].head;
@@ -180,7 +197,7 @@ double sum_weight_graph(int* mst, list_t* nodes){
             continue;
         data_t* data1 = list_get(nodes, mst[i]);
         data_t* data2 = list_get(nodes, i);
-        sum += dist(*data1, *data2);
+        sum += dist(*data1, *data2, HAVESINE);
     }
     return sum;
 }

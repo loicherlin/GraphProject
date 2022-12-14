@@ -30,13 +30,19 @@ typedef struct graph{
     int size_edges;
 }graph_t;
 
+
+enum DISTANCE_TYPE{
+    EUCLIDEAN = 0,
+    HAVESINE = 1
+};
+
 /**
  * Calculate the distance between two points
  * @param p1 point 1
  * @param p2 point 2
- * @return distance (euclidean)
+ * @param type distance type (EUCLIDEAN or HAVESINE)
  */
-double dist(data_t p1, data_t p2);
+double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type);
 
 /**
  * free memory of a graph
