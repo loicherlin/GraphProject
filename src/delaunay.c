@@ -160,6 +160,7 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
             // Check if the point is inside the circumcircle of the triangle_t
             if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
                 badTriangles = realloc(badTriangles, sizeof(triangle_t)*(size_badTriangle+1));
+                if(badTriangles == NULL){ printf("Error: realloc failed\n"); exit(1); }
                 badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
             }
@@ -259,7 +260,6 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     free(super_triangle.s3);
     return triangulationFinal;
 }
-
 
 void save_delaunay(triangle_t** delaunay, FILE* fp, list_t* data_list){
     fwrite(&data_list->size, sizeof(size_t), 1, fp);
