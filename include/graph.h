@@ -33,7 +33,7 @@ typedef struct graph{
 
 enum DISTANCE_TYPE{
     EUCLIDEAN = 0,
-    HAVESINE = 1
+    HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
 };
 
 /**
