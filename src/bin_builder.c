@@ -31,18 +31,18 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
 
 }
 
-int build_bin(FILE* fp, char* path_bin){
+int build_bin(FILE* fp, char* path_bin, char delimiter){
     FILE* fp_bin = fopen(path_bin, "w+b");
     if(fp_bin == NULL){ perror("failed to fopen to path_bin\n"); return EXIT_FAILURE; }
-
     // Get the number of column by counting how much ; there are in the header
-    int n = size_column(fp, ';');
+    int n = size_column(fp, delimiter);
+    if(n == 0){ fprintf(stderr, "column of file is empty\n"); return EXIT_FAILURE; }
     // Skip header (first line)
     skip_header(fp);
     char** contents;  
-    while((contents = get_line(fp, n)) != NULL){ 
+    while((contents = get_line(fp, n, delimiter)) != NULL){ 
         if(write_to_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
-            printf("Failed to write to file\n");
+            fprintf(stderr,"Failed to write to file\n");
             fclose(fp_bin);
             exterminate_malloc(contents, n); 
             return EXIT_FAILURE;

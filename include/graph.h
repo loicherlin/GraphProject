@@ -30,13 +30,19 @@ typedef struct graph{
     int size_edges;
 }graph_t;
 
+
+enum DISTANCE_TYPE{
+    EUCLIDEAN = 0,
+    HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
+};
+
 /**
  * Calculate the distance between two points
  * @param p1 point 1
  * @param p2 point 2
- * @return distance (euclidean)
+ * @param type distance type (EUCLIDEAN or HAVESINE)
  */
-double dist(data_t p1, data_t p2);
+double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type);
 
 /**
  * free memory of a graph
@@ -72,14 +78,26 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2);
  * Show nodes of a graph and their adjacent nodes
  * @param g
  */
-void show_graph_ajd(graph_t* g);
+void show_graph_adj(graph_t* g);
 
 /**
- * Create a MST using Prim's algorithm and a min heap
+ * Save a MST to a file
+ * @param parent
+ * @param size_vertices
+ * @param path
+ * @note if path is incorrect, the function exit with EXIT_FAILURE
+ */
+void save_mst(int* parent, int size_vertices, char* path);
+
+/**
+ * Create a MST using Prim's algorithm and a min heap, and save it to a file if 
+ * filename is not empty
  * @param graph
+ * @param filename
  * @return parent array
  */
-int* prim_mst(graph_t* graph);
+int* prim_mst(graph_t* graph, char* filename);
+
 
 /**
  * Check vertices d1 and d2 are connected by an edge in graph

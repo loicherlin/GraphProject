@@ -5,11 +5,14 @@
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
 #include "../include/visualise.h"
-#include "../include/prim.h"
+#include "../include/graph.h"
 #include "../include/delaunay.h"
+#include "../include/sdebug.h"
 #include <tps.h>
 
 
+// Initiate arguments for args parsing
+struct arguments arguments;
 
 void free_list_n(list_t* data_list){
     size_t longueur = list_size(data_list);
@@ -21,42 +24,59 @@ void free_list_n(list_t* data_list){
 }
 
 
-void free_list_t(triangle_t** triangles, size_t size){
-    free(triangles[0][0].s1);
-    for(int i = 0; i < size; i++){
-        free(triangles[i]);
-    }
-    free(triangles);
-}
-
-int main(int argc, char* argv[]){
-    // Initiate arguments for args parsing
-    struct arguments arguments;
-    arguments.output_file = "-";
-    arguments.input_file = "-";
-    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+list_t* initiate_data_list(){
     // Open CSV file
     FILE* fp = open_file(arguments.input_file);
     // Build bin file based on fp
-    int result = build_bin(fp, arguments.output_file);
+    int result = build_bin(fp, arguments.output_file, arguments.delimiter[0]);
     if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
     // Open bin file to read it
     FILE* fp_bin = open_file(arguments.output_file);
     list_t* data_list = get_data_bin(fp_bin);
-    // Apply Delaunay algorithm
-    triangle_t** delaunay = delaunay_bowyer_watson(data_list);
-    // Apply Prim's algorithm
+    fclose(fp_bin);
+    fclose(fp);
+    return data_list;
+}
+
+void initiate_args(int argc, char* argv[]){
+    arguments.output_file = "";
+    arguments.input_file = "";
+    arguments.delimiter = ";"; // default delimiter
+    arguments.load_delaunay = "";
+    arguments.save_delaunay = "";
+    arguments.save_mst = "";
+    arguments.debug = false;
+    arguments.visualise = false;
+    arguments.height = 900;
+    arguments.width = 1400;
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
+    if(!strcmp(arguments.output_file,"") || !strcmp(arguments.input_file,"")){
+        printf("Please give input and output file. (use -h for help)\n");
+        exit(1);
+    }
+    _debug = arguments.debug;
+}
+
+int main(int argc, char* argv[]){
+    initiate_args(argc, argv);
+    // Initiate data_list
+    list_t* data_list = initiate_data_list();
+    // Initiate delaunay triangles
+    triangle_t** delaunay = initiate_delaunay(data_list, arguments.load_delaunay, arguments.save_delaunay);   
+    // Create graph from delaunay triangles
     graph_t* g = create_graph(list_size(data_list));
+    // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
-    int* mst = prim_mst(g);
+    // Get prim mst
+    int* mst = prim_mst(g, arguments.save_mst);
     // Visualize Prim and Delaunay result
     tps_onKeyDown(onKeyDown);
-    visualize(1400, 900, data_list, mst, delaunay, g);
+    // If visualise is true, visualize the result
+    arguments.visualise ? visualize(arguments.width, arguments.height, data_list, mst, delaunay, g) : 0;
     // Free memory
     free_graph(g);
     free(mst);
     free_list_t(delaunay, delaunay[0][0].s1->latitude);
     free_list_n(data_list);
-    fclose(fp_bin);
     return 0;
 }
