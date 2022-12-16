@@ -145,8 +145,11 @@ int qsort_compare_data_t(const void* d1, const void* d2){
 }
 
 triangle_t** delaunay_bowyer_watson(list_t* nodes){
-    //list_sort(nodes, qsort_compare_data_t);
-    triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // that malloc is huge !!
+    // ATTENTION : this code is a little mess, but it works !
+    // This code has been created following the pseudo code available on wikipedia.
+    // https://en.wikipedia.org/wiki/Delaunay_triangulation
+
+    triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // ( ͡° ͜ʖ ͡°)
     triangle_t super_triangle = create_super_triangle(nodes);
     int size_triangle = 1;
     triangulation[0] = super_triangle;
@@ -166,6 +169,7 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
             }
         }
         edge_t* polygon = malloc(sizeof(triangle_t)*size_badTriangle*3);
+        if(polygon == NULL){ printf("Error: malloc failed\n"); exit(1); }
         int size_polygone= 0;
         // find the boundary of the polygonal hole
         for(int j = 0 ; j < size_badTriangle; j++){
@@ -207,9 +211,6 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
             }
             size_polygone+=3;
         }
-        printf("\e[1;1H\e[2J"); // clear screen
-        printf("passage : %d polygone size : %d, badTriangle size : %d\n",i ,size_polygone,size_badTriangle);
-
         long int decalage = 0;
         // remove bad triangles from the triangulation
         for(int n = 0; n < size_badTriangle; n++){
@@ -231,6 +232,8 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
         }
         free(badTriangles);
         free(polygon);
+        // print progress
+        prprintf("Delaunay", i+1, list_size(nodes));
     }
 
     size_t taille_real = 1;
@@ -239,21 +242,25 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
             taille_real++;
         }
     }
+    // Final triangulation
     triangle_t** triangulationFinal = malloc(sizeof(triangle_t)*(taille_real+1));
+    if(triangulationFinal == NULL){ printf("Error: malloc failed\n"); exit(1); }
+    // Little tricks to save the size of the final triangulation
     triangle_t* t = malloc(sizeof(triangle_t));
-    data_t* n= malloc(sizeof(data_t));
-    n->latitude=taille_real;
-    t->s1=n;
-
-    int indice_relatif=1;
-    for (int i = 0 ; i < size_triangle ; i++){
+    data_t* n = malloc(sizeof(data_t));
+    n->latitude = taille_real;
+    t->s1 = n;
+    triangulationFinal[0] = t;
+    // Save the final triangulation
+    int indice_relatif = 1;
+    for (int i = 1; i < size_triangle ; i++){
         if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
             triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
             triangulationFinal[indice_relatif][0] = triangulation[i];
             indice_relatif++;
         }
     }
-    triangulationFinal[0]=t;
+    // Free memory
     free(triangulation);
     free(super_triangle.s1);
     free(super_triangle.s2);

@@ -16,7 +16,13 @@ typedef struct edge{
     data_t* dest;
 } edge_t;
 
-
+/**
+ * Give a triangulation following the Bowyer-Watson algorithm.
+ * @param nodes The list of nodes to triangulate.
+ * @return The list of triangles.
+ * @note This functions works in O(n²) and is not efficient and could be improved.
+ * https://en.wikipedia.org/wiki/Delaunay_triangulation
+ */
 triangle_t** delaunay_bowyer_watson(list_t* nodes);
 
 /**

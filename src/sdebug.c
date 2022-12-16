@@ -15,3 +15,11 @@ void deprintf(const char *format, ...)
         va_end(args);
     }
 }
+
+void prprintf(char* task_name, int current, int size)
+{
+    printf("\r%s: [%d/%d]", task_name, current, size);
+    fflush(stdout);
+    // Print a new line at the end
+    if(current == size){ printf("\n%s completed.\n", task_name); }
+}
