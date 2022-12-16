@@ -81,11 +81,22 @@ void add_edge(graph_t* graph, data_t* data1, data_t* data2);
 void show_graph_adj(graph_t* g);
 
 /**
- * Create a MST using Prim's algorithm and a min heap
+ * Save a MST to a file
+ * @param parent
+ * @param size_vertices
+ * @param path
+ * @note if path is incorrect, the function exit with EXIT_FAILURE
+ */
+void save_mst(int* parent, int size_vertices, char* path);
+
+/**
+ * Create a MST using Prim's algorithm and a min heap, and save it to a file if 
+ * filename is not empty
  * @param graph
+ * @param filename
  * @return parent array
  */
-int* prim_mst(graph_t* graph);
+int* prim_mst(graph_t* graph, char* filename);
 
 
 /**

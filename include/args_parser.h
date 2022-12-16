@@ -20,6 +20,7 @@ static struct argp_option options[] = {
   {"delimiter", 'd', "DELIMITER", 0, "Delimiter for parsing input file. Default is ';'."},
   {"load delaunay", 'l', "BINARY_FILE", 0, "Load delaunay triangles from binary file."},
   {"save delaunay", 's', "PATH", 0, "Save delaunay triangles to binary file."},
+  {"save mst", 'm', "PATH", 0, "Save mst to plain txt file with \"org - dest\" convention."},
   {"visualise", 'v', 0, 0, "Visualise the result."},
   {"height", 'h', "HEIGHT", 0, "Height of the visualisation window. (default 900)"},
   {"width", 'w', "WIDTH", 0, "Width of the visualisation window. (default 1400)"},
@@ -35,6 +36,7 @@ struct arguments
   char* delimiter;
   char* load_delaunay;
   char* save_delaunay;
+  char* save_mst;
   bool debug;
   bool visualise;
   int height;
@@ -82,6 +84,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
       break;
     case 'w':
       arguments->width = atoi(arg);
+      break;
+    case 'm':
+      arguments->save_mst = arg;
       break;
     default:
       return ARGP_ERR_UNKNOWN;

@@ -7,6 +7,7 @@
 #include <limits.h>
 #include <float.h>
 #include <stdbool.h>
+#include <string.h>
 
 double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type){
     switch(type){
@@ -103,15 +104,24 @@ void show_graph_adj_at(graph_t* g, int id){
     printf("\n");
 }
 
-void save_mst(int* parent, int size_vertices){
-    FILE* file = fopen("prim_mst.txt", "w+");
-    for (int i = 1; i < size_vertices; i++)
+void save_mst(int* parent, int size_vertices, char* path){
+    FILE* file = fopen(path, "w+");
+    if(file == NULL){
+        perror("Error opening file");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 1; i < size_vertices; i++){
+        if(parent[i] == -1){
+            deprintf("Error save_mst: parent[%d] = -1\n Vertex not connected \
+            (Probably another vertex having same coordinate is already connected)\n", i);
+        }
         fprintf(file, "%d - %d\n", parent[i], i);
+    }
     fclose(file);
-    deprintf("MST saved in file: prim_mst.txt\n");
+    deprintf("MST saved in file: %s\n", path);
 }
 
-int* prim_mst(graph_t* graph){
+int* prim_mst(graph_t* graph, char* path){
     int size_vertices = graph->size_vertices;
     int* parent = malloc(size_vertices * sizeof(int));
     double* key = malloc(size_vertices * sizeof(double));
@@ -156,7 +166,10 @@ int* prim_mst(graph_t* graph){
         }
         free(min_heap_node);
     }
-    save_mst(parent, size_vertices);
+    // save MST in file if path is not empty
+    if(strcmp(path, "")){
+        save_mst(parent, size_vertices, path);
+    }
     // free memory
     free(key);
     free_min_heap(min_heap);

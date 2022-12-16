@@ -44,6 +44,7 @@ void initiate_args(int argc, char* argv[]){
     arguments.delimiter = ";"; // default delimiter
     arguments.load_delaunay = "";
     arguments.save_delaunay = "";
+    arguments.save_mst = "";
     arguments.debug = false;
     arguments.visualise = false;
     arguments.height = 900;
@@ -64,9 +65,10 @@ int main(int argc, char* argv[]){
     triangle_t** delaunay = initiate_delaunay(data_list, arguments.load_delaunay, arguments.save_delaunay);   
     // Create graph from delaunay triangles
     graph_t* g = create_graph(list_size(data_list));
+    // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
     // Get prim mst
-    int* mst = prim_mst(g);
+    int* mst = prim_mst(g, arguments.save_mst);
     // Visualize Prim and Delaunay result
     tps_onKeyDown(onKeyDown);
     // If visualise is true, visualize the result
