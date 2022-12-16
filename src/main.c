@@ -8,6 +8,7 @@
 #include "../include/graph.h"
 #include "../include/delaunay.h"
 #include "../include/sdebug.h"
+#include "../include/handler.h"
 #include <tps.h>
 
 
@@ -58,13 +59,17 @@ void initiate_args(int argc, char* argv[]){
 }
 
 int main(int argc, char* argv[]){
+    // Initiate handler
+    signal(SIGINT, interrupt);
+    // Initiate arguments
     initiate_args(argc, argv);
     // Initiate data_list
     list_t* data_list = initiate_data_list();
     // Initiate delaunay triangles
-    triangle_t** delaunay = initiate_delaunay(data_list, arguments.load_delaunay, arguments.save_delaunay);   
+    triangle_t** delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
     // Create graph from delaunay triangles
-    graph_t* g = create_graph(list_size(data_list));
+    int nb_vertices = delaunay[0][0].s1->longitude;
+    graph_t* g = create_graph(nb_vertices);
     // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
     // Get prim mst

@@ -20,6 +20,8 @@ typedef struct edge{
  * Give a triangulation following the Bowyer-Watson algorithm.
  * @param nodes The list of nodes to triangulate.
  * @return The list of triangles.
+ * @note first index of the array contains a triangle_t where his first node contains
+ * the size of the array (in lattitude) and total number of unique nodes used (in longitude).
  * @note This functions works in O(n²) and is not efficient and could be improved.
  * https://en.wikipedia.org/wiki/Delaunay_triangulation
  */

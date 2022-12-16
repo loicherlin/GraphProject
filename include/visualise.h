@@ -73,13 +73,14 @@ void draw_node(double x, double y, int rx, int ry, enum COLOR c);
 /**
  * Based on a node_list, get x=lattitude y=longitude min max value.
  * @param node_list list of nodes
+ * @param size_vertices number of nodes
  * @param x_max max value of x
  * @param x_min min value of x
  * @param y_max max value of y
  * @param y_min min value of y
  * @return 0 if no problems, otherwise 1.
  */
-void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_max, double* y_min);
+void get_xy_min_max(list_t* node_list, int size_vertices, double* x_max, double* x_min, double* y_max, double* y_min);
 
 /**
  * Update texts informations.
@@ -101,8 +102,9 @@ void draw_texts();
  * @param width width of the window
  * @param height height of the window
  * @param node_list list of nodes
+ * @param size_vertices number of nodes
  */
-void initialize_screen(int width, int height, list_t* node_list);
+void initialize_screen(int width, int height, list_t* node_list, int size_vertices);
 
 /**
  * Visualize delaunay and prim result in a SDL window.
@@ -119,14 +121,14 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
  * Draw mst in a SDL window.
  * @param node_list list of nodes
  * @param mst prim mst
+ * @param size nubmer of nodes
  */
-void show_mst(list_t* node_list, int* mst);
+void show_mst(list_t* node_list, int* mst, int size_vertices);
 
 /**
  * Draw delaunay triangulation in a SDL window.
- * @param node_list list of nodes
  * @param delaunay delaunay triangles
  */
-void show_delaunay(list_t* node_list, triangle_t** triangles);
+void show_delaunay(triangle_t** triangles);
 
 void onKeyDown(int keyPressed);

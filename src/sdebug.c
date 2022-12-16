@@ -10,7 +10,7 @@ void deprintf(const char *format, ...)
     if(_debug){
         va_list args;
         va_start(args, format);
-        printf("DEBUG: ");
+        printf("\nDEBUG: ");
         vprintf(format, args);
         va_end(args);
     }
