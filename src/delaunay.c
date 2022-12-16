@@ -305,6 +305,10 @@ triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path
         deprintf("Loading delaunay from %s ...\n", path_to_save);
         //get delaunay from a binary file
         FILE* fp_delaunay2 = fopen(path_to_save, "rb");
+        if(fp_delaunay2 == NULL){
+            perror("Error while opening delaunay binary file");
+            exit(1);
+        }
         delaunay = get_delaunay(fp_delaunay2, data_list);
         fclose(fp_delaunay2);
         goto end;
@@ -315,6 +319,10 @@ triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path
         delaunay = delaunay_bowyer_watson(data_list);
         //save delaunay in a binary file
         FILE* fp_delaunay = fopen(path_to_load, "wb");
+        if(fp_delaunay == NULL){
+            perror("Error while opening delaunay binary file");
+            exit(1);
+        }
         save_delaunay(delaunay, fp_delaunay, data_list);
         fclose(fp_delaunay);
         goto end;
