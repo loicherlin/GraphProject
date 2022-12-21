@@ -1,6 +1,3 @@
-#include "../include/graph.h"
-#include "../include/delaunay.h"
-#include "../include/sdebug.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,6 +5,9 @@
 #include <float.h>
 #include <stdbool.h>
 #include <string.h>
+#include "../include/graph.h"
+#include "../include/delaunay.h"
+#include "../include/cprintf.h"
 
 double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type){
     switch(type){
@@ -51,6 +51,7 @@ graph_t* create_graph(int size_vertices){
     graph->arr = (adj_list_t*)malloc(size_vertices * sizeof(adj_list_t));
     for (int i = 0; i < size_vertices; i++)
         graph->arr[i].head = NULL;
+    deprintf("Graph created\n");
     return graph;
 }
 
@@ -203,9 +204,9 @@ void delaunay_to_graph(triangle_t** triangles, graph_t* graph){
     deprintf("Delaunay to graph done\n");
 }
 
-double sum_weight_graph(int* mst, list_t* nodes){
+double sum_weight_graph(int* mst, list_t* nodes, int size_vertices){
     double sum = 0;
-    for (int i = 1; i < list_size(nodes); i++){
+    for (int i = 1; i < size_vertices; i++){
         if(mst[i] == -1)
             continue;
         data_t* data1 = list_get(nodes, mst[i]);

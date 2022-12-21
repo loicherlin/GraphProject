@@ -1,8 +1,8 @@
-#include "../include/visualise.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <tps.h>
-#include "../include/sdebug.h"
+#include "../include/visualise.h"
+#include "../include/cprintf.h"
 #define BUFFER_SIZE 1000
 
 char _is_prim_active = 1;
@@ -108,8 +108,8 @@ void draw_node(double x, double y, int rx, int ry, enum COLOR c){
 }
 
 
-void get_xy_min_max(list_t* node_list, double* x_max, double* x_min, double* y_max, double* y_min){
-    for(size_t i = 0; i < list_size(node_list); i++){
+void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* x_min, double* y_max, double* y_min){
+    for(int i = 0; i < size_vertices; i++){
         if((*(data_t*)list_get(node_list, i)).latitude >= *x_max){
             *x_max = (*(data_t*)list_get(node_list, i)).latitude;
         }
@@ -130,7 +130,7 @@ void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst
     switch (flag){
     case TXT_DEFAULT:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
-        snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %ld", list_size(node_list));
+        snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
         snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %f", (delaunay[0][0].s1->latitude - 1) * 3);
         snprintf(_binds, BUFFER_SIZE, "Up [Arrow Up],\n Down [Arrow Down], Left [Arrow Left], Right [Arrow Right], Zoom in [A], Zoom out [SPACE]");
         break;
@@ -141,8 +141,8 @@ void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst
         break;
     case TXT_PRIM:
         snprintf(_press_key,BUFFER_SIZE, "Show Delaunay: [O]");
-        snprintf(_number_edges,BUFFER_SIZE, "Number of edges: %ld", (list_size(node_list) - 1));
-        snprintf(_sum_weight,BUFFER_SIZE, "Sum of weights: %f", sum_weight_graph(mst, node_list));
+        snprintf(_number_edges,BUFFER_SIZE, "Number of edges: %d", (g->size_vertices - 1));
+        snprintf(_sum_weight,BUFFER_SIZE, "Sum of weights: %f", sum_weight_graph(mst, node_list, g->size_vertices));
         break;
     default:
         break;
@@ -157,12 +157,12 @@ void draw_texts(){
     tps_drawText(20, 120, _sum_weight, 15);
 }
 
-void initialize_screen(int width, int height, list_t* node_list){
+void initialize_screen(int width, int height, list_t* node_list, int size_vertices){
     double x_max = 0;
     double x_min = 50;
     double y_max = 0;
     double y_min = 10;
-    get_xy_min_max(node_list, &x_max, &x_min, &y_max, &y_min);
+    get_xy_min_max(node_list, size_vertices, &x_max, &x_min, &y_max, &y_min);
     _screen = malloc(sizeof(screen_t));
     _screen->width = width;
     _screen->height = height;
@@ -174,7 +174,7 @@ void initialize_screen(int width, int height, list_t* node_list){
 
 void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay, graph_t* g){
     tps_createWindow("Tree's of Paris", width, height);
-    initialize_screen(width, height, node_list);
+    initialize_screen(width, height, node_list, g->size_vertices);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
     while(tps_isRunning()){
         tps_background(255,255,255);
@@ -182,11 +182,11 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
         draw_texts();
         if(_is_delaunay_active == 1){
             update_texts(node_list, delaunay, g, mst, TXT_DELAUNAY);
-            show_delaunay(node_list, delaunay);
+            show_delaunay(delaunay);
         }
         else if(_is_prim_active == 1) {
             update_texts(node_list, delaunay, g, mst, TXT_PRIM);
-            show_mst(node_list, mst);    
+            show_mst(node_list, mst, g->size_vertices);    
         }
         tps_render();
     }
@@ -194,8 +194,8 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
     free(_screen);
 }
 
-void show_mst(list_t* node_list, int* mst){
-    for(size_t i = 1; i < list_size(node_list); i++){
+void show_mst(list_t* node_list, int* mst, int size_vertices){
+    for(int i = 1; i < size_vertices; i++){
         // No parent node or double node have the same coordinate to one has to be -1
         if(mst[i] == -1){
             data_t d1 = *(data_t*)list_get(node_list, i);
@@ -209,7 +209,7 @@ void show_mst(list_t* node_list, int* mst){
     }
 }
 
-void show_delaunay(list_t* node_list, triangle_t** triangles){
+void show_delaunay(triangle_t** triangles){
     for(size_t i = 1; i < triangles[0][0].s1->latitude; i++){
         triangle_t* t = triangles[i];
         // draw edge between s1 and s2

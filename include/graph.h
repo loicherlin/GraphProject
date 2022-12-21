@@ -119,6 +119,7 @@ void delaunay_to_graph(triangle_t** triangles, graph_t* graph);
  * Calculate the sum of the weights of the edges in the MST
  * @param mst array of parents
  * @param nodes list of nodes
+ * @param size_vertices
  * @return sum of the weights of the edges in the MST
  */
-double sum_weight_graph(int* mst, list_t* nodes);
+double sum_weight_graph(int* mst, list_t* nodes, int size_vertices);
