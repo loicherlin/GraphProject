@@ -1,8 +1,8 @@
-#include "../include/visualise.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <tps.h>
-#include "../include/sdebug.h"
+#include "../include/visualise.h"
+#include "../include/cprintf.h"
 #define BUFFER_SIZE 1000
 
 char _is_prim_active = 1;

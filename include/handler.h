@@ -1,6 +1,9 @@
 #pragma once
 #include <signal.h>
 
+/**
+ * @brief Used to store the interrupt signals to be handled.
+ */
 typedef struct
 {
     /**
@@ -9,9 +12,6 @@ typedef struct
     volatile sig_atomic_t sigint;
 } signal_int_t;
 
-/**
- * @brief Used to store the interrupt signals.
- */
 extern volatile signal_int_t _interrupt_signals;
 
 /**

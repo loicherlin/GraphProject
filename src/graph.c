@@ -1,6 +1,3 @@
-#include "../include/graph.h"
-#include "../include/delaunay.h"
-#include "../include/sdebug.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -8,6 +5,9 @@
 #include <float.h>
 #include <stdbool.h>
 #include <string.h>
+#include "../include/graph.h"
+#include "../include/delaunay.h"
+#include "../include/cprintf.h"
 
 double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type){
     switch(type){

@@ -1,14 +1,16 @@
-#include "../include/delaunay.h"
 #include <math.h>
-#include "../include/serializer.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../include/sdebug.h"
+#include "../include/delaunay.h"
+#include "../include/serializer.h"
+#include "../include/cprintf.h"
 #include "../include/handler.h"
+
 #define EPSILON  0.00000000000000000000001
+
 
 
 triangle_t create_triangle(data_t* a, data_t* b, data_t* c){
@@ -136,19 +138,10 @@ int compare_triangle(triangle_t a, triangle_t b){
     (compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
 }
 
-// compare two data_t for qsort functions
-int qsort_compare_data_t(const void* d1, const void* d2){
-    const float f1 = ((data_t*)d1)->latitude;
-    const float f2 = ((data_t*)d2)->latitude;
-    if(f1 < f2)
-        return -1;
-    return f1 > f2;
-}
-
 triangle_t** delaunay_bowyer_watson(list_t* nodes){
     // ATTENTION : this code is a little mess, but it works !
     // This code has been created following the pseudo code available on wikipedia.
-    // https://en.wikipedia.org/wiki/Delaunay_triangulation
+    // https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm
 
     triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // ( ͡° ͜ʖ ͡°)
     triangle_t super_triangle = create_super_triangle(nodes);
@@ -238,7 +231,7 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
         prprintf("Delaunay", i+1, list_size(nodes));
     }
     if(_interrupt_signals.sigint == 1){
-        deprintf("Delaunay interrupted at %d iteration \n", i+1);
+        deprintf("Delaunay interrupted at %d iteration \n", i);
         //exit(1);
     }
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <tps.h>
 #include "../include/args_parser.h"
 #include "../include/array_list.h"
 #include "../include/csv_parser.h"
@@ -7,10 +8,8 @@
 #include "../include/visualise.h"
 #include "../include/graph.h"
 #include "../include/delaunay.h"
-#include "../include/sdebug.h"
+#include "../include/cprintf.h"
 #include "../include/handler.h"
-#include <tps.h>
-
 
 // Initiate arguments for args parsing
 struct arguments arguments;
