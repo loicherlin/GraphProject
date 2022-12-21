@@ -8,13 +8,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-volatile signal_int_t interrupt_signals = {0};
+volatile signal_int_t _interrupt_signals = {0};
 
 void interrupt(int sig){   
     switch(sig){
         // Ctrl + C
         case SIGINT:
-            interrupt_signals.sigint = 1;
+            _interrupt_signals.sigint = 1;
             break;
         default:
             break;

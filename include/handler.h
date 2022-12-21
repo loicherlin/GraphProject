@@ -12,7 +12,7 @@ typedef struct
 /**
  * @brief Used to store the interrupt signals.
  */
-extern volatile signal_int_t interrupt_signals;
+extern volatile signal_int_t _interrupt_signals;
 
 /**
  * @brief Handle the interrupt signals.
