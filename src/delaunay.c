@@ -155,7 +155,7 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
     int size_triangle = 1;
     int i;
     triangulation[0] = super_triangle;
-    for(i = 0 ; i < list_size(nodes) && interrupt_sigint != 1;i++){
+    for(i = 0 ; i < list_size(nodes) && interrupt_signals.sigint != 1;i++){
         triangle_t* badTriangles = malloc(sizeof(triangle_t));
         int size_badTriangle = 0;
         data_t* a = list_get(nodes, i);
@@ -237,7 +237,7 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes){
         // print progress
         prprintf("Delaunay", i+1, list_size(nodes));
     }
-    if(interrupt_sigint == 1){
+    if(interrupt_signals.sigint == 1){
         deprintf("Delaunay interrupted at %d iteration \n", i+1);
         //exit(1);
     }

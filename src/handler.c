@@ -8,15 +8,25 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-volatile sig_atomic_t interrupt_sigint = 0;
-void interrupt(int sig)
-{   
+volatile signal_int_t interrupt_signals = {0};
+
+void interrupt(int sig){   
     switch(sig){
         // Ctrl + C
         case SIGINT:
-            interrupt_sigint = 1;
+            interrupt_signals.sigint = 1;
             break;
         default:
             break;
     }
+}
+
+void initiate_handler(){
+    struct sigaction action;
+    // Our handler
+    action.sa_handler = interrupt;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = 0;
+    // Register Ctrl + C handler
+    sigaction(SIGINT, &action, NULL);
 }

@@ -58,9 +58,11 @@ void initiate_args(int argc, char* argv[]){
     _debug = arguments.debug;
 }
 
+
+
 int main(int argc, char* argv[]){
     // Initiate handler
-    signal(SIGINT, interrupt);
+    initiate_handler();
     // Initiate arguments
     initiate_args(argc, argv);
     // Initiate data_list
