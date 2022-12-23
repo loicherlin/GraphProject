@@ -289,7 +289,6 @@ delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list){
         delaunay->triangles[i]->s1 = list_get(data_list, id1);
         delaunay->triangles[i]->s2 = list_get(data_list, id2);
         delaunay->triangles[i]->s3 = list_get(data_list, id3);
-
     }
     return delaunay;
 }

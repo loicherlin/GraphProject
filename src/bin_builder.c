@@ -5,6 +5,7 @@
 #include "../include/bin_builder.h"
 #include "../include/csv_parser.h"
 #include "../include/data_t.h"
+#include "../include/delaunay.h"
 #include "../include/array_list.h"
 
 void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates){
@@ -16,7 +17,7 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
     *longitude = strtod(endPtr, NULL);
 }
 
-int write_to_bin(char** contents, FILE* fp_bin, int n){
+int write_to_csv_bin(char** contents, FILE* fp_bin, int n){
     double lattitude, longitude;
     static int i = 0;
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
@@ -31,17 +32,17 @@ int write_to_bin(char** contents, FILE* fp_bin, int n){
 
 }
 
-int build_bin(FILE* fp, char* path_bin, char delimiter){
+int build_csv_bin(FILE* fp, char* path_bin, char delimiter){
     FILE* fp_bin = fopen(path_bin, "w+b");
     if(fp_bin == NULL){ perror("failed to fopen to path_bin\n"); return EXIT_FAILURE; }
-    // Get the number of column by counting how much ; there are in the header
+    // Get the number of column by counting how much delimter there are in the header
     int n = size_column(fp, delimiter);
     if(n == 0){ fprintf(stderr, "column of file is empty\n"); return EXIT_FAILURE; }
     // Skip header (first line)
     skip_header(fp);
     char** contents;  
     while((contents = get_line(fp, n, delimiter)) != NULL){ 
-        if(write_to_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
+        if(write_to_csv_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
             fprintf(stderr,"Failed to write to file\n");
             fclose(fp_bin);
             exterminate_malloc(contents, n); 
@@ -53,7 +54,7 @@ int build_bin(FILE* fp, char* path_bin, char delimiter){
     return EXIT_SUCCESS;
 }
 
-list_t* get_data_bin(FILE* fp){
+list_t* get_data_csv_bin(FILE* fp){
     char data[sizeof(data_t)];
     list_t* data_list = list_create();
     while(fread(data, sizeof(data_t), 1, fp)){

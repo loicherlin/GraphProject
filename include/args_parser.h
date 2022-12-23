@@ -1,15 +1,16 @@
 #pragma once
+#include "../include/cprintf.h"
 #include <argp.h>
 #include <stdbool.h>  
 
 //https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html
 
 const char *argp_program_version =
-  "MSTrees Paris 1.0";
+  "1.0";
 
 /* Program documentation. */
 static char doc[] =
-  "Give the Minimum Spanning Tree based on input file (normaly Tree's of Paris).\n\nThe programs firstly parse the input file and store in binary format into output file. And then starts to work on this binary file to create the MST based of this binary file.";
+  "Give the Minimum Spanning Tree based on input file (normaly Tree's of Paris)\nusing Delaunay Triangulation and Prim algorithm.";
 
 
 /* The options we understand. */
@@ -28,8 +29,7 @@ static struct argp_option options[] = {
 };
 
 /* Used by main to communicate with parse_opt. */
-struct arguments
-{
+typedef struct arguments{
   //char *args[2];                /* arg1 & arg2 */
   char *output_file;
   char* input_file;
@@ -41,14 +41,14 @@ struct arguments
   bool visualise;
   int height;
   int width;
-};
+} arguments_t;
 
 /* Parse a single option. */
 static error_t parse_opt (int key, char *arg, struct argp_state *state)
 {
   /* Get the input argument from argp_parse, which we
      know is a pointer to our arguments structure. */
-  struct arguments *arguments = state->input;
+  arguments_t *arguments = state->input;
   switch (key)
     {
     case  ARGP_KEY_END:
@@ -97,3 +97,4 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 /* Our argp parser. */
 static struct argp argp = { options, parse_opt, NULL, doc };
+

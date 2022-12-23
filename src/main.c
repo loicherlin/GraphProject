@@ -28,11 +28,15 @@ list_t* initiate_data_list(){
     // Open CSV file
     FILE* fp = open_file(arguments.input_file);
     // Build bin file based on fp
-    int result = build_bin(fp, arguments.output_file, arguments.delimiter[0]);
+    int result = build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
     if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
     // Open bin file to read it
     FILE* fp_bin = open_file(arguments.output_file);
-    list_t* data_list = get_data_bin(fp_bin);
+    // Get data from bin file
+    list_t* data_list = get_data_csv_bin(fp_bin);
+    // Sort data_list (little optimization for delaunay)
+    list_sort(data_list, qsort_compare_data_t);
+    // Close files
     fclose(fp_bin);
     fclose(fp);
     return data_list;
@@ -57,8 +61,6 @@ void initiate_args(int argc, char* argv[]){
     _debug = arguments.debug;
 }
 
-
-
 int main(int argc, char* argv[]){
     // Initiate handler
     initiate_handler();
@@ -66,7 +68,6 @@ int main(int argc, char* argv[]){
     initiate_args(argc, argv);
     // Initiate data_list
     list_t* data_list = initiate_data_list();
-    list_sort(data_list, qsort_compare_data_t);
     // Initiate delaunay triangles
     delaunay_t* delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
     // Create graph from delaunay triangles
