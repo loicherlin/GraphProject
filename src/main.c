@@ -5,11 +5,12 @@
 #include "../include/array_list.h"
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
-#include "../include/visualise.h"
+#include "../include/data_t.h"
 #include "../include/graph.h"
 #include "../include/delaunay.h"
 #include "../include/cprintf.h"
 #include "../include/handler.h"
+#include "../include/visualise.h"
 
 // Initiate arguments for args parsing
 struct arguments arguments;
@@ -22,7 +23,6 @@ void free_list_n(list_t* data_list){
     }
     list_free(data_list);
 }
-
 
 list_t* initiate_data_list(){
     // Open CSV file
@@ -66,11 +66,11 @@ int main(int argc, char* argv[]){
     initiate_args(argc, argv);
     // Initiate data_list
     list_t* data_list = initiate_data_list();
+    list_sort(data_list, qsort_compare_data_t);
     // Initiate delaunay triangles
-    triangle_t** delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
+    delaunay_t* delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
     // Create graph from delaunay triangles
-    int nb_vertices = delaunay[0][0].s1->longitude;
-    graph_t* g = create_graph(nb_vertices);
+    graph_t* g = create_graph(delaunay->size_vertices);
     // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
     // Get prim mst
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
     // Free memory
     free_graph(g);
     free(mst);
-    free_list_t(delaunay, delaunay[0][0].s1->latitude);
+    free_delaunay(delaunay);
     free_list_n(data_list);
     return 0;
 }

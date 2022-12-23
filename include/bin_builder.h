@@ -1,5 +1,5 @@
 #pragma once
-#include "./array_list.h"
+#include "array_list.h"
 
 
 /**

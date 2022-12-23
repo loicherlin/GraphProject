@@ -1,4 +1,4 @@
-#include "../include/serializer.h"
+#include "../include/data_t.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,4 +29,13 @@ int compare_data_t(data_t* a, data_t* b, double epsilon){
 
 void print_data_t(data_t* da){
     printf("%d [%f, %f]\n", da->id, da->latitude, da->longitude);
+}
+
+// compare two data_t for qsort functions
+int qsort_compare_data_t(const void* d1, const void* d2){
+    const float f1 = ((data_t*)d1)->latitude;
+    const float f2 = ((data_t*)d2)->latitude;
+    if(f1 < f2)
+        return -1;
+    return f1 > f2;
 }

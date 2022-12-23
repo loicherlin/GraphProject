@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <tps.h>
 #include "../include/visualise.h"
+#include "../include/data_t.h"
 #include "../include/cprintf.h"
 #define BUFFER_SIZE 1000
 
@@ -126,12 +127,12 @@ void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* 
     deprintf("x_max: %f, x_min: %f, y_max: %f, y_min: %f\n", *x_max, *x_min, *y_max, *y_min);   
 }
 
-void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst, enum TXT flag){
+void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst, enum TXT flag){
     switch (flag){
     case TXT_DEFAULT:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
         snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
-        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %f", (delaunay[0][0].s1->latitude - 1) * 3);
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %ld", (delaunay->size_triangles - 1) * 3);
         snprintf(_binds, BUFFER_SIZE, "Up [Arrow Up],\n Down [Arrow Down], Left [Arrow Left], Right [Arrow Right], Zoom in [A], Zoom out [SPACE]");
         break;
     case TXT_DELAUNAY:
@@ -172,7 +173,7 @@ void initialize_screen(int width, int height, list_t* node_list, int size_vertic
     _screen->y_min = y_min;
 }
 
-void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay, graph_t* g){
+void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g){
     tps_createWindow("Tree's of Paris", width, height);
     initialize_screen(width, height, node_list, g->size_vertices);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
@@ -209,9 +210,9 @@ void show_mst(list_t* node_list, int* mst, int size_vertices){
     }
 }
 
-void show_delaunay(triangle_t** triangles){
-    for(size_t i = 1; i < triangles[0][0].s1->latitude; i++){
-        triangle_t* t = triangles[i];
+void show_delaunay(delaunay_t* triangles){
+    for(size_t i = 0; i < triangles->size_triangles; i++){
+        triangle_t* t = triangles->triangles[i];
         // draw edge between s1 and s2
         draw_edge(t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude);
         // draw edge between s2 and s3

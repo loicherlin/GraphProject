@@ -4,7 +4,7 @@
 #include <tps.h>
 #include "../include/bin_builder.h"
 #include "../include/csv_parser.h"
-#include "../include/serializer.h"
+#include "../include/data_t.h"
 #include "../include/array_list.h"
 
 void sanatize_coordinates(double* lattitude, double* longitude, char* coordinates){

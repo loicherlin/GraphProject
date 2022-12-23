@@ -1,7 +1,7 @@
 #pragma once
-#include "serializer.h"
+#include "data_t.h"
 #include "min_heap.h"
-#include "../include/delaunay.h"
+#include "delaunay.h"
 #include <stdbool.h>
 
 /**
@@ -113,7 +113,7 @@ bool is_edge_in_graph(graph_t* graph, data_t* d1, data_t* d2);
  * @param triangles
  * @param graph
  */
-void delaunay_to_graph(triangle_t** triangles, graph_t* graph);
+void delaunay_to_graph(delaunay_t* triangles, graph_t* graph);
 
 /**
  * Calculate the sum of the weights of the edges in the MST

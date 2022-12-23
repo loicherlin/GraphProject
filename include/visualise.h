@@ -1,8 +1,8 @@
 #pragma once
-#include "./delaunay.h"
-#include "../include/array_list.h"
-#include "../include/serializer.h"
-#include "../include/graph.h"
+#include "delaunay.h"
+#include "array_list.h"
+#include "data_t.h"
+#include "graph.h"
 
 
 typedef struct screen_t{
@@ -90,7 +90,7 @@ void get_xy_min_max(list_t* node_list, int size_vertices, double* x_max, double*
  * @param mst prim mst
  * @param flag flag to know which text to update (TXT_DELAUNAY, TXT_PRIM, TXT_DEFAULT)
  */
-void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst, enum TXT flag);
+void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst, enum TXT flag);
 
 /**
  * Draw inputs bindings, informations about the visualization (Numbers of nodes, edges, weight of the mst)
@@ -115,7 +115,7 @@ void initialize_screen(int width, int height, list_t* node_list, int size_vertic
  * @param delaunay delaunay triangles
  * @param g graph of delaunay triangles
  */
-void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay, graph_t* g);
+void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g);
 
 /**
  * Draw mst in a SDL window.
@@ -129,6 +129,6 @@ void show_mst(list_t* node_list, int* mst, int size_vertices);
  * Draw delaunay triangulation in a SDL window.
  * @param delaunay delaunay triangles
  */
-void show_delaunay(triangle_t** triangles);
+void show_delaunay(delaunay_t* triangles);
 
 void onKeyDown(int keyPressed);
