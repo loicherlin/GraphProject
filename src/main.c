@@ -34,8 +34,6 @@ list_t* initiate_data_list(){
     FILE* fp_bin = open_file(arguments.output_file);
     // Get data from bin file
     list_t* data_list = get_data_csv_bin(fp_bin);
-    // Sort data_list (little optimization for delaunay)
-    list_sort(data_list, qsort_compare_data_t);
     // Close files
     fclose(fp_bin);
     fclose(fp);

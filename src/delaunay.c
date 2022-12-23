@@ -56,7 +56,7 @@ triangle_t create_super_triangle(list_t* nodes){
 }
 
 
-char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
+char is_point_in_circumcicle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
 {
     double rsqr = 0;
     double fabs_y1y2 = fabs(p1.longitude-p2.longitude);
@@ -208,10 +208,11 @@ delaunay_t* delaunay_bowyer_watson(list_t* nodes){
         triangle_t* badTriangles = malloc(sizeof(triangle_t));
         int size_badTriangle = 0;
         data_t* current_node = list_get(nodes, i);
+        // first find all the triangles that are no longer valid due to the insertion
         for(int j = 0 ; j < size_triangle ; j++){
             triangle_t t_tempo = triangulation[j];
             // Check if the point is inside the circumcircle of the triangle_t
-            if(t_tempo.s1 != NULL && in_circle(*current_node,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
+            if(t_tempo.s1 != NULL && is_point_in_circumcicle(*current_node,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
                 badTriangles = realloc(badTriangles, sizeof(triangle_t)*(size_badTriangle+1));
                 if(badTriangles == NULL){ printf("Error: realloc failed\n"); exit(1); }
                 badTriangles[size_badTriangle] = t_tempo;

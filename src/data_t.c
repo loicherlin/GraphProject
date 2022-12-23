@@ -1,4 +1,5 @@
 #include "../include/data_t.h"
+#include "../include/cprintf.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,9 +34,16 @@ void print_data_t(data_t* da){
 
 // compare two data_t for qsort functions
 int qsort_compare_data_t(const void* d1, const void* d2){
-    const float f1 = ((data_t*)d1)->latitude;
-    const float f2 = ((data_t*)d2)->latitude;
-    if(f1 < f2)
+    // d1 and d2 comes from a list of data_t, more precisely from a void** array
+    // so we need to cast them to void* and then to data_t*
+    data_t* aa = *((data_t**)d1);
+    data_t* bb = *((data_t**)d2);
+    double a = aa->latitude;
+    double b = bb->latitude;
+    if (a > b)
+        return 1;
+    else if (a < b)
         return -1;
-    return f1 > f2;
+    else
+        return 0; 
 }
