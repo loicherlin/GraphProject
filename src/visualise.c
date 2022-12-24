@@ -61,6 +61,8 @@ void move_screen(int flag){
             _screen->y_max = _screen->y_max - y_diff * 0.1;
             _screen->y_min = _screen->y_min - y_diff * 0.1;
             break;
+        default:
+            break;
     }
 }
 
@@ -133,7 +135,7 @@ void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst,
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
         snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
         snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %ld", (delaunay->size_triangles - 1) * 3);
-        snprintf(_binds, BUFFER_SIZE, "Up [Arrow Up],\n Down [Arrow Down], Left [Arrow Left], Right [Arrow Right], Zoom in [A], Zoom out [SPACE]");
+        snprintf(_binds, BUFFER_SIZE, "Quit: [ESC], Zoom In/Out: [Mouse wheel, A/Space], Move camera: [Click and drag, Arrow U/D/L/R]");
         break;
     case TXT_DELAUNAY:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
@@ -189,8 +191,11 @@ void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* d
             update_texts(node_list, delaunay, g, mst, TXT_PRIM);
             show_mst(node_list, mst, g->size_vertices);    
         }
+        // handle keyboard, mouse event
+        handle_sdl_event();
         tps_render();
     }
+    close_screen:
     tps_closeWindow();
     free(_screen);
 }
@@ -222,6 +227,66 @@ void show_delaunay(delaunay_t* triangles){
     }
 }
 
+void handle_sdl_event(void){
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    static int g_mouse_x;
+    static int g_mouse_y;
+    switch (event.type){
+        case SDL_MOUSEWHEEL:
+            if(event.wheel.y > 0){
+                zoom_in();
+            }
+            else if(event.wheel.y < 0){
+                zoom_out();
+            }
+            break;
+        case SDL_KEYDOWN:
+            onKeyDown(event.key.keysym.sym);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            // Save the current mouse position when the button is pressed
+            g_mouse_x = event.button.x;
+            g_mouse_y = event.button.y;
+            break;
+        case SDL_MOUSEMOTION:
+            if (event.motion.state & SDL_BUTTON_RMASK){
+                // Calculate the difference between the current mouse position and the position when the button was first pressed
+                int dx = event.motion.x - g_mouse_x;
+                int dy = event.motion.y - g_mouse_y;
+
+                // Update the camera position based on the difference
+                camera_move(dx, dy);
+
+                // Save the current mouse position for the next move event
+                g_mouse_x = event.motion.x;
+                g_mouse_y = event.motion.y;
+            }
+        default:
+            break;
+        }
+}
+
+
+void camera_move(int dx, int dy){
+    // Calculate the ratio of the width and height to the x_max and y_max fields
+    double x_ratio = (double)_screen->width / (_screen->x_max - _screen->x_min);
+    double y_ratio = (double)_screen->height / (_screen->y_max - _screen->y_min);
+
+    // Calculate the change in the x_min and y_min fields based on the mouse movement
+    double dx_screen = dx / x_ratio;
+    double dy_screen = dy / y_ratio;
+
+    // Update the x_min and y_min fields
+    _screen->x_min -= dx_screen;
+    _screen->y_min -= dy_screen;
+
+    // Update the x_max and y_max fields based on the new x_min and y_min values and the original ratio
+    _screen->x_max = _screen->x_min + (double)_screen->width / x_ratio;
+    _screen->y_max = _screen->y_min + (double)_screen->height / y_ratio;
+}
+
+
 void onKeyDown(int key){
     if(key == SDLK_o){
         _is_delaunay_active = !_is_delaunay_active;
@@ -235,5 +300,8 @@ void onKeyDown(int key){
     }
     if(key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_LEFT){
         move_screen(key);
+    }
+    if(key == SDLK_ESCAPE){
+        tps_closeWindow();
     }
 }

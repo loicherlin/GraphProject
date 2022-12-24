@@ -72,11 +72,9 @@ int main(int argc, char* argv[]){
     graph_t* g = create_graph(delaunay->size_vertices);
     // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
-    // Get prim mst
+    // Get minimum spanning tree using Prim algorithm
     int* mst = prim_mst(g, arguments.save_mst);
-    // Visualize Prim and Delaunay result
-    tps_onKeyDown(onKeyDown);
-    // If visualise is true, visualize the result
+    // If visualise is true, visualize Prim and Delaunay result
     arguments.visualise ? visualize(arguments.width, arguments.height, data_list, mst, delaunay, g) : 0;
     // Free memory
     free_graph(g);

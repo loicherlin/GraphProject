@@ -12,6 +12,8 @@ typedef struct screen_t{
     double x_min; 
     double y_max; 
     double y_min;
+    double x_mouse;
+    double y_mouse;
 } screen_t;
 
 enum TXT{
@@ -131,4 +133,21 @@ void show_mst(list_t* node_list, int* mst, int size_vertices);
  */
 void show_delaunay(delaunay_t* triangles);
 
+/**
+ * According to the event (mouse,keyboard ..), do an action.
+ */
+void handle_sdl_event(void);
+
+/**
+ * Update the camera position.
+ * @param x x coordinate of the mouse
+ * @param y y coordinate of the mouse
+ * @note there is not a really camera, it just move the screen.
+ */
+void camera_move(int x, int y);
+
+/**
+ * According to the key pressed, do an action.
+ * @param keyPressed key pressed
+ */
 void onKeyDown(int keyPressed);
