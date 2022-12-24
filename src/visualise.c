@@ -195,7 +195,6 @@ void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* d
         handle_sdl_event();
         tps_render();
     }
-    close_screen:
     tps_closeWindow();
     free(_screen);
 }
