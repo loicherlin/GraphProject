@@ -189,9 +189,9 @@ bool is_edge_in_graph(graph_t* graph, data_t* d1, data_t* d2){
 }
 
 
-void delaunay_to_graph(triangle_t** triangles, graph_t* graph){
-    for (int i = 1; i < triangles[0][0].s1->latitude; i++){
-        triangle_t* t = triangles[i];
+void delaunay_to_graph(delaunay_t* triangles, graph_t* graph){
+    for (int i = 0; i < triangles->size_triangles; i++){
+        triangle_t* t = triangles->triangles[i];
         if(t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1){
             if(!is_edge_in_graph(graph, t->s1, t->s2))
                 add_edge(graph, t->s1, t->s2);

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../include/cprintf.h"
 #include "../include/csv_parser.h"
 
 FILE* open_file(char* path){
@@ -22,7 +23,7 @@ int size_column(FILE* fp, char delimiter){
         }
     }
     // Important
-    if(counter == 0 && c == '\n'){ return 0; }
+    if((counter == 0 && feof(fp))){ return 0; }
     return counter + 1;
 }
 
@@ -30,7 +31,8 @@ int size_column(FILE* fp, char delimiter){
 char** get_line(FILE* fp, int n, char delimiter){
     char* buf = malloc(sizeof(char) * 1000);
     if(fgets(buf, 1000, fp) == NULL){ 
-        free(buf); return NULL; 
+        free(buf); 
+        return NULL; 
     }
     char delim[2];
     delim[0] = delimiter;
@@ -52,10 +54,16 @@ void print_line(char** line_splitted, int n){
 
 char** split_line(char* line, char* delimiter, int n){
     char** spl = (char**)malloc(sizeof(char*) * (n));
-    if(spl  == NULL){ printf("malloc failed in split_line.\n"); exit(1); }
+    if(spl  == NULL){ fprintf(stderr, "malloc failed in split_line.\n"); exit(1); }
     char* str;
+    //deprintf("line: %s\n", line);
     for(int i = 0; i < n; i++){
         str = strsep(&line, delimiter);
+        //deprintf("str: %s\n", str);
+        if(str == NULL && i < n){ 
+            fprintf(stderr, "strsep failed in split_line.\n"); 
+            exit(1); 
+        }
         // if it finds a string with no data
         // put NODATA instead
         if(!strcmp(str, "")){

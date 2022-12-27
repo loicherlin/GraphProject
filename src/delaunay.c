@@ -5,21 +5,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include "../include/delaunay.h"
-#include "../include/serializer.h"
+#include "../include/data_t.h"
 #include "../include/cprintf.h"
 #include "../include/handler.h"
+#include "../include/triangle.h"
 
 #define EPSILON  0.00000000000000000000001
-
-
-
-triangle_t create_triangle(data_t* a, data_t* b, data_t* c){
-    triangle_t t;
-    t.s1=a;
-    t.s2=b;
-    t.s3=c;
-    return t;
-}
 
 
 triangle_t create_super_triangle(list_t* nodes){
@@ -61,11 +52,11 @@ triangle_t create_super_triangle(list_t* nodes){
     p3->latitude = xmid + 1.2 * dmax;
     p3->longitude = ymid - dmax;
     p3->id = -1;
-    return create_triangle(p1,p2,p3);
+    return create_triangle(p1, p2, p3);
 }
 
 
-char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
+char is_point_in_circumcicle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
 {
     double rsqr = 0;
     double fabs_y1y2 = fabs(p1.longitude-p2.longitude);
@@ -110,211 +101,201 @@ char in_circle(data_t p0, data_t p1, data_t p2, data_t p3, double epsilon)
     dx = p0.latitude - pc.latitude;
     dy = p0.longitude - pc.longitude;
     double drsqr = dx*dx + dy*dy;
-    return ((drsqr - rsqr) < epsilon);
+    return ((drsqr - rsqr) <= epsilon);
+}
+
+void add_hole_to_triangulation(int size_polygons, edge_t polygons[], triangle_t triangulation[], int* size_triangle, data_t* current_node){
+    // add the boundary of the polygonal hole to the triangulation
+    for(int o = 0 ; o < size_polygons ; o++){
+        if(polygons[o].org != NULL && polygons[o].dest != NULL){
+            triangle_t t_tempo = {.s1 = current_node, .s2 = polygons[o].org, .s3 = polygons[o].dest};
+            triangulation[*size_triangle] = t_tempo;
+            (*size_triangle)++;
+        }
+    }
+}
+
+int find_boundary_polygon_hole(int size_badTriangle, triangle_t badTriangles[], edge_t polygons[]){
+    int size_polygons = 0;
+    // find the boundary of the polygonal hole
+    for(int j = 0 ; j < size_badTriangle; j++){
+        triangle_t t_tempo = badTriangles[j];
+        edge_t b1 = {.org = t_tempo.s1, .dest=t_tempo.s2};
+        edge_t b2 = {.org = t_tempo.s1, .dest=t_tempo.s3};
+        edge_t b3 = {.org = t_tempo.s2, .dest=t_tempo.s3};
+        polygons[size_polygons] = b1;
+        polygons[size_polygons+1] = b2;
+        polygons[size_polygons+2] = b3;
+        char supp_e1=1;
+        char supp_e2=1;
+        char supp_e3=1;
+        for(int k = 0; k < size_badTriangle; k++){
+            if(k == j) continue;
+            triangle_t t_tempo2 = badTriangles[k];
+            edge_t a1 ={.org = t_tempo2.s1, .dest=t_tempo2.s2};
+            edge_t a2 ={.org = t_tempo2.s1, .dest=t_tempo2.s3};
+            edge_t a3 ={.org = t_tempo2.s2, .dest=t_tempo2.s3};
+            edge_t tmp ={.org = 0, .dest= 0};
+            if(supp_e1 && edge_shared(a1,a2,a3,b1, EPSILON)){
+                polygons[size_polygons] = tmp;
+                supp_e1 = 0;
+            }
+            else if(supp_e2 && edge_shared(a1,a2,a3,b2, EPSILON)){
+                polygons[size_polygons+1] = tmp;
+                supp_e2 = 0;
+            }
+            else if(supp_e3 && edge_shared(a1,a2,a3,b3, EPSILON)){
+                polygons[size_polygons+2] = tmp;
+                supp_e3 = 0;
+            }
+        }
+        size_polygons += 3;
+    }
+    return size_polygons;
+}
+
+void remove_bad_triangles(int size_badTriangle, triangle_t badTriangles[], triangle_t triangulation[], int size_triangle){
+    // remove bad triangles from the triangulation
+    for(int n = 0; n < size_badTriangle; n++){
+        long int decalage = 0;
+        for(int m = 0; m < size_triangle; m++){
+            if(triangulation[m].s1 != NULL && compare_triangle(badTriangles[n],triangulation[m], EPSILON)){
+                decalage++;
+            }
+            triangulation[m] = triangulation[m+decalage];
+        }
+    }
 }
 
 
+delaunay_t* remove_null_triangles(int size_triangle, triangle_t triangulation[], triangle_t super_triangle){
+    delaunay_t* delaunay = malloc(sizeof(delaunay_t));
+    size_t real_size = 0;
+    for(int i = 0; i < size_triangle ; i++){
+        if(triangulation[i].s1 != NULL && !compare_triangle_point(triangulation[i], super_triangle, EPSILON)){
+            real_size++;
+        }
+    }
+    delaunay->size_triangles = real_size;
 
-int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current){
-    return (compare_data_t(bad_t_a.org, current.org, EPSILON) && compare_data_t(bad_t_a.dest, current.dest, EPSILON)) ||
-           (compare_data_t(bad_t_a.org, current.dest, EPSILON) && compare_data_t(bad_t_a.dest, current.org, EPSILON)) ||
-           (compare_data_t(bad_t_b.org, current.org, EPSILON) && compare_data_t(bad_t_b.dest, current.dest, EPSILON)) ||
-           (compare_data_t(bad_t_b.org, current.dest, EPSILON) && compare_data_t(bad_t_b.dest, current.org, EPSILON)) ||
-           (compare_data_t(bad_t_c.org, current.org, EPSILON) && compare_data_t(bad_t_c.dest, current.dest, EPSILON)) ||
-           (compare_data_t(bad_t_c.org, current.dest, EPSILON) && compare_data_t(bad_t_c.dest, current.org, EPSILON));
+    // Final triangulation
+    triangle_t** triangulationFinal = malloc(sizeof(triangle_t)*(real_size));
+    if(triangulationFinal == NULL){ printf("Error: malloc failed\n"); exit(1); }
+    int indice_relatif = 0;
+    for (int i = 0; i < size_triangle ; i++){
+        if(triangulation[i].s1 != NULL && !compare_triangle_point(triangulation[i], super_triangle, EPSILON)){
+            triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
+            triangulationFinal[indice_relatif][0] = triangulation[i];
+            indice_relatif++;
+        }
+    }
+    delaunay->triangles = triangulationFinal;
+    return delaunay;
 }
 
-
-int compare_triangle_node(triangle_t a, triangle_t b){
-    return (compare_data_t(a.s1, b.s1, EPSILON) || compare_data_t(a.s1, b.s2, EPSILON) || compare_data_t(a.s1, b.s3, EPSILON) || 
-    compare_data_t(a.s2, b.s1, EPSILON) || compare_data_t(a.s2, b.s2, EPSILON) || compare_data_t(a.s2, b.s3, EPSILON) ||
-    compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
-
-}
-
-int compare_triangle(triangle_t a, triangle_t b){
-    return (compare_data_t(a.s1, b.s1, EPSILON) || compare_data_t(a.s1, b.s2, EPSILON) || compare_data_t(a.s1, b.s3, EPSILON)) && 
-    (compare_data_t(a.s2, b.s1, EPSILON) || compare_data_t(a.s2, b.s2, EPSILON) || compare_data_t(a.s2, b.s3, EPSILON)) &&
-    (compare_data_t(a.s3, b.s1, EPSILON) || compare_data_t(a.s3, b.s2, EPSILON) || compare_data_t(a.s3, b.s3, EPSILON));
-}
-
-triangle_t** delaunay_bowyer_watson(list_t* nodes){
-    // ATTENTION : this code is a little mess, but it works !
+delaunay_t* delaunay_bowyer_watson(list_t* nodes){
     // This code has been created following the pseudo code available on wikipedia.
     // https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm
 
     triangle_t* triangulation = calloc(sizeof(triangle_t), 100000000); // ( ͡° ͜ʖ ͡°)
+    // Create the super triangle
     triangle_t super_triangle = create_super_triangle(nodes);
+    triangulation[0] = super_triangle;
     int size_triangle = 1;
     int i;
-    triangulation[0] = super_triangle;
-    for(i = 0 ; i < list_size(nodes) && _interrupt_signals.sigint != 1;i++){
+    // For each point in the list
+    for(i = 0; i < list_size(nodes) && _interrupt_signals.sigint != 1; i++){
         triangle_t* badTriangles = malloc(sizeof(triangle_t));
         int size_badTriangle = 0;
-        data_t* a = list_get(nodes, i);
-
+        data_t* current_node = list_get(nodes, i);
+        // first find all the triangles that are no longer valid due to the insertion
         for(int j = 0 ; j < size_triangle ; j++){
             triangle_t t_tempo = triangulation[j];
             // Check if the point is inside the circumcircle of the triangle_t
-            if(t_tempo.s1!=NULL && in_circle(*a,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
+            if(t_tempo.s1 != NULL && is_point_in_circumcicle(*current_node,*(t_tempo.s1),*(t_tempo.s2),*(t_tempo.s3), EPSILON)){
                 badTriangles = realloc(badTriangles, sizeof(triangle_t)*(size_badTriangle+1));
                 if(badTriangles == NULL){ printf("Error: realloc failed\n"); exit(1); }
                 badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
             }
         }
-        edge_t* polygon = malloc(sizeof(triangle_t)*size_badTriangle*3);
-        if(polygon == NULL){ printf("Error: malloc failed\n"); exit(1); }
-        int size_polygone= 0;
+        edge_t* polygons = malloc(sizeof(triangle_t) * size_badTriangle * 3);
+        if(polygons == NULL){ 
+            printf("Error: malloc failed\n");
+            exit(1);
+        }
         // find the boundary of the polygonal hole
-        for(int j = 0 ; j < size_badTriangle; j++){
-            triangle_t t_tempo = badTriangles[j];
-            edge_t b1;
-            edge_t b2;
-            edge_t b3;
-            b1.org= t_tempo.s1; b1.dest=t_tempo.s2;
-            b2.org= t_tempo.s1; b2.dest=t_tempo.s3;
-            b3.org= t_tempo.s2; b3.dest=t_tempo.s3;
-            polygon[size_polygone]=b1;
-            polygon[size_polygone+1]=b2;
-            polygon[size_polygone+2]=b3;
-            char supp_e1=1;
-            char supp_e2=1;
-            char supp_e3=1;
-            for(int k=0 ;  k < size_badTriangle ; k++){
-                triangle_t t_tempo2 = badTriangles[k];
-                edge_t a1 ={.org = t_tempo2.s1, .dest=t_tempo2.s2};
-                edge_t a2 ={.org = t_tempo2.s1, .dest=t_tempo2.s3};
-                edge_t a3 ={.org = t_tempo2.s2, .dest=t_tempo2.s3};
-                if(k!=j){
-                    if(supp_e1 && edge_shared(a1,a2,a3,b1)){
-                        edge_t temp ={.org = 0, .dest= 0};
-                        polygon[size_polygone]=temp;
-                        supp_e1=0;
-                    }
-                    else if(supp_e2 && edge_shared(a1,a2,a3,b2)){
-                        edge_t temp ={.org = 0, .dest= 0};
-                        polygon[size_polygone+1]=temp;
-                        supp_e2=0;
-                    }
-                    else if(supp_e3 && edge_shared(a1,a2,a3,b3)){
-                        edge_t temp ={.org = 0, .dest= 0};
-                        polygon[size_polygone+2]=temp;
-                        supp_e3=0;
-                    }
-                }
-            }
-            size_polygone+=3;
-        }
-        long int decalage = 0;
+        int size_polygons = find_boundary_polygon_hole(size_badTriangle, badTriangles, polygons);
         // remove bad triangles from the triangulation
-        for(int n = 0; n < size_badTriangle; n++){
-            decalage=0;
-            for(int m=0; m < size_triangle; m++){
-                if(triangulation[m].s1!=NULL && compare_triangle(badTriangles[n],triangulation[m])){
-                    decalage++;
-                }
-                triangulation[m] = triangulation[m+decalage];
-            }
-        }
+        remove_bad_triangles(size_badTriangle, badTriangles, triangulation, size_triangle);
         // re-triangulate the polygonal hole
-        for(int o = 0 ; o < size_polygone ; o++){
-            if(polygon[o].org!=NULL && polygon[o].dest!=NULL){
-                triangle_t t_tempo = {.s1 = a, .s2 = polygon[o].org, .s3 = polygon[o].dest};
-                triangulation[size_triangle] = t_tempo;
-                size_triangle++;
-            }
-        }
+        add_hole_to_triangulation(size_polygons, polygons, triangulation, &size_triangle, current_node);
+        // Free memory
         free(badTriangles);
-        free(polygon);
-        // print progress
+        free(polygons);
         prprintf("Delaunay", i+1, list_size(nodes));
     }
+
     if(_interrupt_signals.sigint == 1){
         deprintf("Delaunay interrupted at %d iteration \n", i);
-        //exit(1);
     }
+    delaunay_t* final = remove_null_triangles(size_triangle, triangulation, super_triangle);
+    final->size_vertices = i;
 
-    size_t taille_real = 1;
-    for(int i = 1 ; i < size_triangle ; i++){
-        if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
-            taille_real++;
-        }
-    }
-    // Final triangulation
-    triangle_t** triangulationFinal = malloc(sizeof(triangle_t)*(taille_real+1));
-    if(triangulationFinal == NULL){ printf("Error: malloc failed\n"); exit(1); }
-    // Little tricks to save the size of the final triangulation
-    triangle_t* t = malloc(sizeof(triangle_t));
-    data_t* n = malloc(sizeof(data_t));
-    n->latitude = taille_real;
-    n->longitude = i;
-    t->s1 = n;
-    triangulationFinal[0] = t;
-    // Save the final triangulation
-    int indice_relatif = 1;
-    for (int i = 1; i < size_triangle ; i++){
-        if(triangulation[i].s1!=NULL && !compare_triangle_node(triangulation[i], super_triangle)){
-            triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
-            triangulationFinal[indice_relatif][0] = triangulation[i];
-            indice_relatif++;
-        }
-    }
     // Free memory
     free(triangulation);
     free(super_triangle.s1);
     free(super_triangle.s2);
     free(super_triangle.s3);
-    return triangulationFinal;
+    return final;
 }
 
-void save_delaunay(triangle_t** delaunay, FILE* fp, list_t* data_list){
+void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list){
     deprintf("Saving delaunay triangulation to file...\n");
-    size_t size_triangulation = delaunay[0][0].s1->latitude;
-    size_t size_nodes = delaunay[0][0].s1->longitude;
-    deprintf("number of nodes used: %ld\n", size_nodes);
+    size_t size_data_list = delaunay->size_vertices;
+    size_t size_triangulation = delaunay->size_triangles;
+    deprintf("number of nodes used: %ld\n", size_data_list);
     deprintf("number of triangles: %ld\n", size_triangulation);
-    fwrite(&size_nodes, sizeof(size_t), 1, fp);
+    fwrite(&size_data_list, sizeof(size_t), 1, fp);
     fwrite(&size_triangulation, sizeof(size_t), 1, fp);
-    for(int i = 1; i < size_triangulation; i++){
-        fwrite(&delaunay[i][0].s1->id, sizeof(int), 1, fp);
-        fwrite(&delaunay[i][0].s2->id, sizeof(int), 1, fp);
-        fwrite(&delaunay[i][0].s3->id, sizeof(int), 1, fp);
+    for(int i = 0; i < size_triangulation; i++){
+        fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp);
+        fwrite(&delaunay->triangles[i]->s2->id, sizeof(int), 1, fp);
+        fwrite(&delaunay->triangles[i]->s3->id, sizeof(int), 1, fp);
     }
+
 }
 
-triangle_t** get_delaunay(FILE* fp, list_t* data_list){
+delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list){
     size_t size_data_list;
-    size_t size;
+    size_t size_triangulation;
     fread(&size_data_list, sizeof(size_t), 1, fp);
     deprintf("number of nodes in the file: %ld\n", size_data_list);
     if(size_data_list > data_list->size){
         printf("Error: the number of nodes in the file is greater than the number of nodes in the list\n");
         exit(1);
     }
-    fread(&size, sizeof(size_t), 1, fp);
-    deprintf("number of triangles in the file: %ld\n", size);
-    triangle_t** delaunay = (triangle_t**)malloc(size * sizeof(triangle_t*));
-    // little trick to save the size of the triangulation
-    delaunay[0] = (triangle_t*)malloc(sizeof(triangle_t));
-    delaunay[0][0].s1 = (data_t*)malloc(sizeof(data_t));
-    delaunay[0][0].s1->latitude = size;
-    delaunay[0][0].s1->longitude = size_data_list;
-    for(int i = 1; i < size; i++){
-        delaunay[i] = (triangle_t*)malloc(sizeof(triangle_t));
+    fread(&size_triangulation, sizeof(size_t), 1, fp);
+    deprintf("number of triangles in the file: %ld\n", size_triangulation);
+    delaunay_t* delaunay = malloc(sizeof(delaunay_t));
+    delaunay->size_triangles = size_triangulation;
+    delaunay->size_vertices = size_data_list;
+    delaunay->triangles = malloc(sizeof(triangle_t*)*size_triangulation);
+    for(size_t i = 0; i < size_triangulation; i++){
+        delaunay->triangles[i] = (triangle_t*)malloc(sizeof(triangle_t));
         int id1, id2, id3;
         fread(&id1, sizeof(int), 1, fp);
         fread(&id2, sizeof(int), 1, fp);
         fread(&id3, sizeof(int), 1, fp);
-        delaunay[i][0].s1 = list_get(data_list, id1);
-        delaunay[i][0].s2 = list_get(data_list, id2);
-        delaunay[i][0].s3 = list_get(data_list, id3);
+        delaunay->triangles[i]->s1 = list_get(data_list, id1);
+        delaunay->triangles[i]->s2 = list_get(data_list, id2);
+        delaunay->triangles[i]->s3 = list_get(data_list, id3);
     }
     return delaunay;
 }
 
-triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path_to_load){
-    triangle_t** delaunay;
+delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_to_load){
+    delaunay_t* delaunay;
     // If a path to load is given
     if(strcmp(path_to_load, "")){
         deprintf("Loading delaunay from \"%s\" ...\n", path_to_load);
@@ -324,7 +305,7 @@ triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path
             perror("Error while opening delaunay binary file");
             exit(1);
         }
-        delaunay = get_delaunay(fp_delaunay, data_list);
+        delaunay = deserialize_delaunay(fp_delaunay, data_list);
         fclose(fp_delaunay);
         goto end;
     }   
@@ -338,7 +319,7 @@ triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path
             perror("Error while opening delaunay binary file");
             exit(1);
         }
-        save_delaunay(delaunay, fp_delaunay, data_list);
+        serialize_delaunay(delaunay, fp_delaunay, data_list);
         fclose(fp_delaunay);
         deprintf("Saved delaunay in \"%s\".\n", path_to_save);
         goto end;
@@ -351,10 +332,10 @@ triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path
     return delaunay;
 }
 
-void free_list_t(triangle_t** triangles, size_t size){
-    free(triangles[0][0].s1);
-    for(int i = 0; i < size; i++){
-        free(triangles[i]);
+void free_delaunay(delaunay_t* delaunay){
+    for(size_t i = 0; i < delaunay->size_triangles; i++){
+        free(delaunay->triangles[i]);
     }
-    free(triangles);
+    free(delaunay->triangles);
+    free(delaunay);
 }

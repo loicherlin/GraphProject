@@ -38,3 +38,11 @@ int compare_data_t(data_t* a, data_t* b, double epsilon);
  * @param da
  */
 void print_data_t(data_t* da);
+
+/**
+ * Compare two data_t for qsort functions
+ * @param d1
+ * @param d2
+ * @return -1 if d1 < d2, 1 if d1 > d2, 0 otherwise
+ */
+int qsort_compare_data_t(const void* d1, const void* d2);

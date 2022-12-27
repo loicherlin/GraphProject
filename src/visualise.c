@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <tps.h>
 #include "../include/visualise.h"
+#include "../include/data_t.h"
 #include "../include/cprintf.h"
 #define BUFFER_SIZE 1000
 
@@ -59,6 +60,8 @@ void move_screen(int flag){
         case SDLK_UP:
             _screen->y_max = _screen->y_max - y_diff * 0.1;
             _screen->y_min = _screen->y_min - y_diff * 0.1;
+            break;
+        default:
             break;
     }
 }
@@ -126,13 +129,13 @@ void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* 
     deprintf("x_max: %f, x_min: %f, y_max: %f, y_min: %f\n", *x_max, *x_min, *y_max, *y_min);   
 }
 
-void update_texts(list_t* node_list, triangle_t** delaunay, graph_t* g, int* mst, enum TXT flag){
+void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst, enum TXT flag){
     switch (flag){
     case TXT_DEFAULT:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
         snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
-        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %f", (delaunay[0][0].s1->latitude - 1) * 3);
-        snprintf(_binds, BUFFER_SIZE, "Up [Arrow Up],\n Down [Arrow Down], Left [Arrow Left], Right [Arrow Right], Zoom in [A], Zoom out [SPACE]");
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %ld", (delaunay->size_triangles - 1) * 3);
+        snprintf(_binds, BUFFER_SIZE, "Quit: [ESC], Zoom In/Out: [Mouse wheel, A/Space], Move camera: [Click and drag, Arrow U/D/L/R]");
         break;
     case TXT_DELAUNAY:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
@@ -172,8 +175,8 @@ void initialize_screen(int width, int height, list_t* node_list, int size_vertic
     _screen->y_min = y_min;
 }
 
-void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** delaunay, graph_t* g){
-    tps_createWindow("Tree's of Paris", width, height);
+void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g){
+    tps_createWindow("Delaunay & Prim", width, height);
     initialize_screen(width, height, node_list, g->size_vertices);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
     while(tps_isRunning()){
@@ -188,6 +191,8 @@ void visualize(int width, int height, list_t* node_list, int* mst, triangle_t** 
             update_texts(node_list, delaunay, g, mst, TXT_PRIM);
             show_mst(node_list, mst, g->size_vertices);    
         }
+        // handle keyboard, mouse event
+        handle_sdl_event();
         tps_render();
     }
     tps_closeWindow();
@@ -199,6 +204,7 @@ void show_mst(list_t* node_list, int* mst, int size_vertices){
         // No parent node or double node have the same coordinate to one has to be -1
         if(mst[i] == -1){
             data_t d1 = *(data_t*)list_get(node_list, i);
+            //deprintf("Node %d (%f %f) has no parent node\n", i, d1.latitude, d1.longitude);
             draw_node(d1.latitude, d1.longitude, 15, 15, COLOR_RED);
             continue;
         }
@@ -209,9 +215,9 @@ void show_mst(list_t* node_list, int* mst, int size_vertices){
     }
 }
 
-void show_delaunay(triangle_t** triangles){
-    for(size_t i = 1; i < triangles[0][0].s1->latitude; i++){
-        triangle_t* t = triangles[i];
+void show_delaunay(delaunay_t* triangles){
+    for(size_t i = 0; i < triangles->size_triangles; i++){
+        triangle_t* t = triangles->triangles[i];
         // draw edge between s1 and s2
         draw_edge(t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude);
         // draw edge between s2 and s3
@@ -220,6 +226,65 @@ void show_delaunay(triangle_t** triangles){
         draw_edge(t->s3->latitude, t->s3->longitude, t->s1->latitude, t->s1->longitude);
     }
 }
+
+void handle_sdl_event(void){
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    static int g_mouse_x;
+    static int g_mouse_y;
+    switch (event.type){
+        case SDL_MOUSEWHEEL:
+            if(event.wheel.y > 0){
+                zoom_in();
+            }
+            else if(event.wheel.y < 0){
+                zoom_out();
+            }
+            break;
+        case SDL_KEYDOWN:
+            onKeyDown(event.key.keysym.sym);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            // Save the current mouse position when the button is pressed
+            g_mouse_x = event.button.x;
+            g_mouse_y = event.button.y;
+            break;
+        case SDL_MOUSEMOTION:
+            if (event.motion.state & SDL_BUTTON_LMASK){
+                // Calculate the difference between the current mouse position and the position when the button was first pressed
+                int dx = event.motion.x - g_mouse_x;
+                int dy = event.motion.y - g_mouse_y;
+
+                // Update the camera position based on the difference
+                camera_move(dx, dy);
+
+                // Save the current mouse position for the next move event
+                g_mouse_x = event.motion.x;
+                g_mouse_y = event.motion.y;
+            }
+        default:
+            break;
+        }
+}
+
+void camera_move(int dx, int dy){
+    // Calculate the ratio of the width and height to the x_max and y_max fields
+    double x_ratio = (double)_screen->width / (_screen->x_max - _screen->x_min);
+    double y_ratio = (double)_screen->height / (_screen->y_max - _screen->y_min);
+
+    // Calculate the change in the x_min and y_min fields based on the mouse movement
+    double dx_screen = dx / x_ratio;
+    double dy_screen = dy / y_ratio;
+
+    // Update the x_min and y_min fields
+    _screen->x_min -= dx_screen;
+    _screen->y_min -= dy_screen;
+
+    // Update the x_max and y_max fields based on the new x_min and y_min values and the original ratio
+    _screen->x_max = _screen->x_min + (double)_screen->width / x_ratio;
+    _screen->y_max = _screen->y_min + (double)_screen->height / y_ratio;
+}
+
 
 void onKeyDown(int key){
     if(key == SDLK_o){
@@ -234,5 +299,8 @@ void onKeyDown(int key){
     }
     if(key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_LEFT){
         move_screen(key);
+    }
+    if(key == SDLK_ESCAPE){
+        tps_closeWindow();
     }
 }

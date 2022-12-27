@@ -1,31 +1,24 @@
-#include "../include/serializer.h"
-#include "../include/array_list.h"
+#pragma once
+#include "data_t.h"
+#include "array_list.h"
+#include "triangle.h"
 #include <stdio.h>
 #include <stdlib.h>
-#pragma once
 
-typedef struct triangle
-{
-    data_t* s1;
-    data_t* s2;
-    data_t* s3;
-} triangle_t;
-
-typedef struct edge{
-    data_t* org;
-    data_t* dest;
-} edge_t;
+typedef struct{
+    triangle_t** triangles;
+    size_t size_triangles;
+    size_t size_vertices;
+} delaunay_t;
 
 /**
  * Give a triangulation following the Bowyer-Watson algorithm.
  * @param nodes The list of nodes to triangulate.
- * @return The list of triangles.
- * @note first index of the array contains a triangle_t where his first node contains
- * the size of the array (in lattitude) and total number of unique nodes used (in longitude).
- * @note This functions works in O(n²) and is not efficient and could be improved.
+ * @return delaunay triangulation.
+ * @note This functions works in O(n²) and could be improved.
  * https://en.wikipedia.org/wiki/Delaunay_triangulation
  */
-triangle_t** delaunay_bowyer_watson(list_t* nodes);
+delaunay_t* delaunay_bowyer_watson(list_t* nodes);
 
 /**
  * @brief Save the delaunay triangles in a binary file
@@ -34,16 +27,16 @@ triangle_t** delaunay_bowyer_watson(list_t* nodes);
  * @param data_list
  * @note Save id of the points of each triangle
  */
-void save_delaunay(triangle_t** delaunay, FILE* fp, list_t* data_list);
+void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list);
 
 /**
  * @brief Get the delaunay triangles from a binary file
  * @param fp
  * @param data_list
- * @return triangle_t**
+ * @return delaunay_t*
  * @note fp has to be closed after this function
  */
-triangle_t** get_delaunay(FILE* fp, list_t* data_list);
+delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list);
 
 /**
  * @brief Initiate the delaunay triangles, based on the data_list
@@ -51,13 +44,12 @@ triangle_t** get_delaunay(FILE* fp, list_t* data_list);
  * @param data_list
  * @param path_to_save
  * @param path_to_load
- * @return triangle_t**
+ * @return delaunay_t*
  */
-triangle_t** initiate_delaunay(list_t* data_list, char* path_to_save, char* path_to_load);
+delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_to_load);
 
 /**
  * @brief Free the memory allocated for the delaunay triangles
- * @param triangles
- * @param size
+ * @param delaunay
  */
-void free_list_t(triangle_t** triangles, size_t size);
+void free_delaunay(delaunay_t* delaunay);

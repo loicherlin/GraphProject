@@ -5,11 +5,12 @@
 #include "../include/array_list.h"
 #include "../include/csv_parser.h"
 #include "../include/bin_builder.h"
-#include "../include/visualise.h"
+#include "../include/data_t.h"
 #include "../include/graph.h"
 #include "../include/delaunay.h"
 #include "../include/cprintf.h"
 #include "../include/handler.h"
+#include "../include/visualise.h"
 
 // Initiate arguments for args parsing
 struct arguments arguments;
@@ -23,16 +24,17 @@ void free_list_n(list_t* data_list){
     list_free(data_list);
 }
 
-
 list_t* initiate_data_list(){
     // Open CSV file
     FILE* fp = open_file(arguments.input_file);
     // Build bin file based on fp
-    int result = build_bin(fp, arguments.output_file, arguments.delimiter[0]);
+    int result = build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
     if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
     // Open bin file to read it
     FILE* fp_bin = open_file(arguments.output_file);
-    list_t* data_list = get_data_bin(fp_bin);
+    // Get data from bin file
+    list_t* data_list = get_data_csv_bin(fp_bin);
+    // Close files
     fclose(fp_bin);
     fclose(fp);
     return data_list;
@@ -57,8 +59,6 @@ void initiate_args(int argc, char* argv[]){
     _debug = arguments.debug;
 }
 
-
-
 int main(int argc, char* argv[]){
     // Initiate handler
     initiate_handler();
@@ -67,22 +67,19 @@ int main(int argc, char* argv[]){
     // Initiate data_list
     list_t* data_list = initiate_data_list();
     // Initiate delaunay triangles
-    triangle_t** delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
+    delaunay_t* delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
     // Create graph from delaunay triangles
-    int nb_vertices = delaunay[0][0].s1->longitude;
-    graph_t* g = create_graph(nb_vertices);
+    graph_t* g = create_graph(delaunay->size_vertices);
     // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);
-    // Get prim mst
+    // Get minimum spanning tree using Prim algorithm
     int* mst = prim_mst(g, arguments.save_mst);
-    // Visualize Prim and Delaunay result
-    tps_onKeyDown(onKeyDown);
-    // If visualise is true, visualize the result
+    // If visualise is true, visualize Prim and Delaunay result
     arguments.visualise ? visualize(arguments.width, arguments.height, data_list, mst, delaunay, g) : 0;
     // Free memory
     free_graph(g);
     free(mst);
-    free_list_t(delaunay, delaunay[0][0].s1->latitude);
+    free_delaunay(delaunay);
     free_list_n(data_list);
     return 0;
 }
