@@ -1,13 +1,6 @@
 #pragma once
 
 /**
- * Open a file
- * @param path
- * @return file pointer
- */
-FILE* open_file(char* path);
-
-/**
  * Get the line of fp, splitted into an array of strings
  * @param fp
  * @param n

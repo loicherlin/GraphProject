@@ -18,7 +18,7 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
     *longitude = strtod(endPtr, &checkPtr);
     // check if the conversion was successful
     if(strcmp(checkPtr, endPtr) == 0){
-        fprintf(stderr, "Failed to convert coordinates to double (coordinate must be the last element of the line\n in form of \"x,y\" !)\n");
+        fprintf(stderr, "Error: Failed to convert coordinates to double\n(coordinate must be the last element of the line in form of \"x,y\" !)\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -61,7 +61,7 @@ int build_csv_bin(FILE* fp, char* path_bin, char delimiter){
     // Get the number of column by counting how much delimter there are in the header
     int n = size_column(fp, delimiter);
     if(n == 0){
-        fprintf(stderr, "column of file is empty, delimiter problem maybe ?\n"); 
+        fprintf(stderr, "Error: column of file is empty, delimiter problem maybe ?\n"); 
         return EXIT_FAILURE; 
     }
     // Skip header (first line)
