@@ -25,6 +25,9 @@ tests: $(OBJECTS) obj/tests.o
 
 cov: clean tests
 	valgrind --leak-check=full -q ./$(TARGET)
+	#Ignore the following files in the coverage report
+	rm ./obj/visualise.*
+	rm ./obj/array_list.*
 	lcov -d obj -c -o rapport.info
 	genhtml -o rapport -t "Couverture" rapport.info
 
