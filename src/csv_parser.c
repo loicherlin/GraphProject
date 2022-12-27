@@ -17,7 +17,7 @@ int size_column(FILE* fp, char delimiter){
         }
     }
     // Important
-    if((counter == 0 && feof(fp)) || (counter == 0 && c == '\n')){ return 0; }
+    if((counter == 0 && feof(fp))){ return 0; }
     return counter + 1;
 }
 
@@ -50,10 +50,8 @@ char** split_line(char* line, char* delimiter, int n){
     char** spl = (char**)malloc(sizeof(char*) * (n));
     if(spl == NULL){ fprintf(stderr, "malloc failed in split_line.\n"); exit(1); }
     char* str;
-    //deprintf("line: %s\n", line);
     for(int i = 0; i < n; i++){
         str = strsep(&line, delimiter);
-        //deprintf("str: %s\n", str);
         if(str == NULL && i < n){ 
             eprintf("strsep failed in split_line.\n"); 
             exit(1); 
