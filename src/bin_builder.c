@@ -18,7 +18,7 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
     *longitude = strtod(endPtr, &checkPtr);
     // check if the conversion was successful
     if(strcmp(checkPtr, endPtr) == 0){
-        fprintf(stderr, "Error: Failed to convert coordinates to double\n(coordinate must be the last element of the line in form of \"x,y\" !)\n");
+        eprintf("Failed to convert coordinates to double\n(coordinate must be the last element of the line in form of \"x,y\" !)\n");
         exit(EXIT_FAILURE);
     }
 }
@@ -61,25 +61,25 @@ int build_csv_bin(FILE* fp, char* path_bin, char delimiter){
     // Get the number of column by counting how much delimter there are in the header
     int n = size_column(fp, delimiter);
     if(n == 0){
-        fprintf(stderr, "Error: column of file is empty, delimiter problem maybe ?\n"); 
+        eprintf("column of file is empty, delimiter problem maybe?\n"); 
         return EXIT_FAILURE; 
     }
     // Skip header (first line)
     skip_header(fp);
     // check if we are at the end of the file
     if(feof(fp)){
-        fprintf(stderr, "Error: end of file, your file is maybe empty.\n");
+        eprintf("end of file, your file is maybe empty.\n");
         return EXIT_FAILURE;
     }
     // check if next line is empty
     if(is_empty_line(fp)){
-        fprintf(stderr, "Error: line is empty\n");
+        eprintf("line is empty\n");
         return EXIT_FAILURE;
     }
     char** contents;  
     while((contents = get_line(fp, n, delimiter)) != NULL){ 
         if(write_to_csv_bin(contents, fp_bin, n) == EXIT_FAILURE) { 
-            fprintf(stderr,"Failed to write to file\n");
+            eprintf("Failed to write to file\n");
             fclose(fp_bin);
             exterminate_malloc(contents, n); 
             return EXIT_FAILURE;

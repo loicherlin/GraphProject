@@ -19,6 +19,7 @@
 
 #include "tps_unit_test.h"
 
+// ----------------------- TESTS CSV_PARSER AND BIN_BUILDER ----------------------- //
 
 FILE* get_fp_bin(char* path_csv, char* path_bin, char delimiter){
     FILE* fp = fopen(path_csv, "r");
@@ -149,6 +150,8 @@ void unit_test_csv_bin(void){
     TEST(test_wrong_csv_5);
 }
 
+// ----------------------- TESTS DATA_T ----------------------- //
+
 void test_data_t(void){
     data_t d1 = {.id = 0, .latitude = 1.123, .longitude = 1.123};
     data_t d2 = {.id = 1, .latitude = 1.123, .longitude = 1.123};
@@ -163,13 +166,42 @@ void unit_test_data_t(void){
     TEST(test_data_t);
 }
 
+/**
+ * @brief Simple test case for Delaunay triangulation
+ * (4 points: 0,0;0,1;1,0;1,1)
+ */
+void test_delaunay_1(void){
+    // Get data from bin file
+    FILE* fp_bin = get_fp_bin("./files/delaunay/1", "./files/bin/.tmp/delaunay_1", ';');
+    list_t* data_list = get_data_csv_bin(fp_bin);
+    // Close files
+    fclose(fp_bin);
+    // Check if data_list is not empty
+    tps_assert(list_size(data_list) != 0);
+    delaunay_t* delaunay = delaunay_bowyer_watson(data_list);
+    // Check if delaunay is not NULL
+    tps_assert(delaunay != NULL);
+    // Check if delaunay is correct
+    tps_assert(delaunay->size_triangles == 2);
+    tps_assert(delaunay->size_vertices == 4);
+    // Free
+    free_delaunay(delaunay);
+    for(size_t i = 0; i < list_size(data_list); i++)
+        free(list_get(data_list, i));
+    list_free(data_list);
+}
+
+void unit_test_delaunay(void){
+    TEST(test_delaunay_1);
+}
+
 int main(void){
     unit_test_csv_bin();
     unit_test_data_t();
+    unit_test_delaunay();
     /*
     unit_test_triangle();
     unit_test_min_heap();
-    unit_test_delaunay();
     unit_test_graph();
     unit_test_visualise();
     unit_test_args_parser();
