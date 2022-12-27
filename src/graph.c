@@ -190,7 +190,7 @@ bool is_edge_in_graph(graph_t* graph, data_t* d1, data_t* d2){
 
 
 void delaunay_to_graph(delaunay_t* triangles, graph_t* graph){
-    for (int i = 1; i < triangles->size_triangles; i++){
+    for (int i = 0; i < triangles->size_triangles; i++){
         triangle_t* t = triangles->triangles[i];
         if(t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1){
             if(!is_edge_in_graph(graph, t->s1, t->s2))

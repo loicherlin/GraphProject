@@ -176,7 +176,7 @@ void initialize_screen(int width, int height, list_t* node_list, int size_vertic
 }
 
 void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g){
-    tps_createWindow("Tree's of Paris", width, height);
+    tps_createWindow("Delaunay & Prim", width, height);
     initialize_screen(width, height, node_list, g->size_vertices);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
     while(tps_isRunning()){
@@ -204,6 +204,7 @@ void show_mst(list_t* node_list, int* mst, int size_vertices){
         // No parent node or double node have the same coordinate to one has to be -1
         if(mst[i] == -1){
             data_t d1 = *(data_t*)list_get(node_list, i);
+            //deprintf("Node %d (%f %f) has no parent node\n", i, d1.latitude, d1.longitude);
             draw_node(d1.latitude, d1.longitude, 15, 15, COLOR_RED);
             continue;
         }
@@ -249,7 +250,7 @@ void handle_sdl_event(void){
             g_mouse_y = event.button.y;
             break;
         case SDL_MOUSEMOTION:
-            if (event.motion.state & SDL_BUTTON_RMASK){
+            if (event.motion.state & SDL_BUTTON_LMASK){
                 // Calculate the difference between the current mouse position and the position when the button was first pressed
                 int dx = event.motion.x - g_mouse_x;
                 int dy = event.motion.y - g_mouse_y;
@@ -265,7 +266,6 @@ void handle_sdl_event(void){
             break;
         }
 }
-
 
 void camera_move(int dx, int dy){
     // Calculate the ratio of the width and height to the x_max and y_max fields
