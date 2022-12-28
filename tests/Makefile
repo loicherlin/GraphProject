@@ -1,4 +1,4 @@
-TARGET   = tests
+TARGET=tests
 
 CFLAGS=-Wall -g -fprofile-arcs -ftest-coverage
 
@@ -45,4 +45,4 @@ clean:
 	rm -f $(OBJDIR)/*.o
 	rm -f $(OBJDIR)/*.gcda
 	rm -f $(OBJDIR)/*.gcno
-	rm -f $(BINDIR)/$(TARGET)
+	rm -f ./$(TARGET)

@@ -48,6 +48,7 @@ FILE* get_fp_bin(char* path_csv, char* path_bin, char delimiter){
  * @brief Test if the csv file is correctly parsed
  */
 void test_csv_to_bin(){
+    // cloosing to hidden error message in stderr
     FILE* fp_bin = get_fp_bin("./files/csv/0", "./files/bin/.tmp/0.bin", ';');
     // Check if fp_bin is not NULL
     tps_assert(fp_bin != NULL);
@@ -342,6 +343,8 @@ void unit_test_delaunay(void){
 }
 
 int main(void){
+    // To hide stderr messages from the tests (mainly error messages)
+    //fclose(stderr);
     unit_test_csv_bin();
     unit_test_data_t();
     unit_test_delaunay();
