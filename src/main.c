@@ -26,12 +26,20 @@ void free_list_n(list_t* data_list){
 
 list_t* initiate_data_list(){
     // Open CSV file
-    FILE* fp = open_file(arguments.input_file);
+    FILE* fp = fopen(arguments.input_file, "r");
+    if(fp == NULL){
+        perror("Error while opening csv file");
+        exit(1);
+    }
     // Build bin file based on fp
     int result = build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
     if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
     // Open bin file to read it
-    FILE* fp_bin = open_file(arguments.output_file);
+    FILE* fp_bin = fopen(arguments.output_file, "rb");
+    if(fp_bin == NULL){
+        perror("Error while opening bin file");
+        exit(1);
+    }
     // Get data from bin file
     list_t* data_list = get_data_csv_bin(fp_bin);
     // Close files
@@ -69,6 +77,7 @@ int main(int argc, char* argv[]){
     // Initiate delaunay triangles
     delaunay_t* delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);   
     // Create graph from delaunay triangles
+    set_distn(HAVESINE);
     graph_t* g = create_graph(delaunay->size_vertices);
     // Convert delaunay triangles to graph
     delaunay_to_graph(delaunay, g);

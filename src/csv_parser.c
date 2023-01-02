@@ -4,12 +4,6 @@
 #include "../include/cprintf.h"
 #include "../include/csv_parser.h"
 
-FILE* open_file(char* path){
-    FILE* fp = fopen(path, "r");
-    if(fp == NULL){ printf("file couldn't be read.\n"); exit(1); }
-    return fp;
-}
-
 int size_column(FILE* fp, char delimiter){
     fseek(fp, 0, SEEK_SET);
     int c = EOF;
@@ -54,14 +48,12 @@ void print_line(char** line_splitted, int n){
 
 char** split_line(char* line, char* delimiter, int n){
     char** spl = (char**)malloc(sizeof(char*) * (n));
-    if(spl  == NULL){ fprintf(stderr, "malloc failed in split_line.\n"); exit(1); }
+    if(spl == NULL){ fprintf(stderr, "malloc failed in split_line.\n"); exit(1); }
     char* str;
-    //deprintf("line: %s\n", line);
     for(int i = 0; i < n; i++){
         str = strsep(&line, delimiter);
-        //deprintf("str: %s\n", str);
         if(str == NULL && i < n){ 
-            fprintf(stderr, "strsep failed in split_line.\n"); 
+            eprintf("strsep failed in split_line.\n"); 
             exit(1); 
         }
         // if it finds a string with no data

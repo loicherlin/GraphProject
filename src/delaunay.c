@@ -272,7 +272,7 @@ delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list){
     fread(&size_data_list, sizeof(size_t), 1, fp);
     deprintf("number of nodes in the file: %ld\n", size_data_list);
     if(size_data_list > data_list->size){
-        printf("Error: the number of nodes in the file is greater than the number of nodes in the list\n");
+        eprintf("the number of nodes in the file is greater than the number of nodes in the list\n");
         exit(1);
     }
     fread(&size_triangulation, sizeof(size_t), 1, fp);
@@ -302,7 +302,7 @@ delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_
         // Open delaunay binary file
         FILE* fp_delaunay = fopen(path_to_load, "rb");
         if(fp_delaunay == NULL){
-            perror("Error while opening delaunay binary file");
+            eprintf("opening delaunay binary file\n");
             exit(1);
         }
         delaunay = deserialize_delaunay(fp_delaunay, data_list);
@@ -316,7 +316,7 @@ delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_
         //save delaunay in a binary file
         FILE* fp_delaunay = fopen(path_to_save, "wb");
         if(fp_delaunay == NULL){
-            perror("Error while opening delaunay binary file");
+            eprintf("opening delaunay binary file\n");
             exit(1);
         }
         serialize_delaunay(delaunay, fp_delaunay, data_list);

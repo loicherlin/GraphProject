@@ -9,6 +9,12 @@
 #include "../include/delaunay.h"
 #include "../include/cprintf.h"
 
+enum DISTANCE_TYPE _distance_type;
+
+void set_distn(enum DISTANCE_TYPE type){
+    _distance_type = type;
+}
+
 double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type){
     switch(type){
         case EUCLIDEAN:
@@ -67,7 +73,7 @@ node_adj_t* create_node_adj(int id, data_t* data, double weight){
 void add_edge(graph_t* graph, data_t* data1, data_t* data2){
     int id1 = data1->id;
     int id2 = data2->id;
-    double weight = dist(*data1, *data2, HAVESINE);
+    double weight = dist(*data1, *data2, _distance_type);
     // add edge from data1 to data2
     node_adj_t* node1 = create_node_adj(id2, data2, weight);
     node1->next = graph->arr[id1].head;
@@ -211,7 +217,7 @@ double sum_weight_graph(int* mst, list_t* nodes, int size_vertices){
             continue;
         data_t* data1 = list_get(nodes, mst[i]);
         data_t* data2 = list_get(nodes, i);
-        sum += dist(*data1, *data2, HAVESINE);
+        sum += dist(*data1, *data2, _distance_type);
     }
     return sum;
 }
