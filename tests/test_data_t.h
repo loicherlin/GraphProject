@@ -17,29 +17,20 @@
 #include "../include/triangle.h"
 #include "../include/visualise.h"
 
-// Contains tests according to the test file name
-#include "./test_graph.h"
-#include "./test_csv.h"
-#include "./test_data_t.h"
-#include "./test_delaunay.h"
-#include "./test_min_heap.h"
-
 
 #include "tps_unit_test.h"
 
-int main(void){
-    // To hide stderr messages from the tests (mainly error messages)
-    //fclose(stderr);
-    unit_test_csv_bin();
-    unit_test_data_t();
-    unit_test_delaunay();
-    unit_test_min_heap();
-    unit_test_graph();
-    /*
-    unit_test_triangle();
-    unit_test_visualise();
-    unit_test_args_parser();
-    unit_test_handler();
-*/
-    return 0;
+
+void test_data_t(void){
+    data_t d1 = {.id = 0, .latitude = 1.123, .longitude = 1.123};
+    data_t d2 = {.id = 1, .latitude = 1.123, .longitude = 1.123};
+    // check if d1 and d2 are equals
+    tps_assert(compare_data_t(&d1, &d2, 0.000001) == 1);
+    data_t d3 = {.id = 0, .latitude = 1.123, .longitude = 1.125};
+    // check if d1 and d3 are not equals
+    tps_assert(compare_data_t(&d1, &d3, 0.000001) == 0);
+}
+
+void unit_test_data_t(void){
+    TEST(test_data_t);
 }

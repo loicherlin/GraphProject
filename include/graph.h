@@ -4,6 +4,13 @@
 #include "delaunay.h"
 #include <stdbool.h>
 
+enum DISTANCE_TYPE{
+    EUCLIDEAN = 0,
+    HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
+};
+
+extern enum DISTANCE_TYPE _distance_type;
+
 /**
  * Node of an adjacent list
  */
@@ -30,11 +37,11 @@ typedef struct graph{
     int size_edges;
 }graph_t;
 
-
-enum DISTANCE_TYPE{
-    EUCLIDEAN = 0,
-    HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
-};
+/**
+ * Set the distance norm for distance calculation
+ * @param type (EUCLIDEAN or HAVESINE)
+ */
+void set_distn(enum DISTANCE_TYPE type);
 
 /**
  * Calculate the distance between two points
