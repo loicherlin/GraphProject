@@ -88,7 +88,7 @@ Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` s
 <table>
 <thead> 
 	<tr> 
-		<th colspan="4">Pour 205632 arbres</th>
+		<th colspan="4">Pour 205 632 arbres</th>
 	</tr> 
 </thead>
   <tr>
@@ -99,10 +99,37 @@ Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` s
     <td>Delaunay</td>
     <td><img target="_blank" src="https://i.imgur.com/WtplU3Y.png" alt="Delaunay"></td>
   </tr>
+ <thead> 
+	<tr> 
+		<th colspan="4">Pour 10 000 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/1VyjdHV.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/tCEmxk9.png" alt="Delaunay"></td>
+  </tr>
+   <thead> 
+	<tr> 
+		<th colspan="4">Pour 100 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/JI8nKby.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/vtEu24N.png" alt="Delaunay"></td>
+  </tr>
 </table>
 
 ## Notes
 - La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
+
 
 ## Auteurs
 * Loïc Herlin
