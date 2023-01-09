@@ -4,6 +4,7 @@
 /test/
 /petitbou
 .vscode/
+docs/
 coor.bin
 delaunay.bin
 prim_mst.txt
