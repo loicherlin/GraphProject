@@ -1,12 +1,16 @@
 # IR-2022-Projet
-
+## Aperçu 
+| Prim | Delaunay |
+| ![Prim](https://i.imgur.com/m2X20Lm.png) | ![Delaunay](https://i.imgur.com/WtplU3Y.png) |
 
 ## Descriptions du projets
 
 ### Utilité de l'application
 
 Le but du projet est d'utiliser [la base de données des arbres de Paris](https://opendata.paris.fr/explore/dataset/les-arbres/information/?disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.libellefrancais&disjunctive.genre&disjunctive.espece&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable) stockée au format CSV, afin d'en
-extraire un arbre de poids minimal le poids d'un entre arbres étant ça distance ici (plan euclidien et sur une sphere).
+extraire un arbre de poids minimal le poids d'un entre arbres étant ça distance ici (plan euclidien et sur une sphere). 
+
+Cela à étais réalisé en utilisant l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson?wprov=srpw1_0) pour réaliser la [Triangulation de Delaunay](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay), et l'algorithme de [Prim](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay) pour construitre l'arbre de poids minimal.
 
 ### Structure de projet
 
@@ -30,7 +34,9 @@ double  latitude;
 double  longitude;
 int  id;
 ```
- 
+## Pourquoi Delaunay ?
+La triangulation de Delaunay porte un propriété intéressante tel que : [l'arbre euclidien couvrant de poids minimal est un sous graphe de la triangulation](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay#Applications). Sachant que cette construction peut ce faire en O(log n) en utilisant une approche divisé pour régné et les structures de donnée adapté (Quad Edge), cela est alors très intéressant dans notre cas ([exemple d'implémentation](https://github.com/alexbaryzhikov/triangulation)). Malheureusement nous avons du nous limiter à une proche itératif en passant par l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson) qui ce fait en O(n²).
+
 ## Exécution
 
 ### Utilisation de l'exécutable
@@ -67,7 +73,7 @@ Exemple pour utiliser l'exécutable :
 - ``./bin/main -i ../les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K
 `` Lis le fichier présent dans ``../les-arbres`` sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger et affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où ce trouve la triangulation pré enregistré.
 
-### Lancement des tests
+### Lancement des tests unitaires
 
 Pour lancer les testes unitaires, vous pouvais les exécutées à partir de :
  - la racine du répertoire avec ``make test`` 
@@ -80,8 +86,8 @@ Vous pouvez aussi obtenir un code coverage avec ``make cov`` à la racine ou dan
 ### Génération de la documentation
 Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation serra accessible via ``docs/html/index.html``.
 
-## Note
-La librairie argp est utilisé dans ce projet, il ce peut que sur certaine platforme le projet ne compile pas dû au faite que cette librairie est peut être manquante.
+## Notes
+- La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
 
 ## Auteurs
 * Loïc Herlin
