@@ -75,4 +75,4 @@ La librairie argp est utilisé dans ce projet, il ce peut que sur certaine platf
 
 ## Auteurs
 * Loïc Herlin
-* Alexander Yanovskyy
+* [Alexander Yanovskyy](https://www.yanovskyy.com)
