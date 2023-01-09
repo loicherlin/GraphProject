@@ -1,7 +1,4 @@
 # IR-2022-Projet
-## Aperçu 
-| Prim | Delaunay |
-| ![Prim](https://i.imgur.com/m2X20Lm.png) | ![Delaunay](https://i.imgur.com/WtplU3Y.png) |
 
 ## Descriptions du projets
 
@@ -85,6 +82,24 @@ Vous pouvez aussi obtenir un code coverage avec ``make cov`` à la racine ou dan
 
 ### Génération de la documentation
 Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation serra accessible via ``docs/html/index.html``.
+
+
+## Aperçu 
+<table>
+<thead> 
+	<tr> 
+		<th colspan="4">Pour 205632 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/m2X20Lm.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/WtplU3Y.png" alt="Delaunay"></td>
+  </tr>
+</table>
 
 ## Notes
 - La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
