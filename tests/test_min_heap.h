@@ -4,7 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include "../include/args_parser.h"
 #include "../include/array_list.h"
 #include "../include/bin_builder.h"
 #include "../include/cprintf.h"

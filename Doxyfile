@@ -1,0 +1,40 @@
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "IR-Project"
+PROJECT_BRIEF          = "Delaunay and Prim implementation with a visualization of the results with SDL2"
+OUTPUT_DIRECTORY       = docs
+
+BUILTIN_STL_SUPPORT = YES
+
+INPUT                  = src/ include/
+INPUT_ENCODING         = UTF-8
+RECURSIVE              = YES
+
+EXTRACT_ALL = YES
+# Show private members of class
+EXTRACT_PRIVATE = YES
+
+# Show static members of class
+EXTRACT_STATIC = YES
+
+# Add all the header and source file extensions used
+FILE_PATTERNS = *.c *.h
+
+
+# Function source code shown inline
+INLINE_SOURCES = YES
+
+# Generate class diagrams for base class
+CLASS_DIAGRAMS = YES
+
+GENERATE_TREEVIEW = YES
+
+# Number of threads to use for DOT
+DOT_NUM_THREADS = 4
+
+# Use UML notation for class diagrams
+UML_LOOK = YES
+
+# Show all members in UML class
+UML_LIMIT_NUM_FIELDS = 0
+
+OPTIMIZE_OUTPUT_FOR_C  = YES

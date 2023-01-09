@@ -3,7 +3,12 @@
 #include <argp.h>
 #include <stdbool.h>  
 
-//https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html
+/**
+ * @defgroup ParsingModule
+ * @{
+ * @brief Parse argments from command line using argp
+ * @note Reference: https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html
+ */
 
 const char *argp_program_version =
   "1.0";
@@ -15,16 +20,16 @@ static char doc[] =
 
 /* The options we understand. */
 static struct argp_option options[] = {
-  {"debug", 'g', 0, 0, "Produce debugging output"},
-  {"input", 'i', "CSV_FILE", 0, "" },
-  {"output", 'o', "BINARY_FILE", 0, ""},
-  {"delimiter", 'd', "DELIMITER", 0, "Delimiter for parsing input file. Default is ';'."},
-  {"load delaunay", 'l', "BINARY_FILE", 0, "Load delaunay triangles from binary file."},
-  {"save delaunay", 's', "PATH", 0, "Save delaunay triangles to binary file."},
-  {"save mst", 'm', "PATH", 0, "Save mst to plain txt file with \"org - dest\" convention."},
-  {"visualise", 'v', 0, 0, "Visualise the result."},
-  {"height", 'h', "HEIGHT", 0, "Height of the visualisation window. (default 900)"},
-  {"width", 'w', "WIDTH", 0, "Width of the visualisation window. (default 1400)"},
+  {"debug", 'g', 0, 0, "Produce debugging output", 0},
+  {"input", 'i', "CSV_FILE", 0, "", 0},
+  {"output", 'o', "BINARY_FILE", 0, "", 0},
+  {"delimiter", 'd', "DELIMITER", 0, "Delimiter for parsing input file. Default is ';'.", 0},
+  {"load delaunay", 'l', "BINARY_FILE", 0, "Load delaunay triangles from binary file.", 0},
+  {"save delaunay", 's', "PATH", 0, "Save delaunay triangles to binary file.", 0},
+  {"save mst", 'm', "PATH", 0, "Save mst to plain txt file with \"org - dest\" convention.", 0},
+  {"visualise", 'v', 0, 0, "Visualise the result.", 0},
+  {"height", 'h', "HEIGHT", 0, "Height of the visualisation window. (default 900)", 0},
+  {"width", 'w', "WIDTH", 0, "Width of the visualisation window. (default 1400)", 0},
   { 0 }
 };
 
@@ -96,5 +101,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 /* Our argp parser. */
-static struct argp argp = { options, parse_opt, NULL, doc };
+static struct argp argp = { options, parse_opt, NULL, doc, NULL, NULL, NULL};
+/** @} */
 
