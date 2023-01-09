@@ -31,10 +31,9 @@ delaunay_t* delaunay_bowyer_watson(list_t* nodes);
  * @brief Save the delaunay triangles in a binary file
  * @param delaunay
  * @param fp
- * @param data_list
  * @note Save id of the points of each triangle
  */
-void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list);
+void serialize_delaunay(delaunay_t* delaunay, FILE* fp);
 
 /**
  * @brief Get the delaunay triangles from a binary file

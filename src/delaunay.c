@@ -18,7 +18,7 @@ triangle_t create_super_triangle(list_t* nodes){
     int max_x = 0;
     int min_y = 0;
     int max_y = 0;
-    int i;
+    size_t i;
     // Find the max and min of the nodes
     for(i = 0; i < list_size(nodes); i++){
         data_t* node = (data_t*)(list_get(nodes, i));
@@ -202,7 +202,7 @@ delaunay_t* delaunay_bowyer_watson(list_t* nodes){
     triangle_t super_triangle = create_super_triangle(nodes);
     triangulation[0] = super_triangle;
     int size_triangle = 1;
-    int i;
+    size_t i;
     // For each point in the list
     for(i = 0; i < list_size(nodes) && _interrupt_signals.sigint != 1; i++){
         triangle_t* badTriangles = malloc(sizeof(triangle_t));
@@ -250,7 +250,7 @@ delaunay_t* delaunay_bowyer_watson(list_t* nodes){
     return final;
 }
 
-void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list){
+void serialize_delaunay(delaunay_t* delaunay, FILE* fp){
     deprintf("Saving delaunay triangulation to file...\n");
     size_t size_data_list = delaunay->size_vertices;
     size_t size_triangulation = delaunay->size_triangles;
@@ -258,7 +258,7 @@ void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list){
     deprintf("number of triangles: %ld\n", size_triangulation);
     fwrite(&size_data_list, sizeof(size_t), 1, fp);
     fwrite(&size_triangulation, sizeof(size_t), 1, fp);
-    for(int i = 0; i < size_triangulation; i++){
+    for(size_t i = 0; i < size_triangulation; i++){
         fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp);
         fwrite(&delaunay->triangles[i]->s2->id, sizeof(int), 1, fp);
         fwrite(&delaunay->triangles[i]->s3->id, sizeof(int), 1, fp);
@@ -319,7 +319,7 @@ delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_
             eprintf("opening delaunay binary file\n");
             exit(1);
         }
-        serialize_delaunay(delaunay, fp_delaunay, data_list);
+        serialize_delaunay(delaunay, fp_delaunay);
         fclose(fp_delaunay);
         deprintf("Saved delaunay in \"%s\".\n", path_to_save);
         goto end;
