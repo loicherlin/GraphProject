@@ -101,7 +101,7 @@ void test_delaunay_load_fail_1(void){
         fclose(fp_bin);
         // Check if data_list is not empty
         tps_assert(list_size(data_list) != 0);
-        delaunay_t* delaunay = initiate_delaunay(data_list, "", "./files/delaunay/to_load/delaunay_256K");
+        initiate_delaunay(data_list, "", "./files/delaunay/to_load/delaunay_256K");
         exit(EXIT_SUCCESS);
     }
     else {
@@ -130,7 +130,7 @@ void test_delaunay_load_fail_2(void){
         // Check if data_list is not empty
         tps_assert(list_size(data_list) != 0);
         // There is no delaunay_256K.bin file 
-        delaunay_t* delaunay = initiate_delaunay(data_list, "", "./files/delaunay/to_load/delaunay_256K.bin");
+        initiate_delaunay(data_list, "", "./files/delaunay/to_load/delaunay_256K.bin");
         exit(EXIT_SUCCESS);
     }
     else {
