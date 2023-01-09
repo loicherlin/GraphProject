@@ -143,6 +143,8 @@ Vous pouvez aussi obtenir un code coverage avec ``make cov`` à la racine ou dan
 ### Génération de la documentation
 Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation serra accessible via ``docs/html/index.html``.
 
+*Note: il nécessaire d'avoir doxygen d'installé sur votre machine.*
+
 ## Notes
 - La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
 - Des cercles rouges peuvent apparaitres dans l'affichage du résultats de Prim, en effet lorsque des doublons seront présent dans le CSV fournis, un des deux sera traité et l'autre non traité.
