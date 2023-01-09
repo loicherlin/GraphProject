@@ -1,8 +1,8 @@
 # IR-2022-Projet
 
-## Sommaires
+## Sommaire
 - [IR-2022-Projet](#ir-2022-projet)
-  - [Sommaires](#sommaires)
+  - [Sommaire](#sommaire)
   - [Descriptions du projets](#descriptions-du-projets)
     - [Utilité de l'application](#utilité-de-lapplication)
     - [Structure de projet](#structure-de-projet)
