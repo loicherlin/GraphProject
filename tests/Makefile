@@ -1,6 +1,6 @@
 TARGET=tests
 
-CFLAGS=-Wall -g -fprofile-arcs -ftest-coverage
+CFLAGS=-Wall -Wextra -g -fprofile-arcs -ftest-coverage
 
 LDLIBS=-lm -ltps -lSDL2 -lSDL2_ttf
 

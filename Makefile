@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS ?= -Ofast -Wextra -Wall -Wmissing-field-initializers
+CFLAGS ?= -Ofast -Wextra -Wall
 LDLIBS ?= -ltps -lSDL2 -lSDL2_ttf -lm
 
 EXEC = main
