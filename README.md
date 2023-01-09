@@ -1,5 +1,22 @@
 # IR-2022-Projet
 
+## Sommaires
+- [IR-2022-Projet](#ir-2022-projet)
+  - [Sommaires](#sommaires)
+  - [Descriptions du projets](#descriptions-du-projets)
+    - [Utilité de l'application](#utilité-de-lapplication)
+    - [Structure de projet](#structure-de-projet)
+    - [Fichiers binaire](#fichiers-binaire)
+      - [Parsage du CSV](#parsage-du-csv)
+  - [Pourquoi Delaunay ?](#pourquoi-delaunay-)
+  - [Exécution](#exécution)
+    - [Utilisation de l'exécutable](#utilisation-de-lexécutable)
+    - [Lancement des tests unitaires](#lancement-des-tests-unitaires)
+    - [Génération de la documentation](#génération-de-la-documentation)
+  - [Aperçu](#aperçu)
+  - [Notes](#notes)
+  - [Auteurs](#auteurs)
+
 ## Descriptions du projets
 
 ### Utilité de l'application
@@ -129,6 +146,7 @@ Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` s
 
 ## Notes
 - La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
+- Des cercles rouges peuvent apparaitres dans l'affichage du résultats de Prim, en effet lorsque des doublons seront présent dans le CSV fournis, un des deux sera traité et l'autre non traité.
 
 
 ## Auteurs
