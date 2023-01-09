@@ -25,7 +25,7 @@ void sanatize_coordinates(double* lattitude, double* longitude, char* coordinate
 
 int write_to_csv_bin(char** contents, FILE* fp_bin, int n){
     double lattitude, longitude;
-    static int i = 0;
+    static int i = 0;   
     sanatize_coordinates(&lattitude, &longitude, contents[n-1]);
     char* data = serialize_data_t(lattitude,longitude, i);
     if(fwrite(data, sizeof(data_t), 1, fp_bin) != 1){

@@ -16,6 +16,7 @@
 #include "../include/min_heap.h"
 #include "../include/triangle.h"
 #include "../include/visualise.h"
+#include "../include/hashmap.h"
 
 // Contains tests according to the test file name
 #include "./test_graph.h"
@@ -23,18 +24,24 @@
 #include "./test_data_t.h"
 #include "./test_delaunay.h"
 #include "./test_min_heap.h"
+#include "./test_hashmap.h"
 
 
 #include "tps_unit_test.h"
 
+
+
 int main(void){
     // To hide stderr messages from the tests (mainly error messages)
     //fclose(stderr);
+    unit_test_hashmap();
+    /*
     unit_test_csv_bin();
     unit_test_data_t();
     unit_test_delaunay();
     unit_test_min_heap();
     unit_test_graph();
+    */
     /*
     unit_test_triangle();
     unit_test_visualise();

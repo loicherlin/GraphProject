@@ -11,6 +11,7 @@
 #include "../include/cprintf.h"
 #include "../include/handler.h"
 #include "../include/visualise.h"
+#include "../include/hashmap.h"
 
 // Initiate arguments for args parsing
 struct arguments arguments;
