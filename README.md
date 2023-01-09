@@ -20,6 +20,16 @@ La structure du projet est décomposé de cette façon :
 └── README.md
 ```
 Où chaque ``.c`` est présent dans ``src`` et chaque ``.h`` dans ``include/``. Les tests unitaires sont présent dans ``tests/``.
+
+### Fichiers binaire
+Deux fichiers binaire peuvent être généré lors de l’exécution
+#### Parsage du CSV
+Lorsque le csv est traité, un fichier binaire et créé contenant des données sous forma 
+```
+double  latitude;
+double  longitude;
+int  id;
+```
  
 ## Exécution
 
