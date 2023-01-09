@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['data_56',['data',['../structnode__adj.html#ab21bb95f49c84ca1ef6404b581b97685',1,'node_adj::data()'],['../structdata.html',1,'data']]],
+  ['data_5ft_57',['data_t',['../data__t_8h.html#a1d756f237acef91aa7ef4e6b87f52632',1,'data_t.h']]],
+  ['data_5ft_2ec_58',['data_t.c',['../data__t_8c.html',1,'']]],
+  ['data_5ft_2eh_59',['data_t.h',['../data__t_8h.html',1,'']]],
+  ['debug_60',['debug',['../structarguments.html#ac1433866fbdc7fbf8f5a03f75aa63e21',1,'arguments']]],
+  ['decrease_5fkey_61',['decrease_key',['../min__heap_8c.html#a0c8db548a027198e30b83fef6ffbfa0c',1,'decrease_key(min_heap_t *min_heap, int v, double key):&#160;min_heap.c'],['../min__heap_8h.html#a0c8db548a027198e30b83fef6ffbfa0c',1,'decrease_key(min_heap_t *min_heap, int v, double key):&#160;min_heap.c']]],
+  ['delaunay_2ec_62',['delaunay.c',['../delaunay_8c.html',1,'']]],
+  ['delaunay_2eh_63',['delaunay.h',['../delaunay_8h.html',1,'']]],
+  ['delaunay_5fbowyer_5fwatson_64',['delaunay_bowyer_watson',['../delaunay_8c.html#a3409964d0c3fce467f280e529cf068af',1,'delaunay_bowyer_watson(list_t *nodes):&#160;delaunay.c'],['../delaunay_8h.html#a3409964d0c3fce467f280e529cf068af',1,'delaunay_bowyer_watson(list_t *nodes):&#160;delaunay.c']]],
+  ['delaunay_5ft_65',['delaunay_t',['../structdelaunay__t.html',1,'']]],
+  ['delaunay_5fto_5fgraph_66',['delaunay_to_graph',['../graph_8h.html#a2ef18b306398b7ce35951aabd2e3196d',1,'delaunay_to_graph(delaunay_t *triangles, graph_t *graph):&#160;graph.c'],['../graph_8c.html#a2ef18b306398b7ce35951aabd2e3196d',1,'delaunay_to_graph(delaunay_t *triangles, graph_t *graph):&#160;graph.c']]],
+  ['delimiter_67',['delimiter',['../structarguments.html#ae359aed4736371f85a490201c9e1a4a4',1,'arguments']]],
+  ['deprintf_68',['deprintf',['../cprintf_8c.html#a130a348e38c516eb68e1656cab258661',1,'deprintf(const char *format,...):&#160;cprintf.c'],['../cprintf_8h.html#a130a348e38c516eb68e1656cab258661',1,'deprintf(const char *format,...):&#160;cprintf.c']]],
+  ['deserialize_5fdata_5ft_69',['deserialize_data_t',['../data__t_8c.html#a9ac0ddfa3bd075ef903ea5a2cd387669',1,'deserialize_data_t(char *data_b):&#160;data_t.c'],['../data__t_8h.html#a9ac0ddfa3bd075ef903ea5a2cd387669',1,'deserialize_data_t(char *data_b):&#160;data_t.c']]],
+  ['deserialize_5fdelaunay_70',['deserialize_delaunay',['../delaunay_8c.html#a7c6d5bebc803d536c8d95c18b498bae7',1,'deserialize_delaunay(FILE *fp, list_t *data_list):&#160;delaunay.c'],['../delaunay_8h.html#a7c6d5bebc803d536c8d95c18b498bae7',1,'deserialize_delaunay(FILE *fp, list_t *data_list):&#160;delaunay.c']]],
+  ['dest_71',['dest',['../structedge.html#a7fd356ca7c7bd9f69dd966ef6af976c3',1,'edge']]],
+  ['dist_72',['dist',['../graph_8h.html#ae2f0dd9eeb4cb28f617dc8ed90a53b97',1,'dist(data_t p1, data_t p2, enum DISTANCE_TYPE type):&#160;graph.c'],['../graph_8c.html#ae2f0dd9eeb4cb28f617dc8ed90a53b97',1,'dist(data_t p1, data_t p2, enum DISTANCE_TYPE type):&#160;graph.c']]],
+  ['distance_5ftype_73',['DISTANCE_TYPE',['../graph_8h.html#ac50d7263b1cae8691420b86282b27f90',1,'graph.h']]],
+  ['doc_74',['doc',['../args__parser_8h.html#af6164deb8a824f8cb2b9147cfc3174f5',1,'args_parser.h']]],
+  ['draw_5fedge_75',['draw_edge',['../visualise_8c.html#ac3e097da3aab104e9403b8fa64a2f9db',1,'draw_edge(double x1, double y1, double x2, double y2):&#160;visualise.c'],['../visualise_8h.html#ac3e097da3aab104e9403b8fa64a2f9db',1,'draw_edge(double x1, double y1, double x2, double y2):&#160;visualise.c']]],
+  ['draw_5fnode_76',['draw_node',['../visualise_8c.html#abf9222017dcd135d693aa06f016fb87c',1,'draw_node(double x, double y, int rx, int ry, enum COLOR c):&#160;visualise.c'],['../visualise_8h.html#abf9222017dcd135d693aa06f016fb87c',1,'draw_node(double x, double y, int rx, int ry, enum COLOR c):&#160;visualise.c']]],
+  ['draw_5ftexts_77',['draw_texts',['../visualise_8c.html#a5f9fe4f5d0b4ac0e60892817f58cc957',1,'draw_texts():&#160;visualise.c'],['../visualise_8h.html#a5f9fe4f5d0b4ac0e60892817f58cc957',1,'draw_texts():&#160;visualise.c']]]
+];

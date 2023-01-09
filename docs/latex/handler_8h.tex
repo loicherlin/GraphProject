@@ -1,0 +1,88 @@
+\hypertarget{handler_8h}{}\doxysection{include/handler.h File Reference}
+\label{handler_8h}\index{include/handler.h@{include/handler.h}}
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+Include dependency graph for handler.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsignal__int__t}{signal\+\_\+int\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Used to store the interrupt signals to be handled. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{handler_8h_a6a8bd881e8700b26cecfbb2c4decc262}{interrupt}} (int sig)
+\begin{DoxyCompactList}\small\item\em Handle the interrupt signals. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{handler_8h_ad99ab0a563ccd6737b387bb9cbf9f7f7}{initiate\+\_\+handler}} ()
+\begin{DoxyCompactList}\small\item\em Initiate the handler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile \mbox{\hyperlink{structsignal__int__t}{signal\+\_\+int\+\_\+t}} \mbox{\hyperlink{handler_8h_aa36b1cc46fabf940488d76a415116162}{\+\_\+interrupt\+\_\+signals}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{handler_8h_ad99ab0a563ccd6737b387bb9cbf9f7f7}\label{handler_8h_ad99ab0a563ccd6737b387bb9cbf9f7f7}} 
+\index{handler.h@{handler.h}!initiate\_handler@{initiate\_handler}}
+\index{initiate\_handler@{initiate\_handler}!handler.h@{handler.h}}
+\doxysubsubsection{\texorpdfstring{initiate\_handler()}{initiate\_handler()}}
+{\footnotesize\ttfamily void initiate\+\_\+handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initiate the handler. 
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{24                        \{}
+\DoxyCodeLine{25     \textcolor{keyword}{struct }sigaction action;}
+\DoxyCodeLine{26     \textcolor{comment}{// Our handler}}
+\DoxyCodeLine{27     action.sa\_handler = \mbox{\hyperlink{handler_8c_a6a8bd881e8700b26cecfbb2c4decc262}{interrupt}};}
+\DoxyCodeLine{28     sigemptyset(\&action.sa\_mask);}
+\DoxyCodeLine{29     action.sa\_flags = 0;}
+\DoxyCodeLine{30     \textcolor{comment}{// Register Ctrl + C handler}}
+\DoxyCodeLine{31     sigaction(SIGINT, \&action, NULL);}
+\DoxyCodeLine{32 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{handler_8h_a6a8bd881e8700b26cecfbb2c4decc262}\label{handler_8h_a6a8bd881e8700b26cecfbb2c4decc262}} 
+\index{handler.h@{handler.h}!interrupt@{interrupt}}
+\index{interrupt@{interrupt}!handler.h@{handler.h}}
+\doxysubsubsection{\texorpdfstring{interrupt()}{interrupt()}}
+{\footnotesize\ttfamily void interrupt (\begin{DoxyParamCaption}\item[{int}]{sig }\end{DoxyParamCaption})}
+
+
+
+Handle the interrupt signals. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sig} & Signal to be handled. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{13                        \{   }
+\DoxyCodeLine{14     \textcolor{keywordflow}{switch}(sig)\{}
+\DoxyCodeLine{15         \textcolor{comment}{// Ctrl + C}}
+\DoxyCodeLine{16         \textcolor{keywordflow}{case} SIGINT:}
+\DoxyCodeLine{17             \mbox{\hyperlink{handler_8c_aa36b1cc46fabf940488d76a415116162}{\_interrupt\_signals}}.\mbox{\hyperlink{structsignal__int__t_abab3d4af157c793ae076a50f790a1318}{sigint}} = 1;}
+\DoxyCodeLine{18             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{19         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{20             \textcolor{keywordflow}{break};}
+\DoxyCodeLine{21     \}}
+\DoxyCodeLine{22 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{handler_8h_aa36b1cc46fabf940488d76a415116162}\label{handler_8h_aa36b1cc46fabf940488d76a415116162}} 
+\index{handler.h@{handler.h}!\_interrupt\_signals@{\_interrupt\_signals}}
+\index{\_interrupt\_signals@{\_interrupt\_signals}!handler.h@{handler.h}}
+\doxysubsubsection{\texorpdfstring{\_interrupt\_signals}{\_interrupt\_signals}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{structsignal__int__t}{signal\+\_\+int\+\_\+t}} \+\_\+interrupt\+\_\+signals\hspace{0.3cm}{\ttfamily [extern]}}
+

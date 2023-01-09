@@ -1,0 +1,173 @@
+\hypertarget{cprintf_8h}{}\doxysection{include/cprintf.h File Reference}
+\label{cprintf_8h}\index{include/cprintf.h@{include/cprintf.h}}
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+Include dependency graph for cprintf.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_a34995b955465f6bbb37c359173d50477}{ANSI\+\_\+\+COLOR\+\_\+\+RED}}~\char`\"{}\textbackslash{}x1b\mbox{[}31m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_a966c72d8d733c7734c6c784753d894c7}{ANSI\+\_\+\+COLOR\+\_\+\+GREEN}}~\char`\"{}\textbackslash{}x1b\mbox{[}32m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_a5a123b382640b3aa65dd5db386002fbc}{ANSI\+\_\+\+COLOR\+\_\+\+YELLOW}}~\char`\"{}\textbackslash{}x1b\mbox{[}33m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_aca16e6a49eb51333c5fd3eee19487315}{ANSI\+\_\+\+COLOR\+\_\+\+BLUE}}~\char`\"{}\textbackslash{}x1b\mbox{[}34m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_acb30614ba1535da5b9d0c490b3c10515}{ANSI\+\_\+\+COLOR\+\_\+\+MAGENTA}}~\char`\"{}\textbackslash{}x1b\mbox{[}35m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_a8d0b0043e152438bb39b918a1f98c65f}{ANSI\+\_\+\+COLOR\+\_\+\+CYAN}}~\char`\"{}\textbackslash{}x1b\mbox{[}36m\char`\"{}
+\item 
+\#define \mbox{\hyperlink{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}{ANSI\+\_\+\+COLOR\+\_\+\+RESET}}~\char`\"{}\textbackslash{}x1b\mbox{[}0m\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cprintf_8h_a130a348e38c516eb68e1656cab258661}{deprintf}} (const char $\ast$format,...)
+\item 
+void \mbox{\hyperlink{cprintf_8h_a969dcb4536ac503cfa8397754cc78cf0}{prprintf}} (char $\ast$task\+\_\+name, int current, int size)
+\item 
+void \mbox{\hyperlink{cprintf_8h_abaf6f449289ba2ab499573103e32ec2d}{eprintf}} (const char $\ast$format,...)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{cprintf_8h_abea63a461ba805d7c6c2facc133188c9}{\+\_\+debug}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{cprintf_8h_aca16e6a49eb51333c5fd3eee19487315}\label{cprintf_8h_aca16e6a49eb51333c5fd3eee19487315}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_BLUE@{ANSI\_COLOR\_BLUE}}
+\index{ANSI\_COLOR\_BLUE@{ANSI\_COLOR\_BLUE}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_BLUE}{ANSI\_COLOR\_BLUE}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+BLUE~\char`\"{}\textbackslash{}x1b\mbox{[}34m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_a8d0b0043e152438bb39b918a1f98c65f}\label{cprintf_8h_a8d0b0043e152438bb39b918a1f98c65f}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_CYAN@{ANSI\_COLOR\_CYAN}}
+\index{ANSI\_COLOR\_CYAN@{ANSI\_COLOR\_CYAN}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_CYAN}{ANSI\_COLOR\_CYAN}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+CYAN~\char`\"{}\textbackslash{}x1b\mbox{[}36m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_a966c72d8d733c7734c6c784753d894c7}\label{cprintf_8h_a966c72d8d733c7734c6c784753d894c7}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_GREEN@{ANSI\_COLOR\_GREEN}}
+\index{ANSI\_COLOR\_GREEN@{ANSI\_COLOR\_GREEN}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_GREEN}{ANSI\_COLOR\_GREEN}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+GREEN~\char`\"{}\textbackslash{}x1b\mbox{[}32m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_acb30614ba1535da5b9d0c490b3c10515}\label{cprintf_8h_acb30614ba1535da5b9d0c490b3c10515}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_MAGENTA@{ANSI\_COLOR\_MAGENTA}}
+\index{ANSI\_COLOR\_MAGENTA@{ANSI\_COLOR\_MAGENTA}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_MAGENTA}{ANSI\_COLOR\_MAGENTA}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+MAGENTA~\char`\"{}\textbackslash{}x1b\mbox{[}35m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_a34995b955465f6bbb37c359173d50477}\label{cprintf_8h_a34995b955465f6bbb37c359173d50477}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_RED@{ANSI\_COLOR\_RED}}
+\index{ANSI\_COLOR\_RED@{ANSI\_COLOR\_RED}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_RED}{ANSI\_COLOR\_RED}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+RED~\char`\"{}\textbackslash{}x1b\mbox{[}31m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}\label{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_RESET@{ANSI\_COLOR\_RESET}}
+\index{ANSI\_COLOR\_RESET@{ANSI\_COLOR\_RESET}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_RESET}{ANSI\_COLOR\_RESET}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+RESET~\char`\"{}\textbackslash{}x1b\mbox{[}0m\char`\"{}}
+
+\mbox{\Hypertarget{cprintf_8h_a5a123b382640b3aa65dd5db386002fbc}\label{cprintf_8h_a5a123b382640b3aa65dd5db386002fbc}} 
+\index{cprintf.h@{cprintf.h}!ANSI\_COLOR\_YELLOW@{ANSI\_COLOR\_YELLOW}}
+\index{ANSI\_COLOR\_YELLOW@{ANSI\_COLOR\_YELLOW}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{ANSI\_COLOR\_YELLOW}{ANSI\_COLOR\_YELLOW}}
+{\footnotesize\ttfamily \#define ANSI\+\_\+\+COLOR\+\_\+\+YELLOW~\char`\"{}\textbackslash{}x1b\mbox{[}33m\char`\"{}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{cprintf_8h_a130a348e38c516eb68e1656cab258661}\label{cprintf_8h_a130a348e38c516eb68e1656cab258661}} 
+\index{cprintf.h@{cprintf.h}!deprintf@{deprintf}}
+\index{deprintf@{deprintf}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{deprintf()}{deprintf()}}
+{\footnotesize\ttfamily void deprintf (\begin{DoxyParamCaption}\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print a debug message 
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string \\
+\hline
+{\em ...} & The arguments \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{9 \{}
+\DoxyCodeLine{10     \textcolor{keywordflow}{if}(\mbox{\hyperlink{cprintf_8c_abea63a461ba805d7c6c2facc133188c9}{\_debug}})\{}
+\DoxyCodeLine{11         va\_list args;}
+\DoxyCodeLine{12         va\_start(args, format);}
+\DoxyCodeLine{13         printf(\mbox{\hyperlink{cprintf_8h_a5a123b382640b3aa65dd5db386002fbc}{ANSI\_COLOR\_YELLOW}}\textcolor{stringliteral}{"{}\(\backslash\)nDEBUG: "{}});}
+\DoxyCodeLine{14         vprintf(format, args);}
+\DoxyCodeLine{15         va\_end(args);}
+\DoxyCodeLine{16         printf(\mbox{\hyperlink{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}{ANSI\_COLOR\_RESET}});}
+\DoxyCodeLine{17     \}}
+\DoxyCodeLine{18 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{cprintf_8h_abaf6f449289ba2ab499573103e32ec2d}\label{cprintf_8h_abaf6f449289ba2ab499573103e32ec2d}} 
+\index{cprintf.h@{cprintf.h}!eprintf@{eprintf}}
+\index{eprintf@{eprintf}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{eprintf()}{eprintf()}}
+{\footnotesize\ttfamily void eprintf (\begin{DoxyParamCaption}\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+Print an error message 
+\begin{DoxyParams}{Parameters}
+{\em format} & The format string \\
+\hline
+{\em ...} & The arguments \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{29 \{}
+\DoxyCodeLine{30     va\_list args;}
+\DoxyCodeLine{31     va\_start(args, format);}
+\DoxyCodeLine{32     fprintf(stderr, \mbox{\hyperlink{cprintf_8h_a34995b955465f6bbb37c359173d50477}{ANSI\_COLOR\_RED}} \textcolor{stringliteral}{"{}ERROR: "{}});}
+\DoxyCodeLine{33     vfprintf(stderr, format, args);}
+\DoxyCodeLine{34     va\_end(args);}
+\DoxyCodeLine{35     printf(\mbox{\hyperlink{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}{ANSI\_COLOR\_RESET}});}
+\DoxyCodeLine{36 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{cprintf_8h_a969dcb4536ac503cfa8397754cc78cf0}\label{cprintf_8h_a969dcb4536ac503cfa8397754cc78cf0}} 
+\index{cprintf.h@{cprintf.h}!prprintf@{prprintf}}
+\index{prprintf@{prprintf}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{prprintf()}{prprintf()}}
+{\footnotesize\ttfamily void prprintf (\begin{DoxyParamCaption}\item[{char $\ast$}]{task\+\_\+name,  }\item[{int}]{current,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+Print progression of a task 
+\begin{DoxyParams}{Parameters}
+{\em task\+\_\+name} & The name of the task \\
+\hline
+{\em current} & The current progression \\
+\hline
+{\em size} & The total size of the task \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22     printf(\mbox{\hyperlink{cprintf_8h_a8d0b0043e152438bb39b918a1f98c65f}{ANSI\_COLOR\_CYAN}} \textcolor{stringliteral}{"{}\(\backslash\)r\%s: [\%d/\%d] (\%d/100\%\%)"{}} \mbox{\hyperlink{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}{ANSI\_COLOR\_RESET}}, task\_name, current, size, (current*100)/size);}
+\DoxyCodeLine{23     fflush(stdout);}
+\DoxyCodeLine{24     \textcolor{comment}{// Print a new line at the end}}
+\DoxyCodeLine{25     \textcolor{keywordflow}{if}(current == size)\{ printf(\mbox{\hyperlink{cprintf_8h_aca16e6a49eb51333c5fd3eee19487315}{ANSI\_COLOR\_BLUE}} \textcolor{stringliteral}{"{}\(\backslash\)n\%s completed.\(\backslash\)n"{}} \mbox{\hyperlink{cprintf_8h_a92a364c2b863dde1a024a77eac2a5b3b}{ANSI\_COLOR\_RESET}}, task\_name); \}}
+\DoxyCodeLine{26 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{cprintf_8h_abea63a461ba805d7c6c2facc133188c9}\label{cprintf_8h_abea63a461ba805d7c6c2facc133188c9}} 
+\index{cprintf.h@{cprintf.h}!\_debug@{\_debug}}
+\index{\_debug@{\_debug}!cprintf.h@{cprintf.h}}
+\doxysubsubsection{\texorpdfstring{\_debug}{\_debug}}
+{\footnotesize\ttfamily bool \+\_\+debug\hspace{0.3cm}{\ttfamily [extern]}}
+

@@ -1,0 +1,162 @@
+\hypertarget{args__parser_8h}{}\doxysection{include/args\+\_\+parser.h File Reference}
+\label{args__parser_8h}\index{include/args\_parser.h@{include/args\_parser.h}}
+{\ttfamily \#include \char`\"{}../include/cprintf.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$argp.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+Include dependency graph for args\+\_\+parser.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structarguments}{arguments}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structarguments}{arguments}} \mbox{\hyperlink{args__parser_8h_a631eb764f75e935100710917e4f6774e}{arguments\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static error\+\_\+t \mbox{\hyperlink{args__parser_8h_a35ee63236273ebb9325c444cacf00159}{parse\+\_\+opt}} (int key, char $\ast$arg, struct argp\+\_\+state $\ast$state)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \mbox{\hyperlink{args__parser_8h_a62f73ea01c816f1996aed4c66f57c4fb}{argp\+\_\+program\+\_\+version}}
+\item 
+static char \mbox{\hyperlink{args__parser_8h_af6164deb8a824f8cb2b9147cfc3174f5}{doc}} \mbox{[}$\,$\mbox{]}
+\item 
+static struct argp\+\_\+option \mbox{\hyperlink{args__parser_8h_abc1fd3a47aea6a8944038c9100eb9135}{options}} \mbox{[}$\,$\mbox{]}
+\item 
+static struct argp \mbox{\hyperlink{args__parser_8h_ab70c96531b1b652d70c221cfaf3207f3}{argp}} = \{ \mbox{\hyperlink{args__parser_8h_abc1fd3a47aea6a8944038c9100eb9135}{options}}, \mbox{\hyperlink{args__parser_8h_a35ee63236273ebb9325c444cacf00159}{parse\+\_\+opt}}, NULL, \mbox{\hyperlink{args__parser_8h_af6164deb8a824f8cb2b9147cfc3174f5}{doc}} \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{args__parser_8h_a631eb764f75e935100710917e4f6774e}\label{args__parser_8h_a631eb764f75e935100710917e4f6774e}} 
+\index{args\_parser.h@{args\_parser.h}!arguments\_t@{arguments\_t}}
+\index{arguments\_t@{arguments\_t}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{arguments\_t}{arguments\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structarguments}{arguments}} \mbox{\hyperlink{args__parser_8h_a631eb764f75e935100710917e4f6774e}{arguments\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{args__parser_8h_a35ee63236273ebb9325c444cacf00159}\label{args__parser_8h_a35ee63236273ebb9325c444cacf00159}} 
+\index{args\_parser.h@{args\_parser.h}!parse\_opt@{parse\_opt}}
+\index{parse\_opt@{parse\_opt}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{parse\_opt()}{parse\_opt()}}
+{\footnotesize\ttfamily static error\+\_\+t parse\+\_\+opt (\begin{DoxyParamCaption}\item[{int}]{key,  }\item[{char $\ast$}]{arg,  }\item[{struct argp\+\_\+state $\ast$}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{48 \{}
+\DoxyCodeLine{49   \textcolor{comment}{/* Get the input argument from argp\_parse, which we}}
+\DoxyCodeLine{50 \textcolor{comment}{     know is a pointer to our arguments structure. */}}
+\DoxyCodeLine{51   \mbox{\hyperlink{structarguments}{arguments\_t}} *\mbox{\hyperlink{structarguments}{arguments}} = state-\/>input;}
+\DoxyCodeLine{52   \textcolor{keywordflow}{switch} (key)}
+\DoxyCodeLine{53     \{}
+\DoxyCodeLine{54     \textcolor{keywordflow}{case}  ARGP\_KEY\_END:}
+\DoxyCodeLine{55         \textcolor{comment}{// weird }}
+\DoxyCodeLine{56         \textcolor{keywordflow}{if}(state-\/>argc != 5)\{}
+\DoxyCodeLine{57             \textcolor{comment}{// ARGP\_HELP\_BUG\_ADDR}}
+\DoxyCodeLine{58             \textcolor{comment}{//argp\_usage(state);}}
+\DoxyCodeLine{59         \}}
+\DoxyCodeLine{60         \textcolor{keywordflow}{break};}
+\DoxyCodeLine{61     \textcolor{keywordflow}{case} \textcolor{charliteral}{'i'}:}
+\DoxyCodeLine{62       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_a45c981d468345f765fd7243c8f008e1e}{input\_file}} = arg;}
+\DoxyCodeLine{63       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{64     \textcolor{keywordflow}{case} \textcolor{charliteral}{'o'}:}
+\DoxyCodeLine{65       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_ab967f3c192207878cfe15464aeafb551}{output\_file}} = arg;}
+\DoxyCodeLine{66       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{67     \textcolor{keywordflow}{case} \textcolor{charliteral}{'d'}:}
+\DoxyCodeLine{68       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_ae359aed4736371f85a490201c9e1a4a4}{delimiter}} = arg;}
+\DoxyCodeLine{69       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{70     \textcolor{keywordflow}{case} \textcolor{charliteral}{'l'}:}
+\DoxyCodeLine{71       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_afe749c4a761220c03579c16f8a9e2de6}{load\_delaunay}} = arg;}
+\DoxyCodeLine{72       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{73     \textcolor{keywordflow}{case} \textcolor{charliteral}{'s'}:}
+\DoxyCodeLine{74       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_a804f08a45b9f4c682f0c084c0c6d61f5}{save\_delaunay}} = arg;}
+\DoxyCodeLine{75       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{76     \textcolor{keywordflow}{case} \textcolor{charliteral}{'g'}:}
+\DoxyCodeLine{77       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_ac1433866fbdc7fbf8f5a03f75aa63e21}{debug}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{78       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{79     \textcolor{keywordflow}{case} \textcolor{charliteral}{'v'}:}
+\DoxyCodeLine{80       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_aff9fc4e6fa126601d0856c77fd3d9f44}{visualise}} = \textcolor{keyword}{true};}
+\DoxyCodeLine{81       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{82     \textcolor{keywordflow}{case} \textcolor{charliteral}{'h'}:}
+\DoxyCodeLine{83       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_af04f9842c9a135fb7bc375323c9893d2}{height}} = atoi(arg);}
+\DoxyCodeLine{84       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{85     \textcolor{keywordflow}{case} \textcolor{charliteral}{'w'}:}
+\DoxyCodeLine{86       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_a992aeb684da83851e3362a0bcffc6b48}{width}} = atoi(arg);}
+\DoxyCodeLine{87       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{88     \textcolor{keywordflow}{case} \textcolor{charliteral}{'m'}:}
+\DoxyCodeLine{89       \mbox{\hyperlink{structarguments}{arguments}}-\/>\mbox{\hyperlink{structarguments_a778713be967b143220118a0ea8d1650c}{save\_mst}} = arg;}
+\DoxyCodeLine{90       \textcolor{keywordflow}{break};}
+\DoxyCodeLine{91     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{92       \textcolor{keywordflow}{return} ARGP\_ERR\_UNKNOWN;}
+\DoxyCodeLine{93     \}}
+\DoxyCodeLine{94 }
+\DoxyCodeLine{95   \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{96 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{args__parser_8h_ab70c96531b1b652d70c221cfaf3207f3}\label{args__parser_8h_ab70c96531b1b652d70c221cfaf3207f3}} 
+\index{args\_parser.h@{args\_parser.h}!argp@{argp}}
+\index{argp@{argp}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{argp}{argp}}
+{\footnotesize\ttfamily struct argp argp = \{ \mbox{\hyperlink{args__parser_8h_abc1fd3a47aea6a8944038c9100eb9135}{options}}, \mbox{\hyperlink{args__parser_8h_a35ee63236273ebb9325c444cacf00159}{parse\+\_\+opt}}, NULL, \mbox{\hyperlink{args__parser_8h_af6164deb8a824f8cb2b9147cfc3174f5}{doc}} \}\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{args__parser_8h_a62f73ea01c816f1996aed4c66f57c4fb}\label{args__parser_8h_a62f73ea01c816f1996aed4c66f57c4fb}} 
+\index{args\_parser.h@{args\_parser.h}!argp\_program\_version@{argp\_program\_version}}
+\index{argp\_program\_version@{argp\_program\_version}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{argp\_program\_version}{argp\_program\_version}}
+{\footnotesize\ttfamily const char$\ast$ argp\+\_\+program\+\_\+version}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{  \textcolor{stringliteral}{"{}1.0"{}}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{args__parser_8h_af6164deb8a824f8cb2b9147cfc3174f5}\label{args__parser_8h_af6164deb8a824f8cb2b9147cfc3174f5}} 
+\index{args\_parser.h@{args\_parser.h}!doc@{doc}}
+\index{doc@{doc}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{doc}{doc}}
+{\footnotesize\ttfamily char doc\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{  \textcolor{stringliteral}{"{}Give the Minimum Spanning Tree based on input file (normaly Tree's of Paris)\(\backslash\)nusing Delaunay Triangulation and Prim algorithm."{}}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{args__parser_8h_abc1fd3a47aea6a8944038c9100eb9135}\label{args__parser_8h_abc1fd3a47aea6a8944038c9100eb9135}} 
+\index{args\_parser.h@{args\_parser.h}!options@{options}}
+\index{options@{options}!args\_parser.h@{args\_parser.h}}
+\doxysubsubsection{\texorpdfstring{options}{options}}
+{\footnotesize\ttfamily struct argp\+\_\+option options\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}debug"{}}, \textcolor{charliteral}{'g'}, 0, 0, \textcolor{stringliteral}{"{}Produce debugging output"{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}input"{}}, \textcolor{charliteral}{'i'}, \textcolor{stringliteral}{"{}CSV\_FILE"{}}, 0, \textcolor{stringliteral}{"{}"{}} \},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}output"{}}, \textcolor{charliteral}{'o'}, \textcolor{stringliteral}{"{}BINARY\_FILE"{}}, 0, \textcolor{stringliteral}{"{}"{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}delimiter"{}}, \textcolor{charliteral}{'d'}, \textcolor{stringliteral}{"{}DELIMITER"{}}, 0, \textcolor{stringliteral}{"{}Delimiter for parsing input file. Default is ';'."{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}load delaunay"{}}, \textcolor{charliteral}{'l'}, \textcolor{stringliteral}{"{}BINARY\_FILE"{}}, 0, \textcolor{stringliteral}{"{}Load delaunay triangles from binary file."{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}save delaunay"{}}, \textcolor{charliteral}{'s'}, \textcolor{stringliteral}{"{}PATH"{}}, 0, \textcolor{stringliteral}{"{}Save delaunay triangles to binary file."{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}save mst"{}}, \textcolor{charliteral}{'m'}, \textcolor{stringliteral}{"{}PATH"{}}, 0, \textcolor{stringliteral}{"{}Save mst to plain txt file with \(\backslash\)"{}org -\/ dest\(\backslash\)"{} convention."{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}visualise"{}}, \textcolor{charliteral}{'v'}, 0, 0, \textcolor{stringliteral}{"{}Visualise the result."{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}height"{}}, \textcolor{charliteral}{'h'}, \textcolor{stringliteral}{"{}HEIGHT"{}}, 0, \textcolor{stringliteral}{"{}Height of the visualisation window. (default 900)"{}}\},}
+\DoxyCodeLine{  \{\textcolor{stringliteral}{"{}width"{}}, \textcolor{charliteral}{'w'}, \textcolor{stringliteral}{"{}WIDTH"{}}, 0, \textcolor{stringliteral}{"{}Width of the visualisation window. (default 1400)"{}}\},}
+\DoxyCodeLine{  \{ 0 \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

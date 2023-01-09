@@ -1,0 +1,493 @@
+\hypertarget{graph_8c}{}\doxysection{src/graph.c File Reference}
+\label{graph_8c}\index{src/graph.c@{src/graph.c}}
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$float.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}../include/graph.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/delaunay.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../include/cprintf.\+h\char`\"{}}\newline
+Include dependency graph for graph.\+c\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{graph_8c_a06ec69c2b47db07faa909db8c00f7ea6}{set\+\_\+distn}} (enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}} type)
+\item 
+double \mbox{\hyperlink{graph_8c_ae2f0dd9eeb4cb28f617dc8ed90a53b97}{dist}} (\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} p1, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} p2, enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}} type)
+\item 
+void \mbox{\hyperlink{graph_8c_aefeb6b70291521fab711ae3350bab00c}{free\+\_\+graph}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$\mbox{\hyperlink{structgraph}{graph}})
+\item 
+\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$ \mbox{\hyperlink{graph_8c_af1bc5a277d35d4a188aa8c0048386ce6}{create\+\_\+graph}} (int size\+\_\+vertices)
+\item 
+\mbox{\hyperlink{graph_8h_ade023ab2c9ed2cebf3c90895dac087da}{node\+\_\+adj\+\_\+t}} $\ast$ \mbox{\hyperlink{graph_8c_a319d79acf4a9286b2599dd6f8afdade8}{create\+\_\+node\+\_\+adj}} (int id, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$\mbox{\hyperlink{structdata}{data}}, double weight)
+\item 
+void \mbox{\hyperlink{graph_8c_a351e277d15f26fdfa6f141c4273ab099}{add\+\_\+edge}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$\mbox{\hyperlink{structgraph}{graph}}, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$data1, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$data2)
+\item 
+void \mbox{\hyperlink{graph_8c_a389a500d20403035db015a8ff888433c}{show\+\_\+graph\+\_\+adj}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$g)
+\item 
+void \mbox{\hyperlink{graph_8c_ab774adf936f6399559d53aca2937b5bf}{show\+\_\+graph\+\_\+adj\+\_\+at}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$g, int id)
+\item 
+void \mbox{\hyperlink{graph_8c_a8dedac2a7cf59a4da5518285eed6b6e0}{save\+\_\+mst}} (int $\ast$parent, int size\+\_\+vertices, char $\ast$path)
+\item 
+int $\ast$ \mbox{\hyperlink{graph_8c_ab418fda8982066ccf8ea077b232a3d82}{prim\+\_\+mst}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$\mbox{\hyperlink{structgraph}{graph}}, char $\ast$path)
+\item 
+bool \mbox{\hyperlink{graph_8c_a61df34108f21150ed6a6ceaf477152a3}{is\+\_\+edge\+\_\+in\+\_\+graph}} (\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$\mbox{\hyperlink{structgraph}{graph}}, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$d1, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$d2)
+\item 
+void \mbox{\hyperlink{graph_8c_a2ef18b306398b7ce35951aabd2e3196d}{delaunay\+\_\+to\+\_\+graph}} (\mbox{\hyperlink{structdelaunay__t}{delaunay\+\_\+t}} $\ast$triangles, \mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$\mbox{\hyperlink{structgraph}{graph}})
+\item 
+double \mbox{\hyperlink{graph_8c_afb885b7a704981f51b2c19db191cd798}{sum\+\_\+weight\+\_\+graph}} (int $\ast$mst, \mbox{\hyperlink{array__list_8h_a15376354e4e8b4f1732e9df17f30786c}{list\+\_\+t}} $\ast$nodes, int size\+\_\+vertices)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}} \mbox{\hyperlink{graph_8c_a129eeea476eef937b845899764bf8513}{\+\_\+distance\+\_\+type}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{graph_8c_a351e277d15f26fdfa6f141c4273ab099}\label{graph_8c_a351e277d15f26fdfa6f141c4273ab099}} 
+\index{graph.c@{graph.c}!add\_edge@{add\_edge}}
+\index{add\_edge@{add\_edge}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{add\_edge()}{add\_edge()}}
+{\footnotesize\ttfamily void add\+\_\+edge (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{graph,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{data1,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{data2 }\end{DoxyParamCaption})}
+
+Add an edge to an undirected graph 
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+{\em data1} & \\
+\hline
+{\em data2} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{73                                                            \{}
+\DoxyCodeLine{74     \textcolor{keywordtype}{int} id1 = data1-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}};}
+\DoxyCodeLine{75     \textcolor{keywordtype}{int} id2 = data2-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}};}
+\DoxyCodeLine{76     \textcolor{keywordtype}{double} weight = \mbox{\hyperlink{graph_8c_ae2f0dd9eeb4cb28f617dc8ed90a53b97}{dist}}(*data1, *data2, \mbox{\hyperlink{graph_8c_a129eeea476eef937b845899764bf8513}{\_distance\_type}});}
+\DoxyCodeLine{77     \textcolor{comment}{// add edge from data1 to data2}}
+\DoxyCodeLine{78     \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node1 = \mbox{\hyperlink{graph_8c_a319d79acf4a9286b2599dd6f8afdade8}{create\_node\_adj}}(id2, data2, weight);}
+\DoxyCodeLine{79     node1-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}} = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[id1].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{80     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[id1].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}} = node1;}
+\DoxyCodeLine{81     \textcolor{comment}{// add edge from data2 to data1}}
+\DoxyCodeLine{82     \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node2 = \mbox{\hyperlink{graph_8c_a319d79acf4a9286b2599dd6f8afdade8}{create\_node\_adj}}(id1, data1, weight);}
+\DoxyCodeLine{83     node2-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}} = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[id2].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{84     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[id2].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}} = node2;}
+\DoxyCodeLine{85     \textcolor{comment}{// increment number of edges (undirected graph)}}
+\DoxyCodeLine{86     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_ae6d31e4ac4957b76b53c3119b1c610b6}{size\_edges}}++;}
+\DoxyCodeLine{87 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_af1bc5a277d35d4a188aa8c0048386ce6}\label{graph_8c_af1bc5a277d35d4a188aa8c0048386ce6}} 
+\index{graph.c@{graph.c}!create\_graph@{create\_graph}}
+\index{create\_graph@{create\_graph}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{create\_graph()}{create\_graph()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}}$\ast$ create\+\_\+graph (\begin{DoxyParamCaption}\item[{int}]{size\+\_\+vertices }\end{DoxyParamCaption})}
+
+Create a graph with size\+\_\+vertices vertices 
+\begin{DoxyParams}{Parameters}
+{\em size\+\_\+vertices} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+graph 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{53                                         \{}
+\DoxyCodeLine{54     \mbox{\hyperlink{structgraph}{graph\_t}}* \mbox{\hyperlink{structgraph}{graph}} = (\mbox{\hyperlink{structgraph}{graph\_t}}*)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structgraph}{graph\_t}}));}
+\DoxyCodeLine{55     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_ad196210bc9738d10be38d9088a30bbc1}{size\_vertices}} = size\_vertices;}
+\DoxyCodeLine{56     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_ae6d31e4ac4957b76b53c3119b1c610b6}{size\_edges}} = 0;}
+\DoxyCodeLine{57     \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}} = (\mbox{\hyperlink{structadj__list}{adj\_list\_t}}*)malloc(size\_vertices * \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structadj__list}{adj\_list\_t}}));}
+\DoxyCodeLine{58     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < size\_vertices; i++)}
+\DoxyCodeLine{59         \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[i].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}} = NULL;}
+\DoxyCodeLine{60     \mbox{\hyperlink{cprintf_8c_a130a348e38c516eb68e1656cab258661}{deprintf}}(\textcolor{stringliteral}{"{}Graph created\(\backslash\)n"{}});}
+\DoxyCodeLine{61     \textcolor{keywordflow}{return} \mbox{\hyperlink{structgraph}{graph}};}
+\DoxyCodeLine{62 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a319d79acf4a9286b2599dd6f8afdade8}\label{graph_8c_a319d79acf4a9286b2599dd6f8afdade8}} 
+\index{graph.c@{graph.c}!create\_node\_adj@{create\_node\_adj}}
+\index{create\_node\_adj@{create\_node\_adj}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{create\_node\_adj()}{create\_node\_adj()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{graph_8h_ade023ab2c9ed2cebf3c90895dac087da}{node\+\_\+adj\+\_\+t}}$\ast$ create\+\_\+node\+\_\+adj (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{data,  }\item[{double}]{weight }\end{DoxyParamCaption})}
+
+Create a node of an adjacent list 
+\begin{DoxyParams}{Parameters}
+{\em id} & \\
+\hline
+{\em data} & \\
+\hline
+{\em weight} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+node 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{64                                                                 \{}
+\DoxyCodeLine{65     \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = (\mbox{\hyperlink{structnode__adj}{node\_adj\_t}}*)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structnode__adj}{node\_adj\_t}}));}
+\DoxyCodeLine{66     node-\/>\mbox{\hyperlink{structnode__adj_a112bb9ebe1626ca0937504cd52d75b77}{id}} = id;}
+\DoxyCodeLine{67     node-\/>\mbox{\hyperlink{structnode__adj_ab21bb95f49c84ca1ef6404b581b97685}{data}} = \mbox{\hyperlink{structdata}{data}};}
+\DoxyCodeLine{68     node-\/>\mbox{\hyperlink{structnode__adj_a5b9ab49fb406485cc2644dec5b9e076c}{weight}} = weight;}
+\DoxyCodeLine{69     node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}} = NULL;}
+\DoxyCodeLine{70     \textcolor{keywordflow}{return} node;}
+\DoxyCodeLine{71 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a2ef18b306398b7ce35951aabd2e3196d}\label{graph_8c_a2ef18b306398b7ce35951aabd2e3196d}} 
+\index{graph.c@{graph.c}!delaunay\_to\_graph@{delaunay\_to\_graph}}
+\index{delaunay\_to\_graph@{delaunay\_to\_graph}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{delaunay\_to\_graph()}{delaunay\_to\_graph()}}
+{\footnotesize\ttfamily void delaunay\+\_\+to\+\_\+graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdelaunay__t}{delaunay\+\_\+t}} $\ast$}]{triangles,  }\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{graph }\end{DoxyParamCaption})}
+
+Convert delaunay triangulation to graph 
+\begin{DoxyParams}{Parameters}
+{\em triangles} & \\
+\hline
+{\em graph} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{198                                                              \{}
+\DoxyCodeLine{199     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < triangles-\/>\mbox{\hyperlink{structdelaunay__t_a09dea8670f214c2a9ef30b5b2d33fb02}{size\_triangles}}; i++)\{}
+\DoxyCodeLine{200         \mbox{\hyperlink{structtriangle}{triangle\_t}}* t = triangles-\/>\mbox{\hyperlink{structdelaunay__t_a6f65b7659da189602c2e053b01725a2f}{triangles}}[i];}
+\DoxyCodeLine{201         \textcolor{keywordflow}{if}(t-\/>\mbox{\hyperlink{structtriangle_a3c8beddca797ab7a7324710d898abf0d}{s1}}-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}} != -\/1 \&\& t-\/>\mbox{\hyperlink{structtriangle_acb7a4dda895459ac42133fdf2b6307f1}{s2}}-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}} != -\/1 \&\& t-\/>\mbox{\hyperlink{structtriangle_a516835f18f2e875b96207e8a334b384d}{s3}}-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}} != -\/1)\{}
+\DoxyCodeLine{202             \textcolor{keywordflow}{if}(!\mbox{\hyperlink{graph_8c_a61df34108f21150ed6a6ceaf477152a3}{is\_edge\_in\_graph}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_a3c8beddca797ab7a7324710d898abf0d}{s1}}, t-\/>\mbox{\hyperlink{structtriangle_acb7a4dda895459ac42133fdf2b6307f1}{s2}}))}
+\DoxyCodeLine{203                 \mbox{\hyperlink{graph_8c_a351e277d15f26fdfa6f141c4273ab099}{add\_edge}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_a3c8beddca797ab7a7324710d898abf0d}{s1}}, t-\/>\mbox{\hyperlink{structtriangle_acb7a4dda895459ac42133fdf2b6307f1}{s2}});}
+\DoxyCodeLine{204             \textcolor{keywordflow}{if}(!\mbox{\hyperlink{graph_8c_a61df34108f21150ed6a6ceaf477152a3}{is\_edge\_in\_graph}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_acb7a4dda895459ac42133fdf2b6307f1}{s2}}, t-\/>\mbox{\hyperlink{structtriangle_a516835f18f2e875b96207e8a334b384d}{s3}}))}
+\DoxyCodeLine{205                 \mbox{\hyperlink{graph_8c_a351e277d15f26fdfa6f141c4273ab099}{add\_edge}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_acb7a4dda895459ac42133fdf2b6307f1}{s2}}, t-\/>\mbox{\hyperlink{structtriangle_a516835f18f2e875b96207e8a334b384d}{s3}});}
+\DoxyCodeLine{206             \textcolor{keywordflow}{if}(!\mbox{\hyperlink{graph_8c_a61df34108f21150ed6a6ceaf477152a3}{is\_edge\_in\_graph}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_a516835f18f2e875b96207e8a334b384d}{s3}}, t-\/>\mbox{\hyperlink{structtriangle_a3c8beddca797ab7a7324710d898abf0d}{s1}}))}
+\DoxyCodeLine{207                 \mbox{\hyperlink{graph_8c_a351e277d15f26fdfa6f141c4273ab099}{add\_edge}}(\mbox{\hyperlink{structgraph}{graph}}, t-\/>\mbox{\hyperlink{structtriangle_a516835f18f2e875b96207e8a334b384d}{s3}}, t-\/>\mbox{\hyperlink{structtriangle_a3c8beddca797ab7a7324710d898abf0d}{s1}});}
+\DoxyCodeLine{208         \}}
+\DoxyCodeLine{209     \}}
+\DoxyCodeLine{210     \mbox{\hyperlink{cprintf_8c_a130a348e38c516eb68e1656cab258661}{deprintf}}(\textcolor{stringliteral}{"{}Delaunay to graph done\(\backslash\)n"{}});}
+\DoxyCodeLine{211 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_ae2f0dd9eeb4cb28f617dc8ed90a53b97}\label{graph_8c_ae2f0dd9eeb4cb28f617dc8ed90a53b97}} 
+\index{graph.c@{graph.c}!dist@{dist}}
+\index{dist@{dist}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{dist()}{dist()}}
+{\footnotesize\ttfamily double dist (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}}}]{p1,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}}}]{p2,  }\item[{enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}}}]{type }\end{DoxyParamCaption})}
+
+Calculate the distance between two points 
+\begin{DoxyParams}{Parameters}
+{\em p1} & point 1 \\
+\hline
+{\em p2} & point 2 \\
+\hline
+{\em type} & distance type (EUCLIDEAN or HAVESINE) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{18                                                           \{}
+\DoxyCodeLine{19     \textcolor{keywordflow}{switch}(type)\{}
+\DoxyCodeLine{20         \textcolor{keywordflow}{case} \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90a81bbbc4428c3ff3f1327e94957e2b5f1}{EUCLIDEAN}}:}
+\DoxyCodeLine{21             \textcolor{keywordflow}{return} sqrt((p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} -\/ p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}})*(p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} -\/ p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}) +}
+\DoxyCodeLine{22                         (p1.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}} -\/ p2.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}})*(p1.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}} -\/ p2.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}}));}
+\DoxyCodeLine{23         \textcolor{keywordflow}{case} \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90a763478b91472a6c1d5d1d53112e8ca1e}{HAVESINE}}:}
+\DoxyCodeLine{24             \textcolor{keywordtype}{double} radius = 6371.0;}
+\DoxyCodeLine{25             \textcolor{keywordtype}{double} plat = p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} * M\_PI / 180.0;}
+\DoxyCodeLine{26             \textcolor{keywordtype}{double} mlat = p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} * M\_PI / 180.0;}
+\DoxyCodeLine{27             \textcolor{keywordtype}{double} dlat = (p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} -\/ p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}) * M\_PI / 180.0;}
+\DoxyCodeLine{28             \textcolor{keywordtype}{double} dlong = (p2.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}} -\/ p1.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}}) * M\_PI / 180.0;}
+\DoxyCodeLine{29             \textcolor{keywordtype}{double} a = sin(dlat/2) * sin(dlat/2) +}
+\DoxyCodeLine{30                     cos(plat) * cos(mlat) *}
+\DoxyCodeLine{31                     sin(dlong/2) * sin(dlong/2);}
+\DoxyCodeLine{32             \textcolor{keywordtype}{double} c = 2 * atan2(sqrt(a), sqrt(1-\/a));}
+\DoxyCodeLine{33             \textcolor{keywordflow}{return} radius * c;}
+\DoxyCodeLine{34         \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{35             \textcolor{keywordflow}{return} sqrt((p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} -\/ p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}})*(p1.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}} -\/ p2.\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}) +}
+\DoxyCodeLine{36                         (p1.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}} -\/ p2.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}})*(p1.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}} -\/ p2.\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}}));}
+\DoxyCodeLine{37     \}}
+\DoxyCodeLine{38 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_aefeb6b70291521fab711ae3350bab00c}\label{graph_8c_aefeb6b70291521fab711ae3350bab00c}} 
+\index{graph.c@{graph.c}!free\_graph@{free\_graph}}
+\index{free\_graph@{free\_graph}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{free\_graph()}{free\_graph()}}
+{\footnotesize\ttfamily void free\+\_\+graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{graph }\end{DoxyParamCaption})}
+
+free memory of a graph 
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{40                                \{}
+\DoxyCodeLine{41     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_ad196210bc9738d10be38d9088a30bbc1}{size\_vertices}}; i++)\{}
+\DoxyCodeLine{42         \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[i].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{43         \textcolor{keywordflow}{while}(node != NULL)\{}
+\DoxyCodeLine{44             \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* temp = node;}
+\DoxyCodeLine{45             node = node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}};}
+\DoxyCodeLine{46             free(temp);}
+\DoxyCodeLine{47         \}}
+\DoxyCodeLine{48     \}}
+\DoxyCodeLine{49     free(\mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}});}
+\DoxyCodeLine{50     free(\mbox{\hyperlink{structgraph}{graph}});}
+\DoxyCodeLine{51 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a61df34108f21150ed6a6ceaf477152a3}\label{graph_8c_a61df34108f21150ed6a6ceaf477152a3}} 
+\index{graph.c@{graph.c}!is\_edge\_in\_graph@{is\_edge\_in\_graph}}
+\index{is\_edge\_in\_graph@{is\_edge\_in\_graph}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{is\_edge\_in\_graph()}{is\_edge\_in\_graph()}}
+{\footnotesize\ttfamily bool is\+\_\+edge\+\_\+in\+\_\+graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{graph,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{d1,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{d2 }\end{DoxyParamCaption})}
+
+Check vertices d1 and d2 are connected by an edge in graph 
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+{\em d1} & vertex 1 \\
+\hline
+{\em d2} & vertex 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if d1 and d2 are connected by an edge in graph 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{187                                                              \{}
+\DoxyCodeLine{188     \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[d1-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}}].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{189     \textcolor{keywordflow}{while}(node != NULL)\{}
+\DoxyCodeLine{190         \textcolor{keywordflow}{if}(node-\/>\mbox{\hyperlink{structnode__adj_a112bb9ebe1626ca0937504cd52d75b77}{id}} == d2-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}})}
+\DoxyCodeLine{191             \textcolor{keywordflow}{return} \textcolor{keyword}{true};}
+\DoxyCodeLine{192         node = node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}};}
+\DoxyCodeLine{193     \}}
+\DoxyCodeLine{194     \textcolor{keywordflow}{return} \textcolor{keyword}{false};}
+\DoxyCodeLine{195 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_ab418fda8982066ccf8ea077b232a3d82}\label{graph_8c_ab418fda8982066ccf8ea077b232a3d82}} 
+\index{graph.c@{graph.c}!prim\_mst@{prim\_mst}}
+\index{prim\_mst@{prim\_mst}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{prim\_mst()}{prim\_mst()}}
+{\footnotesize\ttfamily int$\ast$ prim\+\_\+mst (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{graph,  }\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+Create a MST using Prim\textquotesingle{}s algorithm and a min heap, and save it to a file if filename is not empty 
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+{\em filename} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+parent array 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{131                                          \{}
+\DoxyCodeLine{132     \textcolor{keywordtype}{int} size\_vertices = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_ad196210bc9738d10be38d9088a30bbc1}{size\_vertices}};}
+\DoxyCodeLine{133     \textcolor{keywordtype}{int}* parent = malloc(size\_vertices * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));}
+\DoxyCodeLine{134     \textcolor{keywordtype}{double}* key = malloc(size\_vertices * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{double}));}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136     \mbox{\hyperlink{structmin__heap}{min\_heap\_t}}* \mbox{\hyperlink{structmin__heap}{min\_heap}} = \mbox{\hyperlink{min__heap_8c_a634d2ff503aba5f66263b535aea9e2e3}{create\_min\_heap}}(size\_vertices);}
+\DoxyCodeLine{137     \textcolor{comment}{// Initialize a min heap with all vertices (except first vertex)}}
+\DoxyCodeLine{138     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < size\_vertices; i++)\{}
+\DoxyCodeLine{139         parent[i] = -\/1;}
+\DoxyCodeLine{140         key[i] = DBL\_MAX;}
+\DoxyCodeLine{141         \mbox{\hyperlink{structmin__heap}{min\_heap}}-\/>\mbox{\hyperlink{structmin__heap_aa6dc049d50e597b8c28e94948982ee70}{array}}[i] = \mbox{\hyperlink{min__heap_8c_a0b975369f75445c2ef4c4cb4d7325206}{create\_min\_heap\_node}}(i, key[i]);}
+\DoxyCodeLine{142         \mbox{\hyperlink{structmin__heap}{min\_heap}}-\/>\mbox{\hyperlink{structmin__heap_a61cc90389d2bf82c519c778c29258372}{pos}}[i] = i;}
+\DoxyCodeLine{143     \}}
+\DoxyCodeLine{144 }
+\DoxyCodeLine{145     \textcolor{comment}{// Make key value of first vertex as 0 so that it is extracted first}}
+\DoxyCodeLine{146     key[0] = 0;}
+\DoxyCodeLine{147     \mbox{\hyperlink{structmin__heap}{min\_heap}}-\/>\mbox{\hyperlink{structmin__heap_aa6dc049d50e597b8c28e94948982ee70}{array}}[0] = \mbox{\hyperlink{min__heap_8c_a0b975369f75445c2ef4c4cb4d7325206}{create\_min\_heap\_node}}(0, key[0]);}
+\DoxyCodeLine{148     \mbox{\hyperlink{structmin__heap}{min\_heap}}-\/>\mbox{\hyperlink{structmin__heap_a61cc90389d2bf82c519c778c29258372}{pos}}[0] = 0;}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150     \textcolor{comment}{// Initially size of min heap is equal to V}}
+\DoxyCodeLine{151     \mbox{\hyperlink{structmin__heap}{min\_heap}}-\/>\mbox{\hyperlink{structmin__heap_a456c6372c103c6d1bb430f581f5d3c71}{size}} = size\_vertices;}
+\DoxyCodeLine{152 }
+\DoxyCodeLine{153     \textcolor{comment}{// In the following loop, min heap contains all nodes}}
+\DoxyCodeLine{154     \textcolor{comment}{// whose shortest distance is not yet finalized.}}
+\DoxyCodeLine{155     \textcolor{keywordflow}{while} (!\mbox{\hyperlink{min__heap_8c_adc98bf499baff8b9f470de5b879bbecc}{is\_empty}}(\mbox{\hyperlink{structmin__heap}{min\_heap}}))\{}
+\DoxyCodeLine{156         \textcolor{comment}{// Extract the vertex with minimum distance value}}
+\DoxyCodeLine{157         \mbox{\hyperlink{structmin__heap__node}{min\_heap\_node\_t}}* \mbox{\hyperlink{structmin__heap__node}{min\_heap\_node}} = \mbox{\hyperlink{min__heap_8c_abf41afd4d47e59b8281133769238d092}{extract\_min}}(\mbox{\hyperlink{structmin__heap}{min\_heap}});}
+\DoxyCodeLine{158         \textcolor{keywordtype}{int} u = \mbox{\hyperlink{structmin__heap__node}{min\_heap\_node}}-\/>\mbox{\hyperlink{structmin__heap__node_a9d29a9ea276cae767a9d0695f4f888af}{v}};}
+\DoxyCodeLine{159 }
+\DoxyCodeLine{160         \textcolor{comment}{// Traverse through all adjacent vertices of u (the extracted}}
+\DoxyCodeLine{161         \textcolor{comment}{// vertex) and update their distance values}}
+\DoxyCodeLine{162         \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = \mbox{\hyperlink{structgraph}{graph}}-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[u].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{163         \textcolor{keywordflow}{while} (node != NULL)\{}
+\DoxyCodeLine{164             \textcolor{keywordtype}{int} v = node-\/>\mbox{\hyperlink{structnode__adj_ab21bb95f49c84ca1ef6404b581b97685}{data}}-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}};}
+\DoxyCodeLine{165             \textcolor{comment}{// If shortest distance to v is not finalized yet, and distance to v}}
+\DoxyCodeLine{166             \textcolor{comment}{// through u is less than its previously calculated distance}}
+\DoxyCodeLine{167             \textcolor{keywordflow}{if} (\mbox{\hyperlink{min__heap_8c_af168754f54a028f0b1a4e672dbe9d557}{is\_in\_min\_heap}}(\mbox{\hyperlink{structmin__heap}{min\_heap}}, v) \&\& node-\/>\mbox{\hyperlink{structnode__adj_a5b9ab49fb406485cc2644dec5b9e076c}{weight}} < key[v])\{}
+\DoxyCodeLine{168                 key[v] = node-\/>\mbox{\hyperlink{structnode__adj_a5b9ab49fb406485cc2644dec5b9e076c}{weight}};}
+\DoxyCodeLine{169                 parent[v] = u;}
+\DoxyCodeLine{170                 \mbox{\hyperlink{min__heap_8c_a0c8db548a027198e30b83fef6ffbfa0c}{decrease\_key}}(\mbox{\hyperlink{structmin__heap}{min\_heap}}, v, key[v]);}
+\DoxyCodeLine{171             \}}
+\DoxyCodeLine{172             node = node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}};}
+\DoxyCodeLine{173         \}}
+\DoxyCodeLine{174         free(\mbox{\hyperlink{structmin__heap__node}{min\_heap\_node}});}
+\DoxyCodeLine{175     \}}
+\DoxyCodeLine{176     \textcolor{comment}{// save MST in file if path is not empty}}
+\DoxyCodeLine{177     \textcolor{keywordflow}{if}(strcmp(path, \textcolor{stringliteral}{"{}"{}}))\{}
+\DoxyCodeLine{178         \mbox{\hyperlink{graph_8c_a8dedac2a7cf59a4da5518285eed6b6e0}{save\_mst}}(parent, size\_vertices, path);}
+\DoxyCodeLine{179     \}}
+\DoxyCodeLine{180     \textcolor{comment}{// free memory}}
+\DoxyCodeLine{181     free(key);}
+\DoxyCodeLine{182     \mbox{\hyperlink{min__heap_8c_a6767c3e30cf71b39eb4f324719263c7f}{free\_min\_heap}}(\mbox{\hyperlink{structmin__heap}{min\_heap}});}
+\DoxyCodeLine{183     \mbox{\hyperlink{cprintf_8c_a130a348e38c516eb68e1656cab258661}{deprintf}}(\textcolor{stringliteral}{"{}Prim MST done\(\backslash\)n"{}});}
+\DoxyCodeLine{184     \textcolor{keywordflow}{return} parent;}
+\DoxyCodeLine{185 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a8dedac2a7cf59a4da5518285eed6b6e0}\label{graph_8c_a8dedac2a7cf59a4da5518285eed6b6e0}} 
+\index{graph.c@{graph.c}!save\_mst@{save\_mst}}
+\index{save\_mst@{save\_mst}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{save\_mst()}{save\_mst()}}
+{\footnotesize\ttfamily void save\+\_\+mst (\begin{DoxyParamCaption}\item[{int $\ast$}]{parent,  }\item[{int}]{size\+\_\+vertices,  }\item[{char $\ast$}]{path }\end{DoxyParamCaption})}
+
+Save a MST to a file 
+\begin{DoxyParams}{Parameters}
+{\em parent} & \\
+\hline
+{\em size\+\_\+vertices} & \\
+\hline
+{\em path} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+if path is incorrect, the function exit with EXIT\+\_\+\+FAILURE 
+\end{DoxyNote}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{114                                                          \{}
+\DoxyCodeLine{115     FILE* file = fopen(path, \textcolor{stringliteral}{"{}w+"{}});}
+\DoxyCodeLine{116     \textcolor{keywordflow}{if}(file == NULL)\{}
+\DoxyCodeLine{117         perror(\textcolor{stringliteral}{"{}Error opening file"{}});}
+\DoxyCodeLine{118         exit(EXIT\_FAILURE);}
+\DoxyCodeLine{119     \}}
+\DoxyCodeLine{120     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < size\_vertices; i++)\{}
+\DoxyCodeLine{121         \textcolor{keywordflow}{if}(parent[i] == -\/1)\{}
+\DoxyCodeLine{122             \mbox{\hyperlink{cprintf_8c_a130a348e38c516eb68e1656cab258661}{deprintf}}(\textcolor{stringliteral}{"{}Error save\_mst: parent[\%d] = -\/1\(\backslash\)n Vertex not connected \(\backslash\)}}
+\DoxyCodeLine{123 \textcolor{stringliteral}{            (Probably another vertex having same coordinate is already connected)\(\backslash\)n"{}}, i);}
+\DoxyCodeLine{124         \}}
+\DoxyCodeLine{125         fprintf(file, \textcolor{stringliteral}{"{}\%d -\/ \%d\(\backslash\)n"{}}, parent[i], i);}
+\DoxyCodeLine{126     \}}
+\DoxyCodeLine{127     fclose(file);}
+\DoxyCodeLine{128     \mbox{\hyperlink{cprintf_8c_a130a348e38c516eb68e1656cab258661}{deprintf}}(\textcolor{stringliteral}{"{}MST saved in file: \%s\(\backslash\)n"{}}, path);}
+\DoxyCodeLine{129 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a06ec69c2b47db07faa909db8c00f7ea6}\label{graph_8c_a06ec69c2b47db07faa909db8c00f7ea6}} 
+\index{graph.c@{graph.c}!set\_distn@{set\_distn}}
+\index{set\_distn@{set\_distn}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{set\_distn()}{set\_distn()}}
+{\footnotesize\ttfamily void set\+\_\+distn (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}}}]{type }\end{DoxyParamCaption})}
+
+Set the distance norm for distance calculation 
+\begin{DoxyParams}{Parameters}
+{\em type} & (EUCLIDEAN or HAVESINE) \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{14                                        \{}
+\DoxyCodeLine{15     \mbox{\hyperlink{graph_8c_a129eeea476eef937b845899764bf8513}{\_distance\_type}} = type;}
+\DoxyCodeLine{16 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_a389a500d20403035db015a8ff888433c}\label{graph_8c_a389a500d20403035db015a8ff888433c}} 
+\index{graph.c@{graph.c}!show\_graph\_adj@{show\_graph\_adj}}
+\index{show\_graph\_adj@{show\_graph\_adj}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{show\_graph\_adj()}{show\_graph\_adj()}}
+{\footnotesize\ttfamily void show\+\_\+graph\+\_\+adj (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{g }\end{DoxyParamCaption})}
+
+Show nodes of a graph and their adjacent nodes 
+\begin{DoxyParams}{Parameters}
+{\em g} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{89                                \{}
+\DoxyCodeLine{90     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < g-\/>\mbox{\hyperlink{structgraph_ad196210bc9738d10be38d9088a30bbc1}{size\_vertices}}; i++)}
+\DoxyCodeLine{91     \{}
+\DoxyCodeLine{92         \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = g-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[i].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{93         printf(\textcolor{stringliteral}{"{}Vertex \%d: "{}}, i);}
+\DoxyCodeLine{94         \textcolor{keywordflow}{while}(node != NULL)}
+\DoxyCodeLine{95         \{}
+\DoxyCodeLine{96             printf(\textcolor{stringliteral}{"{}\%d(\%f) "{}}, node-\/>\mbox{\hyperlink{structnode__adj_a112bb9ebe1626ca0937504cd52d75b77}{id}}, node-\/>\mbox{\hyperlink{structnode__adj_a5b9ab49fb406485cc2644dec5b9e076c}{weight}});}
+\DoxyCodeLine{97             node = node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}};}
+\DoxyCodeLine{98         \}}
+\DoxyCodeLine{99         printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{100     \}}
+\DoxyCodeLine{101 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_ab774adf936f6399559d53aca2937b5bf}\label{graph_8c_ab774adf936f6399559d53aca2937b5bf}} 
+\index{graph.c@{graph.c}!show\_graph\_adj\_at@{show\_graph\_adj\_at}}
+\index{show\_graph\_adj\_at@{show\_graph\_adj\_at}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{show\_graph\_adj\_at()}{show\_graph\_adj\_at()}}
+{\footnotesize\ttfamily void show\+\_\+graph\+\_\+adj\+\_\+at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{graph_8h_ad439e0296de6211cff22712aeab674cb}{graph\+\_\+t}} $\ast$}]{g,  }\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{103                                           \{}
+\DoxyCodeLine{104     \mbox{\hyperlink{structnode__adj}{node\_adj\_t}}* node = g-\/>\mbox{\hyperlink{structgraph_a9b9eb3a8d318204f6740bd7df6a3ed27}{arr}}[id].\mbox{\hyperlink{structadj__list_a3634e297de7f8c249c86980c1f179f52}{head}};}
+\DoxyCodeLine{105     printf(\textcolor{stringliteral}{"{}Vertex \%d: "{}}, \textcolor{keywordtype}{id});}
+\DoxyCodeLine{106     \textcolor{keywordflow}{while}(node != NULL)}
+\DoxyCodeLine{107     \{}
+\DoxyCodeLine{108         printf(\textcolor{stringliteral}{"{}\%d(\%f) "{}}, node-\/>\mbox{\hyperlink{structnode__adj_a112bb9ebe1626ca0937504cd52d75b77}{id}}, node-\/>\mbox{\hyperlink{structnode__adj_a5b9ab49fb406485cc2644dec5b9e076c}{weight}});}
+\DoxyCodeLine{109         node = node-\/>\mbox{\hyperlink{structnode__adj_aec5cc52ef14c14b359b1489eb618ba0d}{next}};}
+\DoxyCodeLine{110     \}}
+\DoxyCodeLine{111     printf(\textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{112 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{graph_8c_afb885b7a704981f51b2c19db191cd798}\label{graph_8c_afb885b7a704981f51b2c19db191cd798}} 
+\index{graph.c@{graph.c}!sum\_weight\_graph@{sum\_weight\_graph}}
+\index{sum\_weight\_graph@{sum\_weight\_graph}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{sum\_weight\_graph()}{sum\_weight\_graph()}}
+{\footnotesize\ttfamily double sum\+\_\+weight\+\_\+graph (\begin{DoxyParamCaption}\item[{int $\ast$}]{mst,  }\item[{\mbox{\hyperlink{array__list_8h_a15376354e4e8b4f1732e9df17f30786c}{list\+\_\+t}} $\ast$}]{nodes,  }\item[{int}]{size\+\_\+vertices }\end{DoxyParamCaption})}
+
+Calculate the sum of the weights of the edges in the MST 
+\begin{DoxyParams}{Parameters}
+{\em mst} & array of parents \\
+\hline
+{\em nodes} & list of nodes \\
+\hline
+{\em size\+\_\+vertices} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sum of the weights of the edges in the MST 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{213                                                                    \{}
+\DoxyCodeLine{214     \textcolor{keywordtype}{double} sum = 0;}
+\DoxyCodeLine{215     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < size\_vertices; i++)\{}
+\DoxyCodeLine{216         \textcolor{keywordflow}{if}(mst[i] == -\/1)}
+\DoxyCodeLine{217             \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{218         \mbox{\hyperlink{structdata}{data\_t}}* data1 = \mbox{\hyperlink{array__list_8c_a6776ee1029cbe69fe19247fe288c267e}{list\_get}}(nodes, mst[i]);}
+\DoxyCodeLine{219         \mbox{\hyperlink{structdata}{data\_t}}* data2 = \mbox{\hyperlink{array__list_8c_a6776ee1029cbe69fe19247fe288c267e}{list\_get}}(nodes, i);}
+\DoxyCodeLine{220         sum += \mbox{\hyperlink{graph_8c_ae2f0dd9eeb4cb28f617dc8ed90a53b97}{dist}}(*data1, *data2, \mbox{\hyperlink{graph_8c_a129eeea476eef937b845899764bf8513}{\_distance\_type}});}
+\DoxyCodeLine{221     \}}
+\DoxyCodeLine{222     \textcolor{keywordflow}{return} sum;}
+\DoxyCodeLine{223 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{graph_8c_a129eeea476eef937b845899764bf8513}\label{graph_8c_a129eeea476eef937b845899764bf8513}} 
+\index{graph.c@{graph.c}!\_distance\_type@{\_distance\_type}}
+\index{\_distance\_type@{\_distance\_type}!graph.c@{graph.c}}
+\doxysubsubsection{\texorpdfstring{\_distance\_type}{\_distance\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{graph_8h_ac50d7263b1cae8691420b86282b27f90}{DISTANCE\+\_\+\+TYPE}} \+\_\+distance\+\_\+type}
+

@@ -1,0 +1,173 @@
+\hypertarget{data__t_8h}{}\doxysection{include/data\+\_\+t.h File Reference}
+\label{data__t_8h}\index{include/data\_t.h@{include/data\_t.h}}
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for data\+\_\+t.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdata}{data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structdata}{data}} \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \mbox{\hyperlink{data__t_8h_a90cc88c6f5c2c459ed1b481aa3f05b70}{serialize\+\_\+data\+\_\+t}} (double latitude, double longitude, int id)
+\item 
+\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$ \mbox{\hyperlink{data__t_8h_a9ac0ddfa3bd075ef903ea5a2cd387669}{deserialize\+\_\+data\+\_\+t}} (char $\ast$data\+\_\+b)
+\item 
+int \mbox{\hyperlink{data__t_8h_afb1f0fc337a717f2568ef854d0cc6535}{compare\+\_\+data\+\_\+t}} (\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$a, \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$b, double epsilon)
+\item 
+void \mbox{\hyperlink{data__t_8h_ae796faa2465fee5a55fac6ff3ccc701d}{print\+\_\+data\+\_\+t}} (\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$da)
+\item 
+int \mbox{\hyperlink{data__t_8h_a0c95a59015e75c3b5c1d6f41a62261e4}{qsort\+\_\+compare\+\_\+data\+\_\+t}} (const void $\ast$d1, const void $\ast$d2)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}\label{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}} 
+\index{data\_t.h@{data\_t.h}!data\_t@{data\_t}}
+\index{data\_t@{data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{data\_t}{data\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structdata}{data}} \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{data__t_8h_afb1f0fc337a717f2568ef854d0cc6535}\label{data__t_8h_afb1f0fc337a717f2568ef854d0cc6535}} 
+\index{data\_t.h@{data\_t.h}!compare\_data\_t@{compare\_data\_t}}
+\index{compare\_data\_t@{compare\_data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{compare\_data\_t()}{compare\_data\_t()}}
+{\footnotesize\ttfamily int compare\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{a,  }\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{b,  }\item[{double}]{epsilon }\end{DoxyParamCaption})}
+
+Compare two data\+\_\+t 
+\begin{DoxyParams}{Parameters}
+{\em a} & \\
+\hline
+{\em b} & \\
+\hline
+{\em epsilon} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if a == b according to epsilon, 0 otherwise 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{27                                                         \{}
+\DoxyCodeLine{28     \textcolor{keywordflow}{return} ((fabs(a-\/>\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}-\/b-\/>\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}) < epsilon) \&\& (fabs(a-\/>\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}}-\/b-\/>\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}}) < epsilon));}
+\DoxyCodeLine{29 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{data__t_8h_a9ac0ddfa3bd075ef903ea5a2cd387669}\label{data__t_8h_a9ac0ddfa3bd075ef903ea5a2cd387669}} 
+\index{data\_t.h@{data\_t.h}!deserialize\_data\_t@{deserialize\_data\_t}}
+\index{deserialize\_data\_t@{deserialize\_data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{deserialize\_data\_t()}{deserialize\_data\_t()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}}$\ast$ deserialize\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{char $\ast$}]{data\+\_\+b }\end{DoxyParamCaption})}
+
+Deserialize data\+\_\+t 
+\begin{DoxyParams}{Parameters}
+{\em data\+\_\+b} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+data\+\_\+t 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{21                                         \{}
+\DoxyCodeLine{22     \mbox{\hyperlink{structdata}{data\_t}}* da = malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structdata}{data\_t}}));}
+\DoxyCodeLine{23     memcpy(da, data\_b, \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structdata}{data\_t}}));}
+\DoxyCodeLine{24     \textcolor{keywordflow}{return} da;}
+\DoxyCodeLine{25 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{data__t_8h_ae796faa2465fee5a55fac6ff3ccc701d}\label{data__t_8h_ae796faa2465fee5a55fac6ff3ccc701d}} 
+\index{data\_t.h@{data\_t.h}!print\_data\_t@{print\_data\_t}}
+\index{print\_data\_t@{print\_data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{print\_data\_t()}{print\_data\_t()}}
+{\footnotesize\ttfamily void print\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{data__t_8h_a1d756f237acef91aa7ef4e6b87f52632}{data\+\_\+t}} $\ast$}]{da }\end{DoxyParamCaption})}
+
+Print data\+\_\+t 
+\begin{DoxyParams}{Parameters}
+{\em da} & \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{31                              \{}
+\DoxyCodeLine{32     printf(\textcolor{stringliteral}{"{}\%d [\%f, \%f]\(\backslash\)n"{}}, da-\/>\mbox{\hyperlink{structdata_a967e99067a26a66d0d5318318447448e}{id}}, da-\/>\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}}, da-\/>\mbox{\hyperlink{structdata_a3f1e2537541bf03cd61d7de402eac63c}{longitude}});}
+\DoxyCodeLine{33 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{data__t_8h_a0c95a59015e75c3b5c1d6f41a62261e4}\label{data__t_8h_a0c95a59015e75c3b5c1d6f41a62261e4}} 
+\index{data\_t.h@{data\_t.h}!qsort\_compare\_data\_t@{qsort\_compare\_data\_t}}
+\index{qsort\_compare\_data\_t@{qsort\_compare\_data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{qsort\_compare\_data\_t()}{qsort\_compare\_data\_t()}}
+{\footnotesize\ttfamily int qsort\+\_\+compare\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{const void $\ast$}]{d1,  }\item[{const void $\ast$}]{d2 }\end{DoxyParamCaption})}
+
+Compare two data\+\_\+t for qsort functions 
+\begin{DoxyParams}{Parameters}
+{\em d1} & \\
+\hline
+{\em d2} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/1 if d1 $<$ d2, 1 if d1 $>$ d2, 0 otherwise 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{36                                                         \{}
+\DoxyCodeLine{37     \textcolor{comment}{// d1 and d2 comes from a list of data\_t, more precisely from a void** array}}
+\DoxyCodeLine{38     \textcolor{comment}{// so we need to cast them to void* and then to data\_t*}}
+\DoxyCodeLine{39     \mbox{\hyperlink{structdata}{data\_t}}* aa = *((\mbox{\hyperlink{structdata}{data\_t}}**)d1);}
+\DoxyCodeLine{40     \mbox{\hyperlink{structdata}{data\_t}}* bb = *((\mbox{\hyperlink{structdata}{data\_t}}**)d2);}
+\DoxyCodeLine{41     \textcolor{keywordtype}{double} a = aa-\/>\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}};}
+\DoxyCodeLine{42     \textcolor{keywordtype}{double} b = bb-\/>\mbox{\hyperlink{structdata_a0e180345fd8383a9e754aea664785e8c}{latitude}};}
+\DoxyCodeLine{43     \textcolor{keywordflow}{if} (a > b)}
+\DoxyCodeLine{44         \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{45     \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (a < b)}
+\DoxyCodeLine{46         \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{47     \textcolor{keywordflow}{else}}
+\DoxyCodeLine{48         \textcolor{keywordflow}{return} 0; }
+\DoxyCodeLine{49 \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{data__t_8h_a90cc88c6f5c2c459ed1b481aa3f05b70}\label{data__t_8h_a90cc88c6f5c2c459ed1b481aa3f05b70}} 
+\index{data\_t.h@{data\_t.h}!serialize\_data\_t@{serialize\_data\_t}}
+\index{serialize\_data\_t@{serialize\_data\_t}!data\_t.h@{data\_t.h}}
+\doxysubsubsection{\texorpdfstring{serialize\_data\_t()}{serialize\_data\_t()}}
+{\footnotesize\ttfamily char$\ast$ serialize\+\_\+data\+\_\+t (\begin{DoxyParamCaption}\item[{double}]{latitude,  }\item[{double}]{longitude,  }\item[{int}]{id }\end{DoxyParamCaption})}
+
+Serialize data\+\_\+t 
+\begin{DoxyParams}{Parameters}
+{\em latitude} & \\
+\hline
+{\em longitude} & \\
+\hline
+{\em id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+serialized data\+\_\+t 
+\end{DoxyReturn}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{10                                                                  \{}
+\DoxyCodeLine{11     \textcolor{comment}{//data\_t da = \{.latitude = latitude, .longitude = longitude, .id = id \};}}
+\DoxyCodeLine{12     \textcolor{keywordtype}{char}* \mbox{\hyperlink{structdata}{data}} = calloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structdata}{data\_t}}),1);}
+\DoxyCodeLine{13     ((\mbox{\hyperlink{structdata}{data\_t}}*)\mbox{\hyperlink{structdata}{data}})-\/>id = id;}
+\DoxyCodeLine{14     ((\mbox{\hyperlink{structdata}{data\_t}}*)\mbox{\hyperlink{structdata}{data}})-\/>latitude = latitude;}
+\DoxyCodeLine{15     ((\mbox{\hyperlink{structdata}{data\_t}}*)\mbox{\hyperlink{structdata}{data}})-\/>longitude = longitude;}
+\DoxyCodeLine{16     \textcolor{comment}{//memcpy(data, \&da, sizeof(data\_t));}}
+\DoxyCodeLine{17     \textcolor{keywordflow}{return} \mbox{\hyperlink{structdata}{data}};}
+\DoxyCodeLine{18 \}}
+
+\end{DoxyCode}
