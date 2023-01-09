@@ -9,11 +9,11 @@
     - [Fichiers binaire](#fichiers-binaire)
       - [Parsage du CSV](#parsage-du-csv)
   - [Pourquoi Delaunay ?](#pourquoi-delaunay-)
+  - [Aperçu](#aperçu)
   - [Exécution](#exécution)
     - [Utilisation de l'exécutable](#utilisation-de-lexécutable)
     - [Lancement des tests unitaires](#lancement-des-tests-unitaires)
     - [Génération de la documentation](#génération-de-la-documentation)
-  - [Aperçu](#aperçu)
   - [Notes](#notes)
   - [Auteurs](#auteurs)
 
@@ -50,6 +50,49 @@ int  id;
 ```
 ## Pourquoi Delaunay ?
 La triangulation de Delaunay porte un propriété intéressante tel que : [l'arbre euclidien couvrant de poids minimal est un sous graphe de la triangulation](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay#Applications). Sachant que cette construction peut ce faire en O(log n) en utilisant une approche divisé pour régné et les structures de donnée adapté (Quad Edge), cela est alors très intéressant dans notre cas ([exemple d'implémentation](https://github.com/alexbaryzhikov/triangulation)). Malheureusement nous avons du nous limiter à une proche itératif en passant par l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson) qui ce fait en O(n²).
+
+## Aperçu 
+<table>
+<thead> 
+	<tr> 
+		<th colspan="4">Pour 205 632 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/m2X20Lm.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/WtplU3Y.png" alt="Delaunay"></td>
+  </tr>
+ <thead> 
+	<tr> 
+		<th colspan="4">Pour 10 000 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/1VyjdHV.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/tCEmxk9.png" alt="Delaunay"></td>
+  </tr>
+   <thead> 
+	<tr> 
+		<th colspan="4">Pour 100 arbres</th>
+	</tr> 
+</thead>
+  <tr>
+    <td>Prim</td>
+    <td><img target="_blank" src="https://i.imgur.com/JI8nKby.png" alt="Prim"></td>
+  </tr>
+  <tr>
+    <td>Delaunay</td>
+    <td><img target="_blank" src="https://i.imgur.com/vtEu24N.png" alt="Delaunay"></td>
+  </tr>
+</table>
 
 ## Exécution
 
@@ -99,50 +142,6 @@ Vous pouvez aussi obtenir un code coverage avec ``make cov`` à la racine ou dan
 
 ### Génération de la documentation
 Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation serra accessible via ``docs/html/index.html``.
-
-
-## Aperçu 
-<table>
-<thead> 
-	<tr> 
-		<th colspan="4">Pour 205 632 arbres</th>
-	</tr> 
-</thead>
-  <tr>
-    <td>Prim</td>
-    <td><img target="_blank" src="https://i.imgur.com/m2X20Lm.png" alt="Prim"></td>
-  </tr>
-  <tr>
-    <td>Delaunay</td>
-    <td><img target="_blank" src="https://i.imgur.com/WtplU3Y.png" alt="Delaunay"></td>
-  </tr>
- <thead> 
-	<tr> 
-		<th colspan="4">Pour 10 000 arbres</th>
-	</tr> 
-</thead>
-  <tr>
-    <td>Prim</td>
-    <td><img target="_blank" src="https://i.imgur.com/1VyjdHV.png" alt="Prim"></td>
-  </tr>
-  <tr>
-    <td>Delaunay</td>
-    <td><img target="_blank" src="https://i.imgur.com/tCEmxk9.png" alt="Delaunay"></td>
-  </tr>
-   <thead> 
-	<tr> 
-		<th colspan="4">Pour 100 arbres</th>
-	</tr> 
-</thead>
-  <tr>
-    <td>Prim</td>
-    <td><img target="_blank" src="https://i.imgur.com/JI8nKby.png" alt="Prim"></td>
-  </tr>
-  <tr>
-    <td>Delaunay</td>
-    <td><img target="_blank" src="https://i.imgur.com/vtEu24N.png" alt="Delaunay"></td>
-  </tr>
-</table>
 
 ## Notes
 - La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
