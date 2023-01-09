@@ -1,7 +1,13 @@
 #pragma once
 #include <stdint.h>
 
-typedef struct data
+/**
+ * @defgroup Data_tModule
+ * @{
+ * @brief Data_t structure and functions to handle it
+ */
+
+typedef struct data_t
 {
     double latitude;
     double longitude;
@@ -46,3 +52,4 @@ void print_data_t(data_t* da);
  * @return -1 if d1 < d2, 1 if d1 > d2, 0 otherwise
  */
 int qsort_compare_data_t(const void* d1, const void* d2);
+/** @} */

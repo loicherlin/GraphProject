@@ -4,7 +4,15 @@
 #include "data_t.h"
 #include "graph.h"
 
+/**
+ * @defgroup VisualiseModule
+ * @{
+ * @brief Visualise Delaunay and Prim result using the tps library and the SDL2 library. 
+ */
 
+/**
+ * Hold screen informations.
+ */
 typedef struct screen_t{
     int width;
     int height;
@@ -16,12 +24,18 @@ typedef struct screen_t{
     double y_mouse;
 } screen_t;
 
+/**
+ * Enum for text to display.
+ */
 enum TXT{
     TXT_DEFAULT = 0,
     TXT_DELAUNAY = 1,
     TXT_PRIM =  2 
 };
 
+/**
+ * Enum for color.
+ */
 enum COLOR{
     COLOR_BLACK = 0,
     COLOR_RED = 1,
@@ -151,3 +165,4 @@ void camera_move(int x, int y);
  * @param keyPressed key pressed
  */
 void onKeyDown(int keyPressed);
+/** @} */

@@ -2,7 +2,14 @@
 #include <signal.h>
 
 /**
- * @brief Used to store the interrupt signals to be handled.
+ * @defgroup HandlerModule
+ * @{
+ * @brief Handle the interrupt signals.
+ * @note SIGINT is only handled.
+ */
+
+/**
+ * Used to store the interrupt signals to be handled.
  */
 typedef struct
 {
@@ -15,12 +22,13 @@ typedef struct
 extern volatile signal_int_t _interrupt_signals;
 
 /**
- * @brief Handle the interrupt signals.
+ * Handle the interrupt signals.
  * @param sig Signal to be handled.
  */
 void interrupt(int sig);
 
 /**
- * @brief Initiate the handler.
+ * Initiate the handler.
  */
 void initiate_handler();
+/** @} */

@@ -3,7 +3,12 @@
 #include <argp.h>
 #include <stdbool.h>  
 
-//https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html
+/**
+ * @defgroup ParsingModule
+ * @{
+ * @brief Parse argments from command line using argp
+ * @note Reference: https://www.gnu.org/software/libc/manual/html_node/Argp-Example-3.html
+ */
 
 const char *argp_program_version =
   "1.0";
@@ -97,4 +102,5 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 /* Our argp parser. */
 static struct argp argp = { options, parse_opt, NULL, doc };
+/** @} */
 

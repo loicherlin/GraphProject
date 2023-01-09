@@ -4,6 +4,13 @@
 #include "delaunay.h"
 #include <stdbool.h>
 
+/**
+ * @defgroup GraphModule
+ * @{
+ * @brief Graph structure and prim algorithm
+ * @note helped from https://sites.google.com/site/rajboston1951/minimum-spanning-tree/2
+ */
+
 enum DISTANCE_TYPE{
     EUCLIDEAN = 0,
     HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
@@ -130,3 +137,4 @@ void delaunay_to_graph(delaunay_t* triangles, graph_t* graph);
  * @return sum of the weights of the edges in the MST
  */
 double sum_weight_graph(int* mst, list_t* nodes, int size_vertices);
+/** @} */

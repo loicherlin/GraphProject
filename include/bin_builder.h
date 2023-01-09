@@ -1,6 +1,11 @@
 #pragma once
 #include "array_list.h"
 
+/**
+ * @defgroup BinBuilderModule 
+ * @{
+ * @brief Build and read binary files from csv files.
+ */
 
 /**
  * Sanatize coordinates that are in form of "lattitude,longitude"
@@ -41,3 +46,4 @@ int build_csv_bin(FILE* fp, char* path_bin, char delimiter);
  * @note fp is not closed into this function.
  */
 list_t* get_data_csv_bin(FILE* fp);
+/** @} */
