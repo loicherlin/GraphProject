@@ -52,6 +52,6 @@ Exemple ( Pour obtenir l'arbre couvrant minimal et delauney a partir du fichier 
 
 ### Lancement des testes
 
-Afin de lancer les testes, il suffit lancer **Make testes** a la source du projet. Afin d'avoir un meilleur visuelle, vous pouvez lancer la commande ``firefox  tests/rapport/index.html``.
+Afin de lancer les testes, il suffit lancer **Make test** a la source du projet. Afin d'avoir un meilleur visuelle, vous pouvez lancer la commande ``make cov`` puis ``firefox  tests/rapport/index.html``.
 
 ### Génération de la documentation
