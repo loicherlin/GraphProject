@@ -61,7 +61,7 @@ void initiate_args(int argc, char* argv[]){
     arguments.width = 1400;
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
     if(!strcmp(arguments.output_file,"") || !strcmp(arguments.input_file,"")){
-        printf("Please give input and output file. (use -h for help)\n");
+        printf("Please give input and output file. (use --help for help)\n");
         exit(1);
     }
     _debug = arguments.debug;
