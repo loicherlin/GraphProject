@@ -1,6 +1,12 @@
 #pragma once
 
 /**
+ * @defgroup CSVParserModule
+ * @{
+ * @brief Parser for csv file
+ */
+
+/**
  * Get the line of fp, splitted into an array of strings
  * @param fp
  * @param n
@@ -46,3 +52,4 @@ void skip_header(FILE* fp);
  * @param n
  */
 void exterminate_malloc(char** rip, int n);
+/** @} */

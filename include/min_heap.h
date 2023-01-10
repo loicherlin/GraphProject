@@ -3,8 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// helped from 
-// https://sites.google.com/site/rajboston1951/minimum-spanning-tree/2
+/**
+ * @defgroup MinHeapModule
+ * @{
+ * @brief Min heap structure and functions to handle it
+ * @note helped from https://sites.google.com/site/rajboston1951/minimum-spanning-tree/2
+ */
 
 /**
  * Node of an adjacent list
@@ -82,3 +86,4 @@ int is_in_min_heap(min_heap_t* min_heap, int v);
  * @param min_heap
  */
 void free_min_heap(min_heap_t* min_heap);
+/** @} */

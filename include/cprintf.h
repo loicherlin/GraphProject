@@ -10,6 +10,12 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+/**
+ * @defgroup CprintfModule 
+ * @{
+ * @brief Custom printf for error, progress, debug messages
+ */
+
 // Debug mode
 extern bool _debug;
 
@@ -34,3 +40,4 @@ void prprintf(char* task_name, int current, int size);
  * @param ... The arguments
  */
 void eprintf(const char *format, ...);
+/** @} */

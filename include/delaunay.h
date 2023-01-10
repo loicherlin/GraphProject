@@ -5,6 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * @defgroup DelaunayModule
+ * @{
+ * @brief To get the delaunay triangulation of a set of points, load and save it.
+ * @note Bowyer-Watson algorithm is only implemented.
+ */
+
 typedef struct{
     triangle_t** triangles;
     size_t size_triangles;
@@ -24,10 +31,9 @@ delaunay_t* delaunay_bowyer_watson(list_t* nodes);
  * @brief Save the delaunay triangles in a binary file
  * @param delaunay
  * @param fp
- * @param data_list
  * @note Save id of the points of each triangle
  */
-void serialize_delaunay(delaunay_t* delaunay, FILE* fp, list_t* data_list);
+void serialize_delaunay(delaunay_t* delaunay, FILE* fp);
 
 /**
  * @brief Get the delaunay triangles from a binary file
@@ -53,3 +59,4 @@ delaunay_t* initiate_delaunay(list_t* data_list, char* path_to_save, char* path_
  * @param delaunay
  */
 void free_delaunay(delaunay_t* delaunay);
+/** @} */

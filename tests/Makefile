@@ -1,6 +1,6 @@
 TARGET=tests
 
-CFLAGS=-Wall -g -fprofile-arcs -ftest-coverage
+CFLAGS=-Wall -Wextra -g -fprofile-arcs -ftest-coverage
 
 LDLIBS=-lm -ltps -lSDL2 -lSDL2_ttf
 
@@ -15,7 +15,7 @@ INCLUDES := $(wildcard $(INCLUDE_PATH)/*.h)
 OBJECTS0  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 OBJECTS = $(filter-out $(OBJDIR)/main.o,$(OBJECTS0))
 
-
+all: $(TARGET)
 
 tests: $(OBJECTS) obj/tests.o
 
