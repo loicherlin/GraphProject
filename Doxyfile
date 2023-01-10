@@ -5,7 +5,8 @@ OUTPUT_DIRECTORY       = docs
 
 BUILTIN_STL_SUPPORT = YES
 
-INPUT                  = src/ include/
+INPUT                  = src/ include/ README.md
+USE_MDFILE_AS_MAINPAGE = README.md
 INPUT_ENCODING         = UTF-8
 RECURSIVE              = YES
 
