@@ -19,11 +19,13 @@ char _binds[BUFFER_SIZE];
 
 screen_t* _screen;
 
-double normalize_to_screen(double coord, double coord_max, double coord_min){
+double normalize_to_screen(double coord, double coord_max, double coord_min)
+{
     return (coord - coord_min) / (coord_max - coord_min);
 }
 
-void zoom_in(){
+void zoom_in()
+{
     double x_diff = _screen->x_max  - _screen->x_min;
     double y_diff = _screen->y_max - _screen->y_min;
     _screen->x_max = _screen->x_max - x_diff * 0.1;
@@ -32,7 +34,8 @@ void zoom_in(){
     _screen->y_min = _screen->y_min + y_diff * 0.1;
 }
 
-void zoom_out(){
+void zoom_out()
+{
     double x_diff = _screen->x_max  - _screen->x_min;
     double y_diff = _screen->y_max - _screen->y_min;
     _screen->x_max = _screen->x_max + x_diff * 0.1;
@@ -41,10 +44,12 @@ void zoom_out(){
     _screen->y_min = _screen->y_min - y_diff * 0.1;
 }
 
-void move_screen(int flag){
+void move_screen(int flag)
+{
     double x_diff = _screen->x_max - _screen->x_min;
     double y_diff = _screen->y_max  - _screen->y_min;
-    switch(flag){
+    switch(flag)
+    {
         case SDLK_RIGHT:
             _screen->x_max = _screen->x_max + x_diff * 0.1;
             _screen->x_min = _screen->x_min + x_diff * 0.1;
@@ -66,19 +71,23 @@ void move_screen(int flag){
     }
 }
 
-bool out_of_screen(double x, double y){
+bool out_of_screen(double x, double y)
+{
     double x_max = _screen->x_max;
     double x_min = _screen->x_min;
     double y_max = _screen->y_max;
     double y_min = _screen->y_min;
-    if(x > x_max || x < x_min || y > y_max || y < y_min){
+    if(x > x_max || x < x_min || y > y_max || y < y_min)
+    {
         return true;
     }
     return false;
 }
 
-void draw_edge(double x1, double y1, double x2, double y2){
-    if(out_of_screen(x1, y1) == false && out_of_screen(x2, y2) == false){
+void draw_edge(double x1, double y1, double x2, double y2)
+{
+    if(out_of_screen(x1, y1) == false && out_of_screen(x2, y2) == false)
+    {
         tps_drawLine(normalize_to_screen(x1, _screen->x_max, _screen->x_min) * _screen->width, 
                     normalize_to_screen(y1, _screen->y_max, _screen->y_min) * _screen->height, 
                     normalize_to_screen(x2, _screen->x_max, _screen->x_min) * _screen->width, 
@@ -86,8 +95,10 @@ void draw_edge(double x1, double y1, double x2, double y2){
     }
 }
 
-void set_color(enum COLOR c){
-    switch (c){
+void set_color(enum COLOR c)
+{
+    switch (c)
+    {
     case COLOR_RED:
         tps_setColor(255, 0, 0);
         break;
@@ -103,7 +114,8 @@ void set_color(enum COLOR c){
     }
 }
 
-void draw_node(double x, double y, int rx, int ry, enum COLOR c){
+void draw_node(double x, double y, int rx, int ry, enum COLOR c)
+{
     set_color(c);
     tps_drawEllipse(normalize_to_screen(x, _screen->x_max, _screen->x_min) * _screen->width, 
                     normalize_to_screen(y, _screen->y_max, _screen->y_min) * _screen->height, rx, ry);
@@ -111,18 +123,24 @@ void draw_node(double x, double y, int rx, int ry, enum COLOR c){
 }
 
 
-void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* x_min, double* y_max, double* y_min){
-    for(int i = 0; i < size_vertices; i++){
-        if((*(data_t*)list_get(node_list, i)).latitude >= *x_max){
+void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* x_min, double* y_max, double* y_min)
+{
+    for(int i = 0; i < size_vertices; i++)
+    {
+        if((*(data_t*)list_get(node_list, i)).latitude >= *x_max)
+        {
             *x_max = (*(data_t*)list_get(node_list, i)).latitude;
         }
-        if((*(data_t*)list_get(node_list, i)).latitude < *x_min){
+        if((*(data_t*)list_get(node_list, i)).latitude < *x_min)
+        {
             *x_min = (*(data_t*)list_get(node_list, i)).latitude;
         }
-        if((*(data_t*)list_get(node_list, i)).longitude >= *y_max){
+        if((*(data_t*)list_get(node_list, i)).longitude >= *y_max)
+        {
             *y_max = (*(data_t*)list_get(node_list, i)).longitude;
         }
-        if((*(data_t*)list_get(node_list, i)).longitude < *y_min){
+        if((*(data_t*)list_get(node_list, i)).longitude < *y_min)
+        {
             *y_min = (*(data_t*)list_get(node_list, i)).longitude;
         }
     }   
@@ -130,7 +148,8 @@ void get_xy_min_max(list_t* node_list,int size_vertices, double* x_max, double* 
 }
 
 void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst, enum TXT flag){
-    switch (flag){
+    switch (flag)
+    {
     case TXT_DEFAULT:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
         snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
@@ -152,7 +171,8 @@ void update_texts(list_t* node_list, delaunay_t* delaunay, graph_t* g, int* mst,
     }
 }
 
-void draw_texts(){
+void draw_texts()
+{
     tps_drawText(20, 20, _press_key, 30);
     tps_drawText(20, 60, _binds, 15);
     tps_drawText(20, 80, _number_nodes, 15);
@@ -160,7 +180,8 @@ void draw_texts(){
     tps_drawText(20, 120, _sum_weight, 15);
 }
 
-void initialize_screen(int width, int height, list_t* node_list, int size_vertices){
+void initialize_screen(int width, int height, list_t* node_list, int size_vertices)
+{
     double x_max = 0;
     double x_min = 50;
     double y_max = 0;
@@ -175,19 +196,23 @@ void initialize_screen(int width, int height, list_t* node_list, int size_vertic
     _screen->y_min = y_min;
 }
 
-void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g){
+void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* delaunay, graph_t* g)
+{
     tps_createWindow("Delaunay & Prim", width, height);
     initialize_screen(width, height, node_list, g->size_vertices);
     update_texts(node_list, delaunay, g, mst, TXT_DEFAULT);
-    while(tps_isRunning()){
+    while(tps_isRunning())
+    {
         tps_background(255,255,255);
         tps_setColor(0,0,0);
         draw_texts();
-        if(_is_delaunay_active == 1){
+        if(_is_delaunay_active == 1)
+        {
             update_texts(node_list, delaunay, g, mst, TXT_DELAUNAY);
             show_delaunay(delaunay);
         }
-        else if(_is_prim_active == 1) {
+        else if(_is_prim_active == 1)
+        {
             update_texts(node_list, delaunay, g, mst, TXT_PRIM);
             show_mst(node_list, mst, g->size_vertices);    
         }
@@ -199,10 +224,13 @@ void visualize(int width, int height, list_t* node_list, int* mst, delaunay_t* d
     free(_screen);
 }
 
-void show_mst(list_t* node_list, int* mst, int size_vertices){
-    for(int i = 1; i < size_vertices; i++){
+void show_mst(list_t* node_list, int* mst, int size_vertices)
+{
+    for(int i = 1; i < size_vertices; i++)
+    {
         // No parent node or double node have the same coordinate to one has to be -1
-        if(mst[i] == -1){
+        if(mst[i] == -1)
+        {
             data_t d1 = *(data_t*)list_get(node_list, i);
             //deprintf("Node %d (%f %f) has no parent node\n", i, d1.latitude, d1.longitude);
             draw_node(d1.latitude, d1.longitude, 15, 15, COLOR_RED);
@@ -216,7 +244,8 @@ void show_mst(list_t* node_list, int* mst, int size_vertices){
 }
 
 void show_delaunay(delaunay_t* triangles){
-    for(size_t i = 0; i < triangles->size_triangles; i++){
+    for(size_t i = 0; i < triangles->size_triangles; i++)
+    {
         triangle_t* t = triangles->triangles[i];
         // draw edge between s1 and s2
         draw_edge(t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude);
@@ -232,12 +261,15 @@ void handle_sdl_event(void){
     SDL_PollEvent(&event);
     static int g_mouse_x;
     static int g_mouse_y;
-    switch (event.type){
+    switch (event.type)
+    {
         case SDL_MOUSEWHEEL:
-            if(event.wheel.y > 0){
+            if(event.wheel.y > 0)
+            {
                 zoom_in();
             }
-            else if(event.wheel.y < 0){
+            else if(event.wheel.y < 0)
+            {
                 zoom_out();
             }
             break;
@@ -250,7 +282,8 @@ void handle_sdl_event(void){
             g_mouse_y = event.button.y;
             break;
         case SDL_MOUSEMOTION:
-            if (event.motion.state & SDL_BUTTON_LMASK){
+            if (event.motion.state & SDL_BUTTON_LMASK)
+            {
                 // Calculate the difference between the current mouse position and the position when the button was first pressed
                 int dx = event.motion.x - g_mouse_x;
                 int dy = event.motion.y - g_mouse_y;
@@ -267,7 +300,8 @@ void handle_sdl_event(void){
         }
 }
 
-void camera_move(int dx, int dy){
+void camera_move(int dx, int dy)
+{
     // Calculate the ratio of the width and height to the x_max and y_max fields
     double x_ratio = (double)_screen->width / (_screen->x_max - _screen->x_min);
     double y_ratio = (double)_screen->height / (_screen->y_max - _screen->y_min);
@@ -286,21 +320,27 @@ void camera_move(int dx, int dy){
 }
 
 
-void onKeyDown(int key){
-    if(key == SDLK_o){
+void onKeyDown(int key)
+{
+    if(key == SDLK_o)
+    {
         _is_delaunay_active = !_is_delaunay_active;
         _is_prim_active = !_is_prim_active;
     }
-    if(key == SDLK_a){
+    if(key == SDLK_a)
+    {
         zoom_in();
     }
-    if(key == SDLK_SPACE){
+    if(key == SDLK_SPACE)
+    {
         zoom_out();
     }
-    if(key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_LEFT){
+    if(key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_LEFT)
+    {
         move_screen(key);
     }
-    if(key == SDLK_ESCAPE){
+    if(key == SDLK_ESCAPE)
+    {
         tps_closeWindow();
     }
 }

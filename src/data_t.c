@@ -7,7 +7,8 @@
 
 
 
-char* serialize_data_t(double latitude, double longitude, int id){
+char* serialize_data_t(double latitude, double longitude, int id)
+{
     //data_t da = {.latitude = latitude, .longitude = longitude, .id = id };
     char* data = calloc(sizeof(data_t),1);
     ((data_t*)data)->id = id;
@@ -18,22 +19,26 @@ char* serialize_data_t(double latitude, double longitude, int id){
 }
 
 
-data_t* deserialize_data_t(char* data_b){
+data_t* deserialize_data_t(char* data_b)
+{
     data_t* da = malloc(sizeof(data_t));
     memcpy(da, data_b, sizeof(data_t));
     return da;
 }
 
-int compare_data_t(data_t* a, data_t* b, double epsilon){
+int compare_data_t(data_t* a, data_t* b, double epsilon)
+{
     return ((fabs(a->latitude-b->latitude) < epsilon) && (fabs(a->longitude-b->longitude) < epsilon));
 }
 
-void print_data_t(data_t* da){
+void print_data_t(data_t* da)
+{
     printf("%d [%f, %f]\n", da->id, da->latitude, da->longitude);
 }
 
 // compare two data_t for qsort functions
-int qsort_compare_data_t(const void* d1, const void* d2){
+int qsort_compare_data_t(const void* d1, const void* d2)
+{
     // d1 and d2 comes from a list of data_t, more precisely from a void** array
     // so we need to cast them to void* and then to data_t*
     data_t* aa = *((data_t**)d1);

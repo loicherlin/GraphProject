@@ -15,28 +15,37 @@
 // Initiate arguments for args parsing
 struct arguments arguments;
 
-void free_list_n(list_t* data_list){
+void free_list_n(list_t* data_list)
+{
     size_t longueur = list_size(data_list);
-    for(size_t i = 0; i < longueur; i++){
+    for(size_t i = 0; i < longueur; i++)
+    {
         data_t* a = list_take(data_list,list_size(data_list)-1);
         free(a);
     }
     list_free(data_list);
 }
 
-list_t* initiate_data_list(){
+list_t* initiate_data_list()
+{
     // Open CSV file
     FILE* fp = fopen(arguments.input_file, "r");
-    if(fp == NULL){
+    if(fp == NULL)
+    {
         perror("Error while opening csv file");
         exit(1);
     }
     // Build bin file based on fp
     int result = build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
-    if(result == EXIT_FAILURE){ fclose(fp); exit(1); }
+    if(result == EXIT_FAILURE)
+    { 
+        fclose(fp); 
+        exit(1);
+    }
     // Open bin file to read it
     FILE* fp_bin = fopen(arguments.output_file, "rb");
-    if(fp_bin == NULL){
+    if(fp_bin == NULL)
+    {
         perror("Error while opening bin file");
         exit(1);
     }
@@ -48,7 +57,8 @@ list_t* initiate_data_list(){
     return data_list;
 }
 
-void initiate_args(int argc, char* argv[]){
+void initiate_args(int argc, char* argv[])
+{
     arguments.output_file = "";
     arguments.input_file = "";
     arguments.delimiter = ";"; // default delimiter
@@ -60,14 +70,16 @@ void initiate_args(int argc, char* argv[]){
     arguments.height = 900;
     arguments.width = 1400;
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
-    if(!strcmp(arguments.output_file,"") || !strcmp(arguments.input_file,"")){
+    if(!strcmp(arguments.output_file,"") || !strcmp(arguments.input_file,""))
+    {
         printf("Please give input and output file. (use --help for help)\n");
         exit(1);
     }
     _debug = arguments.debug;
 }
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[])
+{
     // Initiate handler
     initiate_handler();
     // Initiate arguments

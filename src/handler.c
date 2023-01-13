@@ -10,7 +10,8 @@
 
 volatile signal_int_t _interrupt_signals = {0};
 
-void interrupt(int sig){   
+void interrupt(int sig)
+{   
     switch(sig){
         // Ctrl + C
         case SIGINT:
@@ -21,7 +22,8 @@ void interrupt(int sig){
     }
 }
 
-void initiate_handler(){
+void initiate_handler()
+{
     struct sigaction action;
     // Our handler
     action.sa_handler = interrupt;
