@@ -295,13 +295,33 @@ void serialize_delaunay(delaunay_t* delaunay, FILE* fp)
     size_t size_triangulation = delaunay->size_triangles;
     deprintf("number of nodes used: %ld\n", size_data_list);
     deprintf("number of triangles: %ld\n", size_triangulation);
-    fwrite(&size_data_list, sizeof(size_t), 1, fp);
+    size_t byte_write = fwrite(&size_data_list, sizeof(size_t), 1, fp);
+    if(byte_write != 1)
+    {
+        eprintf("fwrite failed\n");
+        exit(EXIT_FAILURE);
+    }
     fwrite(&size_triangulation, sizeof(size_t), 1, fp);
     for(size_t i = 0; i < size_triangulation; i++)
     {
-        fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp);
+        byte_write = fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp);
+        if(byte_write != 1)
+        {
+            eprintf("fwrite failed\n");
+            exit(EXIT_FAILURE);
+        }
         fwrite(&delaunay->triangles[i]->s2->id, sizeof(int), 1, fp);
+        if(byte_write != 1)
+        {
+            eprintf("fwrite failed\n");
+            exit(EXIT_FAILURE);
+        }
         fwrite(&delaunay->triangles[i]->s3->id, sizeof(int), 1, fp);
+        if(byte_write != 1)
+        {
+            eprintf("fwrite failed\n");
+            exit(EXIT_FAILURE);
+        }
     }
 
 }
@@ -317,7 +337,13 @@ delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list)
         eprintf("the number of nodes in the file is greater than the number of nodes in the list\n");
         exit(1);
     }
-    fread(&size_triangulation, sizeof(size_t), 1, fp);
+    size_t bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp);
+    // check if fread failed with ferror
+    if(bytes_read == 0 && ferror(fp))
+    {
+        eprintf("fread failed\n");
+        exit(EXIT_FAILURE);
+    }
     deprintf("number of triangles in the file: %ld\n", size_triangulation);
     delaunay_t* delaunay = malloc(sizeof(delaunay_t));
     delaunay->size_triangles = size_triangulation;
@@ -327,9 +353,24 @@ delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list)
     {
         delaunay->triangles[i] = (triangle_t*)malloc(sizeof(triangle_t));
         int id1, id2, id3;
-        fread(&id1, sizeof(int), 1, fp);
-        fread(&id2, sizeof(int), 1, fp);
-        fread(&id3, sizeof(int), 1, fp);
+        bytes_read = fread(&id1, sizeof(int), 1, fp);
+        if(bytes_read == 0 && ferror(fp))
+        {
+            eprintf("fread failed\n");
+            exit(EXIT_FAILURE);
+        }
+        bytes_read = fread(&id2, sizeof(int), 1, fp);
+        if(bytes_read == 0 && ferror(fp))
+        {
+            eprintf("fread failed\n");
+            exit(EXIT_FAILURE);
+        }
+        bytes_read = fread(&id3, sizeof(int), 1, fp);
+        if(bytes_read == 0 && ferror(fp))
+        {
+            eprintf("fread failed\n");
+            exit(EXIT_FAILURE);
+        }
         delaunay->triangles[i]->s1 = list_get(data_list, id1);
         delaunay->triangles[i]->s2 = list_get(data_list, id2);
         delaunay->triangles[i]->s3 = list_get(data_list, id3);
