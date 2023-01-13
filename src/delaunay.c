@@ -330,14 +330,20 @@ delaunay_t* deserialize_delaunay(FILE* fp, list_t* data_list)
 {
     size_t size_data_list;
     size_t size_triangulation;
-    fread(&size_data_list, sizeof(size_t), 1, fp);
+    size_t bytes_read = fread(&size_data_list, sizeof(size_t), 1, fp);
+    // check if fread failed with ferror
+    if(bytes_read == 0 && ferror(fp))
+    {
+        eprintf("fread failed\n");
+        exit(EXIT_FAILURE);
+    }
     deprintf("number of nodes in the file: %ld\n", size_data_list);
     if(size_data_list > data_list->size)
     {
         eprintf("the number of nodes in the file is greater than the number of nodes in the list\n");
         exit(1);
     }
-    size_t bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp);
+    bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp);
     // check if fread failed with ferror
     if(bytes_read == 0 && ferror(fp))
     {
