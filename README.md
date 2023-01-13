@@ -6,7 +6,7 @@
   - [Descriptions du projets](#descriptions-du-projets)
     - [Utilité de l'application](#utilité-de-lapplication)
     - [Structure de projet](#structure-de-projet)
-    - [Fichiers binaire](#fichiers-binaire)
+    - [Fichiers binaires](#fichiers-binaires)
       - [Parsage du CSV](#parsage-du-csv)
       - [Sauvegarde de la triangulation de Delaunay](#sauvegarde-de-la-triangulation-de-delaunay)
   - [Pourquoi Delaunay ?](#pourquoi-delaunay-)
@@ -22,9 +22,9 @@
 
 ### Utilité de l'application
 
-Le but du projet est d'utiliser [la base de données des arbres de Paris](https://opendata.paris.fr/explore/dataset/les-arbres/information/?disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.libellefrancais&disjunctive.genre&disjunctive.espece&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable) stockée au format CSV, afin d'en extraire un arbre couvrant de poids minimal où le poids entre deux arbres étant ça distance (plan euclidien ou sur une sphère).
+Le but du projet est d'utiliser [la base de données des arbres de Paris](https://opendata.paris.fr/explore/dataset/les-arbres/information/?disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.libellefrancais&disjunctive.genre&disjunctive.espece&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable) stockée au format CSV, afin d'en extraire un arbre couvrant de poids minimal où le poids entre deux arbres étant sa distance (plan euclidien ou sur une sphère).
 
-Cela à étais réalisé en utilisant l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson?wprov=srpw1_0) pour réaliser la [Triangulation de Delaunay](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay), et l'algorithme de [Prim](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay) pour construitre l'arbre de poids minimal.
+Cela a été réalisé en utilisant l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson?wprov=srpw1_0) pour réaliser la [Triangulation de Delaunay](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay), et l'algorithme de [Prim](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay) pour construitre l'arbre de poids minimal.
 
 ### Structure de projet
 
@@ -40,12 +40,12 @@ La structure du projet est décomposé de cette façon :
 ├── Doxyfile
 └── README.md
 ```
-Où chaque ``.c`` est présent dans ``src`` et chaque ``.h`` dans ``include/``. Les tests unitaires sont présent dans ``tests/``.
+Où chaque ``.c`` est présent dans ``src`` et chaque ``.h`` dans ``include/``. Les tests unitaires sont présents dans ``tests/``.
 
-### Fichiers binaire
-Deux fichiers binaire peuvent être généré lors de l’exécution :
+### Fichiers binaires
+Deux fichiers binaires peuvent être généré lors de l’exécution :
 #### Parsage du CSV
-Lorsque le csv est traité, un fichier binaire et créé contenant n-1 éléments sous la forme suivante :
+Lorsque le csv est traité, un fichier binaire est créé contenant n-1 éléments sous la forme suivante :
 ```
 8 octets (type double) + 8 octets (type double) + 4 octets (type int)
 ```
@@ -53,12 +53,12 @@ Nous avons par exemple en hexadécimal :
 ```
 ....
 87 1E FC B7 3E 6B 48 40 -> lattiude : 48.8378515225459
-FF D2 48 D4 AE 34 02 40 -> : longitude 2.275724085304659
+FF D2 48 D4 AE 34 02 40 -> : longitude : 2.275724085304659
 3F 23 03 00 00 00 00 00 -> id relatif : 205 631
 ....
 ```
 #### Sauvegarde de la triangulation de Delaunay
-Le nombre d'arbres et le total de triangles sont écrit au début du fichier binaire sous forme de ``size_t`` prenant 8 octets chacun, puis nous avons 3 ``int`` prénant 4 octets chacun, représentant les id relatif formant un triangle.
+Le nombre d'arbres et le total de triangles sont écrits au début du fichier binaire sous la forme d'un ``size_t`` en 8 octets. Nous avons ensuite, pour chaque triangle, 3 ``int`` en 4 octets, représentant les id relatif formant le triangle.
 
 Par exemple :  
 ```
@@ -72,7 +72,7 @@ Par exemple :
 ```
 
 ## Pourquoi Delaunay ?
-La triangulation de Delaunay porte un propriété intéressante tel que : [l'arbre euclidien couvrant de poids minimal est un sous graphe de la triangulation](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay#Applications). Sachant que cette construction peut ce faire en O(log n) en utilisant une approche divisé pour régné et les structures de donnée adapté (Quad Edge), cela est alors très intéressant dans notre cas ([exemple d'implémentation](https://github.com/alexbaryzhikov/triangulation)). Malheureusement nous avons du nous limiter à une proche itératif en passant par l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson) qui ce fait en O(n²).
+La triangulation de Delaunay possède une propriété intéressante tel que : [l'arbre euclidien couvrant de poids minimal est un sous graphe de la triangulation de Delaunay](https://fr.wikipedia.org/wiki/Triangulation_de_Delaunay#Applications). Sachant que cette construction peut ce faire en O(log n) en utilisant une approche 'diviser pour mieux régner' et les structures de données adaptées (Quad Edge). C'est dans cette perspective que nous avons décidé d'implémenter Delaunay ([exemple d'implémentation](https://github.com/alexbaryzhikov/triangulation)). Malheureusement nous avons dû nous limiter à une proche itératif en passant par l'algorithme de [Bowyer-Watson](https://fr.wikipedia.org/wiki/Algorithme_de_Bowyer-Watson) qui se fait en O(n²).
 
 
 ## Aperçu 
@@ -121,10 +121,10 @@ La triangulation de Delaunay porte un propriété intéressante tel que : [l'arb
 ## Exécution
 
 ### Utilisation de l'exécutable
-Vous devez d'abord être à la racine pour compiler le projet avec la commande ``make``. Deux dossier seront créé : ``obj/`` et ``bin/``. L'exécutable ce trouve dans ``bin/``.
+Vous devez d'abord être à la racine pour compiler le projet avec la commande ``make``. Deux dossiers seront créés : ``obj/`` et ``bin/``. L'exécutable se trouve dans ``bin/``.
 
 Pour lancer l'application: ``./bin/main [OPTIONS]``
-L'ensembles des options est disponible avec la commande ``./bin/main --help``
+L'ensemble des options est disponible avec la commande ``./bin/main --help``
 
 Qui renvoie ceci :
 
@@ -152,24 +152,24 @@ using Delaunay Triangulation and Prim algorithm.
 Exemple pour utiliser l'exécutable :
 
 - ``./bin/main -i ../les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K
-`` Lis le fichier présent dans ``../les-arbres`` sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger et affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où ce trouve la triangulation pré enregistré.
+`` Lis le fichier présent dans ``../les-arbres``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
 
 ### Lancement des tests unitaires
 
-Pour lancer les testes unitaires, vous pouvais les exécutées à partir de :
+Pour lancer les testes unitaires, vous pouvez les exécuters à partir de :
  - la racine du répertoire avec ``make test`` 
  - dans le dossier ``tests/`` avec ``make tests`` 
 
-Vous pouvez aussi obtenir un code coverage avec ``make cov`` à la racine ou dans ``tests/``, un rapport sera alors généré dans ``tests/rapport`` ou ce trouvera un ``index.html`` contenant le code coverage.
+Vous pouvez aussi obtenir un code coverage avec la commande ``make cov`` à la racine ou dans ``tests/``. Un rapport sera alors généré dans ``tests/rapport`` où se trouvera un ``index.html`` contenant le code coverage.
 
 *Note: il est nécessaire d'avoir lcov d'installé sur votre machine.* 
 
 ### Génération de la documentation
-Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation serra accessible via ``docs/html/index.html``.
+Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation sera accessible via ``docs/html/index.html``.
 
 ## Notes
-- La librairie ``argp`` est utilisé dans ce projet, il ce peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
-- Des cercles rouges peuvent apparaitres dans l'affichage du résultats de Prim, en effet lorsque des doublons seront présent dans le CSV fournis, un des deux sera traité et l'autre non traité.
+- La librairie ``argp`` est utilisée dans ce projet, il se peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
+- Des cercles rouges peuvent apparaitres dans l'affichage du résultats de Prim, en effet lorsque des doublons seront présents dans le CSV fourni, un des deux sera traité et l'autre non.
 
 
 ## Auteurs
