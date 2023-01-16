@@ -4,7 +4,8 @@
 #include "../include/visualise.h"
 #include "../include/data_t.h"
 #include "../include/cprintf.h"
-#define BUFFER_SIZE 1000
+
+#define BUFFER_SIZE 1024 
 
 char _is_prim_active = 1;
 char _is_delaunay_active = 0;
@@ -26,45 +27,48 @@ double normalize_to_screen(double coord, double coord_max, double coord_min)
 
 void zoom_in()
 {
+    double coef = 0.1;
     double x_diff = _screen->x_max  - _screen->x_min;
     double y_diff = _screen->y_max - _screen->y_min;
-    _screen->x_max = _screen->x_max - x_diff * 0.1;
-    _screen->x_min = _screen->x_min + x_diff * 0.1;
-    _screen->y_max = _screen->y_max  - y_diff * 0.1;
-    _screen->y_min = _screen->y_min + y_diff * 0.1;
+    _screen->x_max = _screen->x_max - x_diff * coef;
+    _screen->x_min = _screen->x_min + x_diff * coef;
+    _screen->y_max = _screen->y_max  - y_diff * coef;
+    _screen->y_min = _screen->y_min + y_diff * coef;
 }
 
 void zoom_out()
 {
+    double coef = 0.1;
     double x_diff = _screen->x_max  - _screen->x_min;
     double y_diff = _screen->y_max - _screen->y_min;
-    _screen->x_max = _screen->x_max + x_diff * 0.1;
-    _screen->x_min = _screen->x_min - x_diff * 0.1;
-    _screen->y_max = _screen->y_max  + y_diff * 0.1;
-    _screen->y_min = _screen->y_min - y_diff * 0.1;
+    _screen->x_max = _screen->x_max + x_diff * coef;
+    _screen->x_min = _screen->x_min - x_diff * coef;
+    _screen->y_max = _screen->y_max  + y_diff * coef;
+    _screen->y_min = _screen->y_min - y_diff * coef;
 }
 
 void move_screen(int flag)
 {
+    double coef = 0.1;
     double x_diff = _screen->x_max - _screen->x_min;
     double y_diff = _screen->y_max  - _screen->y_min;
     switch(flag)
     {
         case SDLK_RIGHT:
-            _screen->x_max = _screen->x_max + x_diff * 0.1;
-            _screen->x_min = _screen->x_min + x_diff * 0.1;
+            _screen->x_max = _screen->x_max + x_diff * coef;
+            _screen->x_min = _screen->x_min + x_diff * coef;
             break;
         case SDLK_LEFT:
-            _screen->x_max = _screen->x_max - x_diff * 0.1;
-            _screen->x_min = _screen->x_min - x_diff * 0.1;
+            _screen->x_max = _screen->x_max - x_diff * coef;
+            _screen->x_min = _screen->x_min - x_diff * coef;
             break;
         case SDLK_DOWN:
-            _screen->y_max = _screen->y_max + y_diff * 0.1;
-            _screen->y_min = _screen->y_min + y_diff * 0.1;
+            _screen->y_max = _screen->y_max + y_diff * coef;
+            _screen->y_min = _screen->y_min + y_diff * coef;
             break;
         case SDLK_UP:
-            _screen->y_max = _screen->y_max - y_diff * 0.1;
-            _screen->y_min = _screen->y_min - y_diff * 0.1;
+            _screen->y_max = _screen->y_max - y_diff * coef;
+            _screen->y_min = _screen->y_min - y_diff * coef;
             break;
         default:
             break;
@@ -183,9 +187,9 @@ void draw_texts()
 void initialize_screen(int width, int height, list_t* node_list, int size_vertices)
 {
     double x_max = 0;
-    double x_min = 50;
+    double x_min = DBL_MAX;
     double y_max = 0;
-    double y_min = 10;
+    double y_min = DBL_MAX;
     get_xy_min_max(node_list, size_vertices, &x_max, &x_min, &y_max, &y_min);
     _screen = malloc(sizeof(screen_t));
     _screen->width = width;
