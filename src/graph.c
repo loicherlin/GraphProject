@@ -149,7 +149,6 @@ int* prim_mst(graph_t* graph, char* path)
     double* key = malloc(size_vertices * sizeof(double));
 
     min_heap_t* min_heap = create_min_heap(size_vertices);
-    // Initialize a min heap with all vertices (except first vertex)
     for (int i = 1; i < size_vertices; i++)
     {
         parent[i] = -1;
@@ -158,30 +157,19 @@ int* prim_mst(graph_t* graph, char* path)
         min_heap->pos[i] = i;
     }
 
-    // Make key value of first vertex as 0 so that it is extracted first
     key[0] = 0;
     min_heap->array[0] = create_min_heap_node(0, key[0]);
     min_heap->pos[0] = 0;
-
-    // Initially size of min heap is equal to V
     min_heap->size = size_vertices;
 
-    // In the following loop, min heap contains all nodes
-    // whose shortest distance is not yet finalized.
     while (!is_empty(min_heap))
     {
-        // Extract the vertex with minimum distance value
         min_heap_node_t* min_heap_node = extract_min(min_heap);
         int u = min_heap_node->v;
-
-        // Traverse through all adjacent vertices of u (the extracted
-        // vertex) and update their distance values
         node_adj_t* node = graph->arr[u].head;
         while (node != NULL)
         {
             int v = node->data->id;
-            // If shortest distance to v is not finalized yet, and distance to v
-            // through u is less than its previously calculated distance
             if (is_in_min_heap(min_heap, v) && node->weight < key[v])
             {
                 key[v] = node->weight;
@@ -192,12 +180,12 @@ int* prim_mst(graph_t* graph, char* path)
         }
         free(min_heap_node);
     }
-    // save MST in file if path is not empty
+
     if(strcmp(path, ""))
     {
         save_mst(parent, size_vertices, path);
     }
-    // free memory
+
     free(key);
     free_min_heap(min_heap);
     deprintf("Prim MST done\n");

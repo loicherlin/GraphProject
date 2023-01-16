@@ -22,7 +22,7 @@ typedef struct{
  * Give a triangulation following the Bowyer-Watson algorithm.
  * @param nodes The list of nodes to triangulate.
  * @return delaunay triangulation.
- * @note This functions works in O(n²) and could be improved.
+ * @note Running time of this function is O(n²) and could be improved.
  * https://en.wikipedia.org/wiki/Delaunay_triangulation
  */
 delaunay_t* delaunay_bowyer_watson(list_t* nodes);

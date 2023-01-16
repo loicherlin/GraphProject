@@ -6,7 +6,7 @@
 /**
  * @defgroup MinHeapModule
  * @{
- * @brief Min heap structure and functions to handle it
+ * @brief Binary min heap structure and functions to handle it
  * @note helped from https://sites.google.com/site/rajboston1951/minimum-spanning-tree/2
  */
 
