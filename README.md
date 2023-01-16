@@ -13,6 +13,7 @@
   - [Aperçu](#aperçu)
   - [Exécution](#exécution)
     - [Utilisation de l'exécutable](#utilisation-de-lexécutable)
+    - [Utilisation de l'interface graphique](#utilisation-de-linterface-graphique)
     - [Lancement des tests unitaires](#lancement-des-tests-unitaires)
     - [Génération de la documentation](#génération-de-la-documentation)
   - [Notes](#notes)
@@ -154,6 +155,9 @@ Exemple pour utiliser l'exécutable :
 - ``./bin/main -i tests/files/csv/les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K 
 `` Lis le fichier présent dans ``../les-arbres``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
 
+### Utilisation de l'interface graphique
+Il est possible d'utiliser une interface graphique pour visualiser les résultats grâce
+à l'option ``-v``. Vous pouvez utiliser les flèches directionnelles pour vous déplacer ou la souris, pour zoomer ou dézoomer vous pouvez utiliser la molette de la souris ou les touches ``SPACE`` et ``A``.
 ### Lancement des tests unitaires
 
 Pour lancer les testes unitaires, vous pouvez les exécuters à partir de :
@@ -168,6 +172,7 @@ Vous pouvez aussi obtenir un code coverage avec la commande ``make cov`` à la r
 Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation sera accessible via ``docs/html/index.html``.
 
 ## Notes
+- La librairie ``tps`` est nécessaire pour compiler le projet, pour l'installer rendez-vous sur [ce lien](https://gitlab.com/bramas/libtps.h/).
 - La librairie ``argp`` est utilisée dans ce projet, il se peut que sur certaine platforme (macOS) le projet ne compile pas dû au faite que cette librairie est peut être manquante.
 - Des cercles rouges peuvent apparaitres dans l'affichage du résultats de Prim, en effet lorsque des doublons seront présents dans le CSV fourni, un des deux sera traité et l'autre non.
 
