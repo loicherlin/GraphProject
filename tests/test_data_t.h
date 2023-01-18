@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include "../include/array_list.h"
 #include "../include/bin_builder.h"
 #include "../include/cprintf.h"
@@ -15,12 +9,16 @@
 #include "../include/min_heap.h"
 #include "../include/triangle.h"
 #include "../include/visualise.h"
-
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include "tps_unit_test.h"
 
-
-void test_data_t(void){
+void test_data_t(void) {
     data_t d1 = {.id = 0, .latitude = 1.123, .longitude = 1.123};
     data_t d2 = {.id = 1, .latitude = 1.123, .longitude = 1.123};
     // check if d1 and d2 are equals
@@ -30,6 +28,4 @@ void test_data_t(void){
     tps_assert(compare_data_t(&d1, &d3, 0.000001) == 0);
 }
 
-void unit_test_data_t(void){
-    TEST(test_data_t);
-}
+void unit_test_data_t(void) { TEST(test_data_t); }

@@ -50,54 +50,47 @@ int main(void)
 #include <stdio.h>
 #include <stdlib.h>
 
-
-#define ANSI_COLOR_RED     "\x1b[31m"
-#define ANSI_COLOR_GREEN   "\x1b[32m"
-#define ANSI_COLOR_YELLOW  "\x1b[33m"
-#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_YELLOW "\x1b[33m"
+#define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
-#define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_RESET   "\x1b[0m"
+#define ANSI_COLOR_CYAN "\x1b[36m"
+#define ANSI_COLOR_RESET "\x1b[0m"
 
 #ifndef TPS_UNIT_TEST_H
 #define TPS_UNIT_TEST_H
 
 extern int __remaining_alloc;
 
-#define calloc(a,b) \
-  (__remaining_alloc \
-    ? __remaining_alloc--, calloc(a,b) \
-    : NULL)
-#define malloc(a) \
-  (__remaining_alloc \
-    ? __remaining_alloc--, malloc(a) \
-    : NULL)
-#define realloc(a,b) \
-  (__remaining_alloc \
-    ? __remaining_alloc--, realloc(a,b) \
-    : NULL)
+#define calloc(a, b)                                                           \
+    (__remaining_alloc ? __remaining_alloc--, calloc(a, b) : NULL)
+#define malloc(a) (__remaining_alloc ? __remaining_alloc--, malloc(a) : NULL)
+#define realloc(a, b)                                                          \
+    (__remaining_alloc ? __remaining_alloc--, realloc(a, b) : NULL)
 
-char * __current_test_name;
+char *__current_test_name;
 
-#define tps_test_error(msg)  printf("Error %s [ FAILED ]\n", msg)
+#define tps_test_error(msg) printf("Error %s [ FAILED ]\n", msg)
 
-#define tps_assert(expr) \
-  do { \
-    if (!(expr)) { \
-      puts(__current_test_name); \
-      tps_test_error(ANSI_COLOR_MAGENTA"\nassertion failed: " #expr ANSI_COLOR_RESET); \
-      exit(1); \
-      return; \
-    } \
-  } while (0)
+#define tps_assert(expr)                                                       \
+    do {                                                                       \
+        if (!(expr)) {                                                         \
+            puts(__current_test_name);                                         \
+            tps_test_error(ANSI_COLOR_MAGENTA                                  \
+                           "\nassertion failed: " #expr ANSI_COLOR_RESET);     \
+            exit(1);                                                           \
+            return;                                                            \
+        }                                                                      \
+    } while (0)
 
-#define TEST(func) do \
-{ \
-  __current_test_name = #func; \
-  func(); \
-  puts(__current_test_name); \
-  puts(ANSI_COLOR_GREEN"Done\n----------------------------"ANSI_COLOR_RESET); \
-} while(0)
-
+#define TEST(func)                                                             \
+    do {                                                                       \
+        __current_test_name = #func;                                           \
+        func();                                                                \
+        puts(__current_test_name);                                             \
+        puts(ANSI_COLOR_GREEN                                                  \
+             "Done\n----------------------------" ANSI_COLOR_RESET);           \
+    } while (0)
 
 #endif
