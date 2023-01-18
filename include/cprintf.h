@@ -1,17 +1,17 @@
 #pragma once
-#include <stdbool.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
-#define ANSI_COLOR_RED     "\x1b[31m"
-#define ANSI_COLOR_GREEN   "\x1b[32m"
-#define ANSI_COLOR_YELLOW  "\x1b[33m"
-#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_RED "\x1b[31m"
+#define ANSI_COLOR_GREEN "\x1b[32m"
+#define ANSI_COLOR_YELLOW "\x1b[33m"
+#define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
-#define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_RESET   "\x1b[0m"
+#define ANSI_COLOR_CYAN "\x1b[36m"
+#define ANSI_COLOR_RESET "\x1b[0m"
 
 /**
- * @defgroup CprintfModule 
+ * @defgroup CprintfModule
  * @{
  * @brief Custom printf for error, progress, debug messages
  */
@@ -32,7 +32,7 @@ void deprintf(const char *format, ...);
  * @param current The current progression
  * @param size The total size of the task
  */
-void prprintf(char* task_name, int current, int size);
+void prprintf(char *task_name, int current, int size);
 
 /**
  * Print an error message

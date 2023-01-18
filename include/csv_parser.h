@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 
 /**
  * @defgroup CSVParserModule
@@ -14,14 +15,14 @@
  * @return array of strings
  * @note delimiter is by default ';'
  */
-char** get_line(FILE* fp, int n, char delimiter);
+char **get_line(FILE *fp, int n, char delimiter);
 
 /**
  * Print the content of a line that was been sliced
  * @param line_splitted
  * @param n (size of line_splitted)
  */
-void print_line(char** line_splitted, int n);
+void print_line(char **line_splitted, int n);
 
 /**
  * Get the number of column by counting how many delimiter have the header
@@ -29,7 +30,7 @@ void print_line(char** line_splitted, int n);
  * @param delimiter
  * @return number of column
  */
-int size_column(FILE* fp, char delimiter);
+int size_column(FILE *fp, char delimiter);
 
 /**
  * Split the line into an array
@@ -38,18 +39,18 @@ int size_column(FILE* fp, char delimiter);
  * @param n (size)
  * @return array of strings
  */
-char** split_line(char* line, char* delimiter, int n);
+char **split_line(char *line, char *delimiter, int n);
 
 /**
  * Skip the header of the file
  * @param fp
  */
-void skip_header(FILE* fp);
+void skip_header(FILE *fp);
 
 /**
  * Free the memory allocated by get_line
  * @param rip
  * @param n
  */
-void exterminate_malloc(char** rip, int n);
+void exterminate_malloc(char **rip, int n);
 /** @} */

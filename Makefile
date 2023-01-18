@@ -44,7 +44,7 @@ test:
 	@cd ..
 cov:
 	make -C $(TESTS_PATH) cov
-	@echo -e ${GREEN}Coverage report generated in $(TESTS_PATH)/coverage/index.html${NC}
+	@echo -e ${GREEN}Coverage report generated in $(TESTS_PATH)/rapport/index.html${NC}
 
 .PHONY: clean
 clean:
