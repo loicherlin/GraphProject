@@ -153,7 +153,7 @@ using Delaunay Triangulation and Prim algorithm.
 Exemple pour utiliser l'exécutable :
 
 - ``./bin/main -i tests/files/csv/les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K 
-`` Lis le fichier présent dans ``../les-arbres``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
+`` Lis le fichier présent dans ``tests/files/csv/les-arbres.csv``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
 
 ### Utilisation de l'interface graphique
 Il est possible d'utiliser une interface graphique pour visualiser les résultats grâce
