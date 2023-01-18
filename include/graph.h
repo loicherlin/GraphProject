@@ -104,10 +104,11 @@ void show_graph_adj(graph_t* g);
 void save_mst(int* parent, int size_vertices, char* path);
 
 /**
- * Create a MST using Prim's algorithm and a min heap, and save it to a file if 
+ * Create a MST using Prim's algorithm and a binary min heap, and save it to a file if 
  * filename is not empty
  * @param graph
  * @param filename
+ * @note Running time of this function is O(log n) where n is the number of vertices.
  * @return parent array
  */
 int* prim_mst(graph_t* graph, char* filename);

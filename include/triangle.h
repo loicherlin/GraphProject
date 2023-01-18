@@ -49,7 +49,6 @@ int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current, 
  * @param EPSILON
  * @return int return 1 if they share a same point else 0
 */
-
 int compare_triangle_point(triangle_t a, triangle_t b, double EPSILON);
 
 /**
