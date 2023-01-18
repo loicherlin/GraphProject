@@ -11,9 +11,11 @@
  * Retourne 0 en cas de problème.
  */
 
-list_t *list_create() {
+list_t *list_create()
+{
     list_t *l = malloc(sizeof(list_t));
-    if (l == 0) {
+    if (l == 0)
+    {
         return 0;
     }
     l->allocated = 0;
@@ -30,20 +32,27 @@ list_t *list_create() {
  * si tout se passe bien, retourne 1
  */
 
-int list_append(list_t *list, void *element) {
-    if (list == 0) {
+int list_append(list_t *list, void *element)
+{
+    if (list == 0)
+    {
         return 0;
     }
-    if (list->allocated == 0) {
+    if (list->allocated == 0)
+    {
         list->allocated = 1;
         list->tab = malloc(sizeof(void *));
-        if (list->tab == 0) {
+        if (list->tab == 0)
+        {
             return 0;
         }
-    } else if (list->allocated == list->size) {
+    }
+    else if (list->allocated == list->size)
+    {
         list->allocated *= 2;
         list->tab = realloc(list->tab, list->allocated * sizeof(void *));
-        if (list->tab == 0) {
+        if (list->tab == 0)
+        {
             return 0;
         }
     }
@@ -61,16 +70,24 @@ int list_append(list_t *list, void *element) {
  */
 // https://koor.fr/C/cstring/memmove.wp
 
-int list_prepend(list_t *list, void *element) {
-    if (list->size == 0) {
-        if (list_append(list, element) == 0) {
+int list_prepend(list_t *list, void *element)
+{
+    if (list->size == 0)
+    {
+        if (list_append(list, element) == 0)
+        {
             return 0;
-        } else {
+        }
+        else
+        {
             return 1;
         };
-    } else if (list->size == list->allocated) {
+    }
+    else if (list->size == list->allocated)
+    {
         void **tmp = realloc(list->tab, sizeof(void *) * list->allocated * 2);
-        if (tmp == 0) {
+        if (tmp == 0)
+        {
             return 0;
         }
         list->allocated *= 2;
@@ -89,14 +106,20 @@ int list_prepend(list_t *list, void *element) {
  * retourn 0 s'il y a un problème, 1 sinon
  */
 
-int list_insert(list_t *list, int idx, void *element) {
-    if (0 == list->size) {
-        if (list_append(list, element) == 0) {
+int list_insert(list_t *list, int idx, void *element)
+{
+    if (0 == list->size)
+    {
+        if (list_append(list, element) == 0)
+        {
             return 0;
         }
-    } else if (list->size == list->allocated) {
+    }
+    else if (list->size == list->allocated)
+    {
         void **tmp = realloc(list->tab, sizeof(void *) * list->allocated * 2);
-        if (tmp == 0) {
+        if (tmp == 0)
+        {
             return 0;
         }
         list->allocated *= 2;
@@ -125,7 +148,8 @@ void *list_get(list_t *list, int idx) { return list->tab[idx]; }
  * remplace l'élément à la position donnée par l'élément donné
  */
 
-void list_set(list_t *list, int idx, void *element) {
+void list_set(list_t *list, int idx, void *element)
+{
     list->tab[idx] = element;
 }
 
@@ -134,7 +158,8 @@ void list_set(list_t *list, int idx, void *element) {
  *
  * retourne l'élément à la position idx, puis enlève cet élément de la liste
  */
-void *list_take(list_t *list, int idx) {
+void *list_take(list_t *list, int idx)
+{
     void *tmp = list->tab[idx];
     memmove(list->tab + idx, list->tab + idx + 1,
             sizeof(void *) * (list->size - idx - 1));
@@ -147,7 +172,8 @@ void *list_take(list_t *list, int idx) {
  *
  * retourne la taille de la liste
  */
-size_t list_size(list_t *list) {
+size_t list_size(list_t *list)
+{
     return list->size; // remove +1
 }
 
@@ -156,23 +182,29 @@ size_t list_size(list_t *list) {
  *
  * libère la liste (et pas les éléments)
  */
-void list_free(list_t *list) {
-    if (list->tab != NULL) {
+void list_free(list_t *list)
+{
+    if (list->tab != NULL)
+    {
         free(list->tab);
     }
     free(list);
 }
 
 // list_remove
-void list_remove(list_t *list, void *to_remove) {
-    for (size_t i = 0; i < list->size; i++) {
-        if (list->tab[i] == to_remove) {
+void list_remove(list_t *list, void *to_remove)
+{
+    for (size_t i = 0; i < list->size; i++)
+    {
+        if (list->tab[i] == to_remove)
+        {
             list_take(list, i);
         }
     }
 }
 
 void list_sort(list_t *list,
-               int (*compare_function)(const void *, const void *)) {
+               int (*compare_function)(const void *, const void *))
+{
     qsort(list->tab, list->size, sizeof(void *), compare_function);
 }

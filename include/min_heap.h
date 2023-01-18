@@ -14,7 +14,8 @@
 /**
  * Node of an adjacent list
  */
-typedef struct min_heap_node {
+typedef struct min_heap_node
+{
     int v;
     double key;
 } min_heap_node_t;
@@ -22,7 +23,8 @@ typedef struct min_heap_node {
 /**
  * Min heap structure
  */
-typedef struct min_heap {
+typedef struct min_heap
+{
     int size;
     int capacity;
     int *pos;

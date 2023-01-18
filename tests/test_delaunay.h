@@ -22,7 +22,8 @@
  * @brief Simple test case for Delaunay triangulation
  * (4 points: 0,0;0,1;1,0;1,1)
  */
-void test_delaunay_1(void) {
+void test_delaunay_1(void)
+{
     // Get data from bin file
     FILE *fp_bin =
         get_fp_bin("./files/delaunay/1", "./files/bin/.tmp/delaunay_1", ';');
@@ -50,10 +51,12 @@ void test_delaunay_1(void) {
 /**
  * Test case where we are loading a delaunay triangulation correctly
  */
-void test_delaunay_load(void) {
+void test_delaunay_load(void)
+{
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         FILE *fp_bin = get_fp_bin("./files/csv/100_tree",
                                   "./files/bin/.tmp/100_tree.bin", ';');
         list_t *data_list = get_data_csv_bin(fp_bin);
@@ -75,7 +78,9 @@ void test_delaunay_load(void) {
             free(list_get(data_list, i));
         list_free(data_list);
         exit(EXIT_SUCCESS);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_SUCCESS
@@ -91,10 +96,12 @@ void test_delaunay_load(void) {
  * (Delaunay triangulation bin file has a size of nodes superior to the number
  * of nodes in the csv file)
  */
-void test_delaunay_load_fail_1(void) {
+void test_delaunay_load_fail_1(void)
+{
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         FILE *fp_bin = get_fp_bin("./files/csv/100_tree",
                                   "./files/bin/.tmp/100_tree.bin", ';');
         list_t *data_list = get_data_csv_bin(fp_bin);
@@ -105,7 +112,9 @@ void test_delaunay_load_fail_1(void) {
         initiate_delaunay(data_list, "",
                           "./files/delaunay/to_load/delaunay_256K");
         exit(EXIT_SUCCESS);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_FAILURE
@@ -120,10 +129,12 @@ void test_delaunay_load_fail_1(void) {
  * Test case where we are loading a delaunay triangulation not correctly
  * (Delaunay triangulation bin file path is not correct)
  */
-void test_delaunay_load_fail_2(void) {
+void test_delaunay_load_fail_2(void)
+{
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         FILE *fp_bin = get_fp_bin("./files/csv/100_tree",
                                   "./files/bin/.tmp/100_tree.bin", ';');
         list_t *data_list = get_data_csv_bin(fp_bin);
@@ -135,7 +146,9 @@ void test_delaunay_load_fail_2(void) {
         initiate_delaunay(data_list, "",
                           "./files/delaunay/to_load/delaunay_256K.bin");
         exit(EXIT_SUCCESS);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_FAILURE
@@ -146,10 +159,12 @@ void test_delaunay_load_fail_2(void) {
     }
 }
 
-void test_delaunay_save_and_load(void) {
+void test_delaunay_save_and_load(void)
+{
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         FILE *fp_bin = get_fp_bin("./files/csv/100_tree",
                                   "./files/bin/.tmp/100_tree.bin", ';');
         list_t *data_list = get_data_csv_bin(fp_bin);
@@ -181,7 +196,9 @@ void test_delaunay_save_and_load(void) {
             free(list_get(data_list, i));
         list_free(data_list);
         exit(EXIT_SUCCESS);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_SUCCESS
@@ -192,7 +209,8 @@ void test_delaunay_save_and_load(void) {
     }
 }
 
-void unit_test_delaunay(void) {
+void unit_test_delaunay(void)
+{
     TEST(test_delaunay_1);
     TEST(test_delaunay_load);
     TEST(test_delaunay_load_fail_1);

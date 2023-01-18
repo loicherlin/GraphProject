@@ -18,21 +18,25 @@
 
 #include "tps_unit_test.h"
 
-FILE *get_fp_bin(char *path_csv, char *path_bin, char delimiter) {
+FILE *get_fp_bin(char *path_csv, char *path_bin, char delimiter)
+{
     FILE *fp = fopen(path_csv, "r");
-    if (fp == NULL) {
+    if (fp == NULL)
+    {
         perror("Error while opening csv file");
         exit(1);
     }
     // Build bin file based on fp
     int result = build_csv_bin(fp, path_bin, delimiter);
-    if (result == EXIT_FAILURE) {
+    if (result == EXIT_FAILURE)
+    {
         fclose(fp);
         return NULL;
     }
     // Open bin file to read it
     FILE *fp_bin = fopen(path_bin, "rb");
-    if (fp_bin == NULL) {
+    if (fp_bin == NULL)
+    {
         perror("Error while opening bin file");
         fclose(fp);
         exit(1);
@@ -44,7 +48,8 @@ FILE *get_fp_bin(char *path_csv, char *path_bin, char delimiter) {
 /**
  * @brief Test if the csv file is correctly parsed
  */
-void test_csv_to_bin() {
+void test_csv_to_bin()
+{
     // cloosing to hidden error message in stderr
     FILE *fp_bin = get_fp_bin("./files/csv/0", "./files/bin/.tmp/0.bin", ';');
     // Check if fp_bin is not NULL
@@ -70,7 +75,8 @@ void test_csv_to_bin() {
  * @brief Test case where the csv file is not correct
  * (file is empty)
  */
-void test_wrong_csv_1(void) {
+void test_wrong_csv_1(void)
+{
     FILE *fp_bin = get_fp_bin("./files/csv/1", "./files/bin/.tmp/1.bin", ';');
     tps_assert(fp_bin == NULL);
 }
@@ -79,7 +85,8 @@ void test_wrong_csv_1(void) {
  * @brief Test case where the csv file is not correct
  * (file have only one line)
  */
-void test_wrong_csv_2(void) {
+void test_wrong_csv_2(void)
+{
     FILE *fp_bin = get_fp_bin("./files/csv/2", "./files/bin/.tmp/2.bin", ';');
     tps_assert(fp_bin == NULL);
 }
@@ -88,7 +95,8 @@ void test_wrong_csv_2(void) {
  * @brief Test case where the csv file is not correct
  * (header is empty but file is not)
  */
-void test_wrong_csv_3(void) {
+void test_wrong_csv_3(void)
+{
     FILE *fp_bin = get_fp_bin("./files/csv/3", "./files/bin/.tmp/3.bin", ';');
     tps_assert(fp_bin == NULL);
 }
@@ -97,14 +105,18 @@ void test_wrong_csv_3(void) {
  * @brief Test case where the csv file is not correct
  * (split line crash because csv file is incorrect)
  */
-void test_wrong_csv_4(void) {
+void test_wrong_csv_4(void)
+{
     // Needs to use fork to test because it will use exit(EXIT_FAILURE)
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         get_fp_bin("./files/csv/4", "./files/bin/.tmp/4.bin", ';');
         exit(0);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_FAILURE
@@ -119,14 +131,18 @@ void test_wrong_csv_4(void) {
  * @brief Test case where the csv file is not correct
  * (split line crash because coordinates are not in a good format correct)
  */
-void test_wrong_csv_5(void) {
+void test_wrong_csv_5(void)
+{
     // Needs to use fork to test because it will use exit(EXIT_FAILURE)
     pid_t pid = fork();
     assert(pid >= 0);
-    if (pid == 0) {
+    if (pid == 0)
+    {
         get_fp_bin("./files/csv/5", "./files/bin/.tmp/5.bin", ';');
         exit(0);
-    } else {
+    }
+    else
+    {
         int status;
         wait(&status);
         // Check if child process exit with EXIT_FAILURE
@@ -137,7 +153,8 @@ void test_wrong_csv_5(void) {
     }
 }
 
-void unit_test_csv_bin(void) {
+void unit_test_csv_bin(void)
+{
     TEST(test_csv_to_bin);
     TEST(test_wrong_csv_1);
     TEST(test_wrong_csv_2);

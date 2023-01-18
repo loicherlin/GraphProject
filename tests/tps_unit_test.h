@@ -74,8 +74,10 @@ char *__current_test_name;
 #define tps_test_error(msg) printf("Error %s [ FAILED ]\n", msg)
 
 #define tps_assert(expr)                                                       \
-    do {                                                                       \
-        if (!(expr)) {                                                         \
+    do                                                                         \
+    {                                                                          \
+        if (!(expr))                                                           \
+        {                                                                      \
             puts(__current_test_name);                                         \
             tps_test_error(ANSI_COLOR_MAGENTA                                  \
                            "\nassertion failed: " #expr ANSI_COLOR_RESET);     \
@@ -85,7 +87,8 @@ char *__current_test_name;
     } while (0)
 
 #define TEST(func)                                                             \
-    do {                                                                       \
+    do                                                                         \
+    {                                                                          \
         __current_test_name = #func;                                           \
         func();                                                                \
         puts(__current_test_name);                                             \

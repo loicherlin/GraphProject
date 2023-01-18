@@ -4,7 +4,8 @@
 struct list;
 typedef struct list list_t;
 
-struct list {
+struct list
+{
     void **tab;
     size_t allocated;
     size_t size;

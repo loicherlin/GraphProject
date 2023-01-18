@@ -13,7 +13,8 @@
  * @note Bowyer-Watson algorithm is only implemented.
  */
 
-typedef struct {
+typedef struct
+{
     triangle_t **triangles;
     size_t size_triangles;
     size_t size_vertices;

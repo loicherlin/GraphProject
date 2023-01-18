@@ -18,7 +18,8 @@
 
 #include "tps_unit_test.h"
 
-void test_min_heap_create_min_heap_node(void) {
+void test_min_heap_create_min_heap_node(void)
+{
     min_heap_node_t *node = create_min_heap_node(5, 3.14);
     assert(node != NULL);
     assert(node->v == 5);
@@ -32,7 +33,8 @@ void test_min_heap_create_min_heap_node(void) {
     free(node);
 }
 
-void test_min_heap_create_min_heap() {
+void test_min_heap_create_min_heap()
+{
     min_heap_t *heap = create_min_heap(10);
     assert(heap != NULL);
     assert(heap->capacity == 10);
@@ -52,7 +54,8 @@ void test_min_heap_create_min_heap() {
     free_min_heap(heap);
 }
 
-void test_min_heap_swap_min_heap_node(void) {
+void test_min_heap_swap_min_heap_node(void)
+{
     min_heap_node_t *node1 = create_min_heap_node(5, 3.14);
     min_heap_node_t *node2 = create_min_heap_node(7, 2.71);
 
@@ -72,7 +75,8 @@ void test_min_heap_swap_min_heap_node(void) {
     free(node2);
 }
 
-void test_min_heap_min_heapify(void) {
+void test_min_heap_min_heapify(void)
+{
     min_heap_t *heap = create_min_heap(10);
     heap->array[0] = create_min_heap_node(3, 3.14);
     heap->array[1] = create_min_heap_node(1, 2.71);
@@ -93,7 +97,8 @@ void test_min_heap_min_heapify(void) {
     free_min_heap(heap);
 }
 
-void test_min_heap_is_empty(void) {
+void test_min_heap_is_empty(void)
+{
     min_heap_t *heap = create_min_heap(10);
     assert(is_empty(heap) == 1);
 
@@ -106,7 +111,8 @@ void test_min_heap_is_empty(void) {
     free_min_heap(heap);
 }
 
-void test_min_heap_extract_min() {
+void test_min_heap_extract_min()
+{
     min_heap_t *heap = create_min_heap(10);
 
     min_heap_node_t *node1 = create_min_heap_node(3, 3.14);
@@ -139,7 +145,8 @@ void test_min_heap_extract_min() {
     free_min_heap(heap);
 }
 
-void test_min_heap_decrease_key() {
+void test_min_heap_decrease_key()
+{
     min_heap_t *heap = create_min_heap(10);
 
     min_heap_node_t *node1 = create_min_heap_node(3, 3.14);
@@ -167,7 +174,8 @@ void test_min_heap_decrease_key() {
     free_min_heap(heap);
 }
 
-void test_min_heap_is_in_min_heap() {
+void test_min_heap_is_in_min_heap()
+{
     min_heap_t *heap = create_min_heap(10);
 
     min_heap_node_t *node1 = create_min_heap_node(3, 3.14);
@@ -193,7 +201,8 @@ void test_min_heap_is_in_min_heap() {
     free_min_heap(heap);
 }
 
-void unit_test_min_heap(void) {
+void unit_test_min_heap(void)
+{
     TEST(test_min_heap_create_min_heap_node);
     TEST(test_min_heap_create_min_heap);
     TEST(test_min_heap_swap_min_heap_node);

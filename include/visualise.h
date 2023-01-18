@@ -14,7 +14,8 @@
 /**
  * Hold screen informations.
  */
-typedef struct screen_t {
+typedef struct screen_t
+{
     int width;
     int height;
     double x_max;
@@ -28,12 +29,18 @@ typedef struct screen_t {
 /**
  * Enum for text to display.
  */
-enum TXT { TXT_DEFAULT = 0, TXT_DELAUNAY = 1, TXT_PRIM = 2 };
+enum TXT
+{
+    TXT_DEFAULT = 0,
+    TXT_DELAUNAY = 1,
+    TXT_PRIM = 2
+};
 
 /**
  * Enum for color.
  */
-enum COLOR {
+enum COLOR
+{
     COLOR_BLACK = 0,
     COLOR_RED = 1,
     COLOR_GREEN = 2,

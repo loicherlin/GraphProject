@@ -18,7 +18,8 @@
 
 #include "tps_unit_test.h"
 
-void test_graph_dist(void) {
+void test_graph_dist(void)
+{
     data_t p1, p2;
     p1.latitude = 0.0;
     p1.longitude = 0.0;
@@ -30,16 +31,19 @@ void test_graph_dist(void) {
     tps_assert((int)haversine_dist == 157);
 }
 
-void test_create_graph(void) {
+void test_create_graph(void)
+{
     graph_t *graph = create_graph(10);
     tps_assert(graph->size_vertices == 10);
-    for (int i = 0; i < graph->size_vertices; i++) {
+    for (int i = 0; i < graph->size_vertices; i++)
+    {
         tps_assert(graph->arr[i].head == NULL);
     }
     free_graph(graph);
 }
 
-void test_create_node_adj(void) {
+void test_create_node_adj(void)
+{
     data_t data;
     data.id = 1;
     data.latitude = 1.0;
@@ -52,7 +56,8 @@ void test_create_node_adj(void) {
     free(node);
 }
 
-void test_add_edge(void) {
+void test_add_edge(void)
+{
     data_t data1, data2;
     data1.id = 1;
     data1.latitude = 0.0;
@@ -82,7 +87,8 @@ void test_add_edge(void) {
     free_graph(graph);
 }
 
-void test_prim_mst(void) {
+void test_prim_mst(void)
+{
     data_t data1, data2, data3, data4, data5;
     data1.id = 0;
     data1.latitude = 0.0;
@@ -117,7 +123,8 @@ void test_prim_mst(void) {
 
     int *mst = prim_mst(graph, "");
 
-    for (int i = 1; i < graph->size_vertices; i++) {
+    for (int i = 1; i < graph->size_vertices; i++)
+    {
         printf("%d - %d\n", i, mst[i]);
     }
 
@@ -125,7 +132,8 @@ void test_prim_mst(void) {
     free(mst);
 }
 
-void unit_test_graph(void) {
+void unit_test_graph(void)
+{
     TEST(test_graph_dist);
     TEST(test_create_graph);
     TEST(test_create_node_adj);

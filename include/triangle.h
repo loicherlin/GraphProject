@@ -7,7 +7,8 @@
  * @brief Triangle structure and functions to handle it
  */
 
-typedef struct triangle {
+typedef struct triangle
+{
     data_t *s1;
     data_t *s2;
     data_t *s3;
@@ -16,7 +17,8 @@ typedef struct triangle {
 /**
  * Structure for edge
  */
-typedef struct edge {
+typedef struct edge
+{
     data_t *org;
     data_t *dest;
 } edge_t;

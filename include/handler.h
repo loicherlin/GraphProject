@@ -11,7 +11,8 @@
 /**
  * Used to store the interrupt signals to be handled.
  */
-typedef struct {
+typedef struct
+{
     /**
      * @brief Used to store the Ctrl + C signal.
      */

@@ -13,8 +13,10 @@ enum DISTANCE_TYPE _distance_type;
 
 void set_distn(enum DISTANCE_TYPE type) { _distance_type = type; }
 
-double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type) {
-    switch (type) {
+double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type)
+{
+    switch (type)
+    {
     case EUCLIDEAN:
         return sqrt((p1.latitude - p2.latitude) * (p1.latitude - p2.latitude) +
                     (p1.longitude - p2.longitude) *
@@ -36,10 +38,13 @@ double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type) {
     }
 }
 
-void free_graph(graph_t *graph) {
-    for (int i = 0; i < graph->size_vertices; i++) {
+void free_graph(graph_t *graph)
+{
+    for (int i = 0; i < graph->size_vertices; i++)
+    {
         node_adj_t *node = graph->arr[i].head;
-        while (node != NULL) {
+        while (node != NULL)
+        {
             node_adj_t *temp = node;
             node = node->next;
             free(temp);
@@ -49,7 +54,8 @@ void free_graph(graph_t *graph) {
     free(graph);
 }
 
-graph_t *create_graph(int size_vertices) {
+graph_t *create_graph(int size_vertices)
+{
     graph_t *graph = (graph_t *)malloc(sizeof(graph_t));
     graph->size_vertices = size_vertices;
     graph->size_edges = 0;
@@ -60,7 +66,8 @@ graph_t *create_graph(int size_vertices) {
     return graph;
 }
 
-node_adj_t *create_node_adj(int id, data_t *data, double weight) {
+node_adj_t *create_node_adj(int id, data_t *data, double weight)
+{
     node_adj_t *node = (node_adj_t *)malloc(sizeof(node_adj_t));
     node->id = id;
     node->data = data;
@@ -69,7 +76,8 @@ node_adj_t *create_node_adj(int id, data_t *data, double weight) {
     return node;
 }
 
-void add_edge(graph_t *graph, data_t *data1, data_t *data2) {
+void add_edge(graph_t *graph, data_t *data1, data_t *data2)
+{
     int id1 = data1->id;
     int id2 = data2->id;
     double weight = dist(*data1, *data2, _distance_type);
@@ -85,11 +93,14 @@ void add_edge(graph_t *graph, data_t *data1, data_t *data2) {
     graph->size_edges++;
 }
 
-void show_graph_adj(graph_t *g) {
-    for (int i = 0; i < g->size_vertices; i++) {
+void show_graph_adj(graph_t *g)
+{
+    for (int i = 0; i < g->size_vertices; i++)
+    {
         node_adj_t *node = g->arr[i].head;
         printf("Vertex %d: ", i);
-        while (node != NULL) {
+        while (node != NULL)
+        {
             printf("%d(%f) ", node->id, node->weight);
             node = node->next;
         }
@@ -97,24 +108,30 @@ void show_graph_adj(graph_t *g) {
     }
 }
 
-void show_graph_adj_at(graph_t *g, int id) {
+void show_graph_adj_at(graph_t *g, int id)
+{
     node_adj_t *node = g->arr[id].head;
     printf("Vertex %d: ", id);
-    while (node != NULL) {
+    while (node != NULL)
+    {
         printf("%d(%f) ", node->id, node->weight);
         node = node->next;
     }
     printf("\n");
 }
 
-void save_mst(int *parent, int size_vertices, char *path) {
+void save_mst(int *parent, int size_vertices, char *path)
+{
     FILE *file = fopen(path, "w+");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         perror("Error opening file");
         exit(EXIT_FAILURE);
     }
-    for (int i = 1; i < size_vertices; i++) {
-        if (parent[i] == -1) {
+    for (int i = 1; i < size_vertices; i++)
+    {
+        if (parent[i] == -1)
+        {
             deprintf("Error save_mst: parent[%d] = -1\n Vertex not connected \
             (Probably another vertex having same coordinate is already connected)\n",
                      i);
@@ -125,13 +142,15 @@ void save_mst(int *parent, int size_vertices, char *path) {
     deprintf("MST saved in file: %s\n", path);
 }
 
-int *prim_mst(graph_t *graph, char *path) {
+int *prim_mst(graph_t *graph, char *path)
+{
     int size_vertices = graph->size_vertices;
     int *parent = malloc(size_vertices * sizeof(int));
     double *key = malloc(size_vertices * sizeof(double));
 
     min_heap_t *min_heap = create_min_heap(size_vertices);
-    for (int i = 1; i < size_vertices; i++) {
+    for (int i = 1; i < size_vertices; i++)
+    {
         parent[i] = -1;
         key[i] = DBL_MAX;
         min_heap->array[i] = create_min_heap_node(i, key[i]);
@@ -143,13 +162,16 @@ int *prim_mst(graph_t *graph, char *path) {
     min_heap->pos[0] = 0;
     min_heap->size = size_vertices;
 
-    while (!is_empty(min_heap)) {
+    while (!is_empty(min_heap))
+    {
         min_heap_node_t *min_heap_node = extract_min(min_heap);
         int u = min_heap_node->v;
         node_adj_t *node = graph->arr[u].head;
-        while (node != NULL) {
+        while (node != NULL)
+        {
             int v = node->data->id;
-            if (is_in_min_heap(min_heap, v) && node->weight < key[v]) {
+            if (is_in_min_heap(min_heap, v) && node->weight < key[v])
+            {
                 key[v] = node->weight;
                 parent[v] = u;
                 decrease_key(min_heap, v, key[v]);
@@ -159,7 +181,8 @@ int *prim_mst(graph_t *graph, char *path) {
         free(min_heap_node);
     }
 
-    if (strcmp(path, "")) {
+    if (strcmp(path, ""))
+    {
         save_mst(parent, size_vertices, path);
     }
 
@@ -169,9 +192,11 @@ int *prim_mst(graph_t *graph, char *path) {
     return parent;
 }
 
-bool is_edge_in_graph(graph_t *graph, data_t *d1, data_t *d2) {
+bool is_edge_in_graph(graph_t *graph, data_t *d1, data_t *d2)
+{
     node_adj_t *node = graph->arr[d1->id].head;
-    while (node != NULL) {
+    while (node != NULL)
+    {
         if (node->id == d2->id)
             return true;
         node = node->next;
@@ -179,10 +204,13 @@ bool is_edge_in_graph(graph_t *graph, data_t *d1, data_t *d2) {
     return false;
 }
 
-void delaunay_to_graph(delaunay_t *triangles, graph_t *graph) {
-    for (size_t i = 0; i < triangles->size_triangles; i++) {
+void delaunay_to_graph(delaunay_t *triangles, graph_t *graph)
+{
+    for (size_t i = 0; i < triangles->size_triangles; i++)
+    {
         triangle_t *t = triangles->triangles[i];
-        if (t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1) {
+        if (t->s1->id != -1 && t->s2->id != -1 && t->s3->id != -1)
+        {
             if (!is_edge_in_graph(graph, t->s1, t->s2))
                 add_edge(graph, t->s1, t->s2);
             if (!is_edge_in_graph(graph, t->s2, t->s3))
@@ -194,9 +222,11 @@ void delaunay_to_graph(delaunay_t *triangles, graph_t *graph) {
     deprintf("Delaunay to graph done\n");
 }
 
-double sum_weight_graph(int *mst, list_t *nodes, int size_vertices) {
+double sum_weight_graph(int *mst, list_t *nodes, int size_vertices)
+{
     double sum = 0;
-    for (int i = 1; i < size_vertices; i++) {
+    for (int i = 1; i < size_vertices; i++)
+    {
         if (mst[i] == -1)
             continue;
         data_t *data1 = list_get(nodes, mst[i]);

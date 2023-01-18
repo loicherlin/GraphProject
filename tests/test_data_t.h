@@ -18,7 +18,8 @@
 
 #include "tps_unit_test.h"
 
-void test_data_t(void) {
+void test_data_t(void)
+{
     data_t d1 = {.id = 0, .latitude = 1.123, .longitude = 1.123};
     data_t d2 = {.id = 1, .latitude = 1.123, .longitude = 1.123};
     // check if d1 and d2 are equals

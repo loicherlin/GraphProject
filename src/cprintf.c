@@ -5,8 +5,10 @@
 
 bool _debug = false;
 
-void deprintf(const char *format, ...) {
-    if (_debug) {
+void deprintf(const char *format, ...)
+{
+    if (_debug)
+    {
         va_list args;
         va_start(args, format);
         printf(ANSI_COLOR_YELLOW "\nDEBUG: ");
@@ -16,7 +18,8 @@ void deprintf(const char *format, ...) {
     }
 }
 
-void prprintf(char *task_name, int current, int size) {
+void prprintf(char *task_name, int current, int size)
+{
     printf(ANSI_COLOR_CYAN "\r%s: [%d/%d] (%d/100%%)" ANSI_COLOR_RESET,
            task_name, current, size, (current * 100) / size);
     fflush(stdout);
@@ -25,7 +28,8 @@ void prprintf(char *task_name, int current, int size) {
         printf(ANSI_COLOR_BLUE "\n%s completed.\n" ANSI_COLOR_RESET, task_name);
 }
 
-void eprintf(const char *format, ...) {
+void eprintf(const char *format, ...)
+{
     va_list args;
     va_start(args, format);
     fprintf(stderr, ANSI_COLOR_RED "ERROR: ");

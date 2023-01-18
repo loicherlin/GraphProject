@@ -7,7 +7,8 @@
  * @brief Data_t structure and functions to handle it
  */
 
-typedef struct data_t {
+typedef struct data_t
+{
     double latitude;
     double longitude;
     int id;

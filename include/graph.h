@@ -12,7 +12,8 @@
  * https://sites.google.com/site/rajboston1951/minimum-spanning-tree/2
  */
 
-enum DISTANCE_TYPE {
+enum DISTANCE_TYPE
+{
     EUCLIDEAN = 0,
     HAVESINE = 1 // http://villemin.gerard.free.fr/aGeograp/Distance.htm
 };
@@ -22,7 +23,8 @@ extern enum DISTANCE_TYPE _distance_type;
 /**
  * Node of an adjacent list
  */
-typedef struct node_adj {
+typedef struct node_adj
+{
     int id;
     data_t *data;
     double weight;
@@ -32,14 +34,16 @@ typedef struct node_adj {
 /**
  * Adjacent list
  */
-typedef struct adj_list {
+typedef struct adj_list
+{
     struct node_adj *head;
 } adj_list_t;
 
 /**
  * Graph structure
  */
-typedef struct graph {
+typedef struct graph
+{
     int size_vertices;
     struct adj_list *arr;
     int size_edges;

@@ -40,7 +40,8 @@ static struct argp_option options[] = {
     {0}};
 
 /* Used by main to communicate with parse_opt. */
-typedef struct arguments {
+typedef struct arguments
+{
     // char *args[2];                /* arg1 & arg2 */
     char *output_file;
     char *input_file;
@@ -55,14 +56,17 @@ typedef struct arguments {
 } arguments_t;
 
 /* Parse a single option. */
-static error_t parse_opt(int key, char *arg, struct argp_state *state) {
+static error_t parse_opt(int key, char *arg, struct argp_state *state)
+{
     /* Get the input argument from argp_parse, which we
        know is a pointer to our arguments structure. */
     arguments_t *arguments = state->input;
-    switch (key) {
+    switch (key)
+    {
     case ARGP_KEY_END:
         // weird
-        if (state->argc != 5) {
+        if (state->argc != 5)
+        {
             // ARGP_HELP_BUG_ADDR
             // argp_usage(state);
         }

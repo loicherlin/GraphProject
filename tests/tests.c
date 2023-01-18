@@ -25,7 +25,8 @@
 
 #include "tps_unit_test.h"
 
-int main(void) {
+int main(void)
+{
     // To hide stderr messages from the tests (mainly error messages)
     // fclose(stderr);
     unit_test_csv_bin();
