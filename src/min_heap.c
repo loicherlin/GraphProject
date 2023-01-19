@@ -2,7 +2,8 @@
 
 min_heap_node_t *create_min_heap_node(int v, double key)
 {
-    min_heap_node_t *min_heap_node = malloc(sizeof(min_heap_node_t));
+    min_heap_node_t *min_heap_node;
+    CHK_ALLOC(min_heap_node = malloc(sizeof(min_heap_node_t)), "malloc failed");
     min_heap_node->v = v;
     min_heap_node->key = key;
     return min_heap_node;
@@ -10,11 +11,13 @@ min_heap_node_t *create_min_heap_node(int v, double key)
 
 min_heap_t *create_min_heap(int capacity)
 {
-    min_heap_t *min_heap = malloc(sizeof(min_heap_t));
-    min_heap->pos = malloc(capacity * sizeof(int));
+    min_heap_t *min_heap;
+    CHK_ALLOC(min_heap = malloc(sizeof(min_heap_t)), "malloc failed");
+    CHK_ALLOC(min_heap->pos = malloc(capacity * sizeof(int)), "malloc failed");
     min_heap->size = 0;
     min_heap->capacity = capacity;
-    min_heap->array = malloc(capacity * sizeof(min_heap_node_t *));
+    CHK_ALLOC(min_heap->array = malloc(capacity * sizeof(min_heap_node_t *)),
+              "malloc failed");
     return min_heap;
 }
 

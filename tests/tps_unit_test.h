@@ -56,7 +56,11 @@ int main(void)
 #define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN "\x1b[36m"
-#define ANSI_COLOR_RESET "\x1b[0m"
+#define ANSI_COLOR_WHITE "\x1b[97m"
+
+#define ANSI_BOLD "\x1b[1m"
+#define ANSI_UNDERLINE "\x1b[4m"
+#define ANSI_RESET "\x1b[0m"
 
 #ifndef TPS_UNIT_TEST_H
 #define TPS_UNIT_TEST_H
@@ -80,7 +84,7 @@ char *__current_test_name;
         {                                                                      \
             puts(__current_test_name);                                         \
             tps_test_error(ANSI_COLOR_MAGENTA                                  \
-                           "\nassertion failed: " #expr ANSI_COLOR_RESET);     \
+                           "\nassertion failed: " #expr ANSI_RESET);           \
             exit(1);                                                           \
             return;                                                            \
         }                                                                      \
@@ -91,9 +95,9 @@ char *__current_test_name;
     {                                                                          \
         __current_test_name = #func;                                           \
         func();                                                                \
-        puts(__current_test_name);                                             \
+        fprintf(stdout, ANSI_BOLD ANSI_COLOR_YELLOW #func "\n");               \
         puts(ANSI_COLOR_GREEN                                                  \
-             "Done\n----------------------------" ANSI_COLOR_RESET);           \
+             "Done\n----------------------------" ANSI_RESET);                 \
     } while (0)
 
 #endif
