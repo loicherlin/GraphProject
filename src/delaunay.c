@@ -353,10 +353,13 @@ delaunay_t *deserialize_delaunay(FILE *fp, list_t *data_list)
     CHK_FREAD(bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp),
               fp, "fread failed");
     deprintf("number of triangles in the file: %ld\n", size_triangulation);
-    delaunay_t *delaunay = malloc(sizeof(delaunay_t));
+    delaunay_t *delaunay;
+    CHK_ALLOC(delaunay = malloc(sizeof(delaunay_t)), "malloc failed");
     delaunay->size_triangles = size_triangulation;
     delaunay->size_vertices = size_data_list;
-    delaunay->triangles = malloc(sizeof(triangle_t *) * size_triangulation);
+    CHK_ALLOC(delaunay->triangles =
+                  malloc(sizeof(triangle_t *) * size_triangulation),
+              "malloc failed");
     for (size_t i = 0; i < size_triangulation; i++)
     {
         delaunay->triangles[i] = (triangle_t *)malloc(sizeof(triangle_t));
