@@ -24,7 +24,8 @@ int size_column(FILE *fp, char delimiter)
 
 char **get_line(FILE *fp, int n, char delimiter)
 {
-    char *buf = malloc(sizeof(char) * 1000);
+    char *buf;
+    CHK_ALLOC((buf = malloc(sizeof(char) * 1000)), "malloc failed");
     if (fgets(buf, 1000, fp) == NULL)
     {
         free(buf);
@@ -33,13 +34,8 @@ char **get_line(FILE *fp, int n, char delimiter)
     char delim[2];
     delim[0] = delimiter;
     delim[1] = '\0';
-    char **line_splitted = split_line(buf, delim, n);
-    if (line_splitted == NULL)
-    {
-        free(buf);
-        printf("malloc failed in access_content.\n");
-        exit(EXIT_FAILURE);
-    }
+    char **line_splitted;
+    CHK_ALLOC((line_splitted = split_line(buf, delim, n)), "split_line failed");
     free(buf);
     return line_splitted;
 }
@@ -53,30 +49,26 @@ void print_line(char **line_splitted, int n)
 
 char **split_line(char *line, char *delimiter, int n)
 {
-    char **spl = (char **)malloc(sizeof(char *) * (n));
-    if (spl == NULL)
-    {
-        fprintf(stderr, "malloc failed in split_line.\n");
-        exit(EXIT_FAILURE);
-    }
+    char **spl;
+    CHK_ALLOC((spl = malloc(sizeof(char *) * (n))), "malloc failed");
     char *str;
     for (int i = 0; i < n; i++)
     {
         str = strsep(&line, delimiter);
         if (str == NULL && i < n)
         {
-            eprintf("strsep failed in split_line.\n");
+            eprintf("strsep failed in split_line.\n", __FILE__, __LINE__);
             exit(EXIT_FAILURE);
         }
         // if it finds a string with no data
         // put NODATA instead
         if (!strcmp(str, ""))
         {
-            spl[i] = strdup("NODATA");
+            CHK_ALLOC((spl[i] = strdup("NODATA")), "strdup failed");
         }
         else
         {
-            spl[i] = strdup(str);
+            CHK_ALLOC((spl[i] = strdup(str)), "strdup failed");
         }
     }
     return spl;

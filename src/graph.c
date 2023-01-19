@@ -56,10 +56,12 @@ void free_graph(graph_t *graph)
 
 graph_t *create_graph(int size_vertices)
 {
-    graph_t *graph = (graph_t *)malloc(sizeof(graph_t));
+    graph_t *graph;
+    CHK_ALLOC(graph = malloc(sizeof(graph_t)), "malloc failed");
     graph->size_vertices = size_vertices;
     graph->size_edges = 0;
-    graph->arr = (adj_list_t *)malloc(size_vertices * sizeof(adj_list_t));
+    CHK_ALLOC(graph->arr = malloc(size_vertices * sizeof(adj_list_t)),
+              "malloc failed");
     for (int i = 0; i < size_vertices; i++)
         graph->arr[i].head = NULL;
     deprintf("Graph created\n");
@@ -68,7 +70,8 @@ graph_t *create_graph(int size_vertices)
 
 node_adj_t *create_node_adj(int id, data_t *data, double weight)
 {
-    node_adj_t *node = (node_adj_t *)malloc(sizeof(node_adj_t));
+    node_adj_t *node;
+    CHK_ALLOC(node = malloc(sizeof(node_adj_t)), "malloc failed");
     node->id = id;
     node->data = data;
     node->weight = weight;
@@ -122,12 +125,8 @@ void show_graph_adj_at(graph_t *g, int id)
 
 void save_mst(int *parent, int size_vertices, char *path)
 {
-    FILE *file = fopen(path, "w+");
-    if (file == NULL)
-    {
-        perror("Error opening file");
-        exit(EXIT_FAILURE);
-    }
+    FILE *file;
+    CHK_ALLOC(file = fopen(path, "w+"), "fopen failed");
     for (int i = 1; i < size_vertices; i++)
     {
         if (parent[i] == -1)
@@ -145,8 +144,10 @@ void save_mst(int *parent, int size_vertices, char *path)
 int *prim_mst(graph_t *graph, char *path)
 {
     int size_vertices = graph->size_vertices;
-    int *parent = malloc(size_vertices * sizeof(int));
-    double *key = malloc(size_vertices * sizeof(double));
+    int *parent;
+    CHK_ALLOC(parent = malloc(size_vertices * sizeof(int)), "malloc failed");
+    double *key;
+    CHK_ALLOC(key = malloc(size_vertices * sizeof(double)), "malloc failed");
 
     min_heap_t *min_heap = create_min_heap(size_vertices);
     for (int i = 1; i < size_vertices; i++)

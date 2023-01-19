@@ -21,8 +21,10 @@ void sanatize_coordinates(double *lattitude, double *longitude,
     // check if the conversion was successful
     if (strcmp(checkPtr, endPtr) == 0)
     {
-        eprintf("Failed to convert coordinates to double\n(coordinate must be "
-                "the last element of the line in form of \"x,y\" !)\n");
+        eprintf("Failed to convert coordinates to "
+                "double\n(coordinate must be "
+                "the last element of the line in form of \"x,y\" !)\n",
+                __FILE__, __LINE__);
         exit(EXIT_FAILURE);
     }
 }
@@ -67,18 +69,15 @@ bool is_empty_line(FILE *fp)
 
 int build_csv_bin(FILE *fp, char *path_bin, char delimiter)
 {
-    FILE *fp_bin = fopen(path_bin, "w+b");
-    if (fp_bin == NULL)
-    {
-        perror("failed to fopen to path_bin\n");
-        return EXIT_FAILURE;
-    }
+    FILE *fp_bin;
+    CHK_ALLOC((fp_bin = fopen(path_bin, "w+b")), "Failed to open file\n");
     // Get the number of column by counting how much delimter there are in the
     // header
     int n = size_column(fp, delimiter);
     if (n == 0)
     {
-        eprintf("column of file is empty, delimiter problem maybe?\n");
+        eprintf("column of file is empty, delimiter problem maybe?\n", __FILE__,
+                __LINE__);
         return EXIT_FAILURE;
     }
     // Skip header (first line)
@@ -86,13 +85,13 @@ int build_csv_bin(FILE *fp, char *path_bin, char delimiter)
     // check if we are at the end of the file
     if (feof(fp))
     {
-        eprintf("end of file, your file is maybe empty.\n");
+        eprintf("end of file, your file is maybe empty.\n", __FILE__, __LINE__);
         return EXIT_FAILURE;
     }
     // check if next line is empty
     if (is_empty_line(fp))
     {
-        eprintf("line is empty\n");
+        eprintf("line is empty\n", __FILE__, __LINE__);
         return EXIT_FAILURE;
     }
     char **contents;
@@ -100,7 +99,7 @@ int build_csv_bin(FILE *fp, char *path_bin, char delimiter)
     {
         if (write_to_csv_bin(contents, fp_bin, n) == EXIT_FAILURE)
         {
-            eprintf("Failed to write to file\n");
+            eprintf("Failed to write to file\n", __FILE__, __LINE__);
             fclose(fp_bin);
             exterminate_malloc(contents, n);
             return EXIT_FAILURE;

@@ -208,7 +208,7 @@ void initialize_screen(int width, int height, list_t *node_list,
     double y_max = 0;
     double y_min = DBL_MAX;
     get_xy_min_max(node_list, size_vertices, &x_max, &x_min, &y_max, &y_min);
-    _screen = malloc(sizeof(screen_t));
+    CHK_ALLOC(_screen = malloc(sizeof(screen_t)), "malloc screen");
     _screen->width = width;
     _screen->height = height;
     _screen->x_max = x_max;

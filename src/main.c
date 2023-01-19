@@ -29,12 +29,8 @@ void free_list_n(list_t *data_list)
 list_t *initiate_data_list()
 {
     // Open CSV file
-    FILE *fp = fopen(arguments.input_file, "r");
-    if (fp == NULL)
-    {
-        perror("Error while opening csv file");
-        exit(1);
-    }
+    FILE *fp;
+    CHK_ALLOC(fp = fopen(arguments.input_file, "r"), "fopen failed");
     // Build bin file based on fp
     int result =
         build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
@@ -44,12 +40,8 @@ list_t *initiate_data_list()
         exit(1);
     }
     // Open bin file to read it
-    FILE *fp_bin = fopen(arguments.output_file, "rb");
-    if (fp_bin == NULL)
-    {
-        perror("Error while opening bin file");
-        exit(1);
-    }
+    FILE *fp_bin;
+    CHK_ALLOC(fp_bin = fopen(arguments.output_file, "rb"), "fopen failed");
     // Get data from bin file
     list_t *data_list = get_data_csv_bin(fp_bin);
     // Close files

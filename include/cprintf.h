@@ -2,13 +2,45 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+#define CHK(op)                                                                \
+    do                                                                         \
+    {                                                                          \
+        if ((op) == -1)                                                        \
+            chprintf(1, #op);                                                  \
+    } while (0)
+
+#define CHK_ALLOC(op, info)                                                    \
+    do                                                                         \
+    {                                                                          \
+        if ((op) == NULL)                                                      \
+            chprintf(1, __FILE__, __LINE__, info, #op);                        \
+    } while (0)
+
+#define CHK_FREAD(op, fp, info)                                                \
+    do                                                                         \
+    {                                                                          \
+        if ((op) == 0 && ferror(fp))                                           \
+            chprintf(1, __FILE__, __LINE__, info, #op);                        \
+    } while (0)
+
+#define CHK_FWRITE(op, size_to_write, info)                                    \
+    do                                                                         \
+    {                                                                          \
+        if ((op) != (size_to_write))                                           \
+            chprintf(1, __FILE__, __LINE__, info, #op);                        \
+    } while (0)
+
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_GREEN "\x1b[32m"
 #define ANSI_COLOR_YELLOW "\x1b[33m"
 #define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN "\x1b[36m"
-#define ANSI_COLOR_RESET "\x1b[0m"
+#define ANSI_COLOR_WHITE "\x1b[97m"
+
+#define ANSI_BOLD "\x1b[1m"
+#define ANSI_UNDERLINE "\x1b[4m"
+#define ANSI_RESET "\x1b[0m"
 
 /**
  * @defgroup CprintfModule
@@ -36,8 +68,20 @@ void prprintf(char *task_name, int current, int size);
 
 /**
  * Print an error message
- * @param format The format string
+ * @param msg The format string
  * @param ... The arguments
  */
-void eprintf(const char *format, ...);
+void eprintf(const char *msg, ...);
+
+/**
+ * Print a critical error message and exit
+ * @param syserr If 1, print the system error
+ * @param file The file where the error occured
+ * @param line The line where the error occured
+ * @param info Additional information
+ * @param msg The format string
+ * @param ... The arguments
+ */
+void chprintf(int syserr, const char *file, int line, const char *info,
+              const char *msg, ...);
 /** @} */

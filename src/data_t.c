@@ -8,7 +8,8 @@
 char *serialize_data_t(double latitude, double longitude, int id)
 {
     // data_t da = {.latitude = latitude, .longitude = longitude, .id = id };
-    char *data = calloc(sizeof(data_t), 1);
+    char *data;
+    CHK_ALLOC((data = calloc(sizeof(data_t), 1)), "calloc failed");
     ((data_t *)data)->id = id;
     ((data_t *)data)->latitude = latitude;
     ((data_t *)data)->longitude = longitude;
@@ -18,7 +19,8 @@ char *serialize_data_t(double latitude, double longitude, int id)
 
 data_t *deserialize_data_t(char *data_b)
 {
-    data_t *da = malloc(sizeof(data_t));
+    data_t *da;
+    CHK_ALLOC(da = malloc(sizeof(data_t)), "malloc failed");
     memcpy(da, data_b, sizeof(data_t));
     return da;
 }

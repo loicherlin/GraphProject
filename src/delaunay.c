@@ -45,16 +45,16 @@ triangle_t create_super_triangle(list_t *nodes)
     int dmax = (dx > dy) ? dx : dy;
     int xmid = min_x + dx / 2;
     int ymid = min_y + dy / 2;
-    data_t *p1 = malloc(sizeof(data_t));
+    data_t *p1, *p2, *p3;
+    CHK_ALLOC(p1 = malloc(sizeof(data_t)), "malloc failed");
     p1->latitude = xmid - 1.2 * dmax;
     p1->longitude = ymid - dmax;
     p1->id = -1;
-    data_t *p2 = malloc(sizeof(data_t));
+    CHK_ALLOC(p2 = malloc(sizeof(data_t)), "malloc failed");
     p2->latitude = xmid;
     p2->longitude = ymid + 10 * dmax;
     p2->id = -1;
-    data_t *p3 = malloc(sizeof(data_t));
-    ;
+    CHK_ALLOC(p3 = malloc(sizeof(data_t)), "malloc failed");
     p3->latitude = xmid + 1.2 * dmax;
     p3->longitude = ymid - dmax;
     p3->id = -1;
@@ -209,7 +209,8 @@ void remove_bad_triangles(int size_badTriangle, triangle_t badTriangles[],
 delaunay_t *remove_null_triangles(int size_triangle, triangle_t triangulation[],
                                   triangle_t super_triangle)
 {
-    delaunay_t *delaunay = malloc(sizeof(delaunay_t));
+    delaunay_t *delaunay;
+    CHK_ALLOC(delaunay = malloc(sizeof(delaunay_t)), "malloc failed");
     size_t real_size = 0;
     for (int i = 0; i < size_triangle; i++)
     {
@@ -222,19 +223,18 @@ delaunay_t *remove_null_triangles(int size_triangle, triangle_t triangulation[],
     delaunay->size_triangles = real_size;
 
     // Final triangulation
-    triangle_t **triangulationFinal = malloc(sizeof(triangle_t) * (real_size));
-    if (triangulationFinal == NULL)
-    {
-        printf("Error: malloc failed\n");
-        exit(1);
-    }
+    triangle_t **triangulationFinal;
+    CHK_ALLOC(triangulationFinal = malloc(sizeof(triangle_t) * (real_size)),
+              "malloc failed");
     int indice_relatif = 0;
     for (int i = 0; i < size_triangle; i++)
     {
         if (triangulation[i].s1 != NULL &&
             !compare_triangle_point(triangulation[i], super_triangle, EPSILON))
         {
-            triangulationFinal[indice_relatif] = malloc(sizeof(triangle_t));
+            CHK_ALLOC((triangulationFinal[indice_relatif] =
+                           malloc(sizeof(triangle_t))),
+                      "malloc failed");
             triangulationFinal[indice_relatif][0] = triangulation[i];
             indice_relatif++;
         }
@@ -247,10 +247,10 @@ delaunay_t *delaunay_bowyer_watson(list_t *nodes)
 {
     // This code has been created following the pseudo code available on
     // wikipedia. https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm
-
-    triangle_t *triangulation =
-        calloc(sizeof(triangle_t), 100000000); // that malloc is huge ( ͡° ͜ʖ ͡°)
-    // Create the super triangle
+    /***********************************************************************/
+    triangle_t *triangulation;
+    CHK_ALLOC(triangulation = calloc(sizeof(triangle_t), 100000000),
+              "calloc failed"); // that malloc is huge ( ͡° ͜ʖ ͡°)
     triangle_t super_triangle = create_super_triangle(nodes);
     triangulation[0] = super_triangle;
     int size_triangle = 1;
@@ -258,7 +258,8 @@ delaunay_t *delaunay_bowyer_watson(list_t *nodes)
     // For each point in the list
     for (i = 0; i < list_size(nodes) && _interrupt_signals.sigint != 1; i++)
     {
-        triangle_t *badTriangles = malloc(sizeof(triangle_t));
+        triangle_t *badTriangles;
+        CHK_ALLOC(badTriangles = malloc(sizeof(triangle_t)), "malloc failed");
         int size_badTriangle = 0;
         data_t *current_node = list_get(nodes, i);
         // first find all the triangles that are no longer valid due to the
@@ -271,23 +272,17 @@ delaunay_t *delaunay_bowyer_watson(list_t *nodes)
                 is_point_in_circumcicle(*current_node, *(t_tempo.s1),
                                         *(t_tempo.s2), *(t_tempo.s3), EPSILON))
             {
-                badTriangles = realloc(
-                    badTriangles, sizeof(triangle_t) * (size_badTriangle + 1));
-                if (badTriangles == NULL)
-                {
-                    printf("Error: realloc failed\n");
-                    exit(1);
-                }
+                CHK_ALLOC(badTriangles =
+                              realloc(badTriangles, sizeof(triangle_t) *
+                                                        (size_badTriangle + 1)),
+                          "realloc failed");
                 badTriangles[size_badTriangle] = t_tempo;
                 size_badTriangle++;
             }
         }
-        edge_t *polygons = malloc(sizeof(triangle_t) * size_badTriangle * 3);
-        if (polygons == NULL)
-        {
-            printf("Error: malloc failed\n");
-            exit(1);
-        }
+        edge_t *polygons;
+        CHK_ALLOC(polygons = malloc(sizeof(triangle_t) * size_badTriangle * 3),
+                  "malloc failed");
         // find the boundary of the polygonal hole
         int size_polygons = find_boundary_polygon_hole(size_badTriangle,
                                                        badTriangles, polygons);
@@ -326,34 +321,17 @@ void serialize_delaunay(delaunay_t *delaunay, FILE *fp)
     size_t size_triangulation = delaunay->size_triangles;
     deprintf("number of nodes used: %ld\n", size_data_list);
     deprintf("number of triangles: %ld\n", size_triangulation);
-    size_t byte_write = fwrite(&size_data_list, sizeof(size_t), 1, fp);
-    if (byte_write != 1)
-    {
-        eprintf("fwrite failed\n");
-        exit(EXIT_FAILURE);
-    }
+    CHK_FWRITE(fwrite(&size_data_list, sizeof(size_t), 1, fp), 1,
+               "fwrite failed");
     fwrite(&size_triangulation, sizeof(size_t), 1, fp);
     for (size_t i = 0; i < size_triangulation; i++)
     {
-        byte_write =
-            fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp);
-        if (byte_write != 1)
-        {
-            eprintf("fwrite failed\n");
-            exit(EXIT_FAILURE);
-        }
-        fwrite(&delaunay->triangles[i]->s2->id, sizeof(int), 1, fp);
-        if (byte_write != 1)
-        {
-            eprintf("fwrite failed\n");
-            exit(EXIT_FAILURE);
-        }
-        fwrite(&delaunay->triangles[i]->s3->id, sizeof(int), 1, fp);
-        if (byte_write != 1)
-        {
-            eprintf("fwrite failed\n");
-            exit(EXIT_FAILURE);
-        }
+        CHK_FWRITE(fwrite(&delaunay->triangles[i]->s1->id, sizeof(int), 1, fp),
+                   1, "fwrite failed");
+        CHK_FWRITE(fwrite(&delaunay->triangles[i]->s2->id, sizeof(int), 1, fp),
+                   1, "fwrite failed");
+        CHK_FWRITE(fwrite(&delaunay->triangles[i]->s3->id, sizeof(int), 1, fp),
+                   1, "fwrite failed");
     }
 }
 
@@ -361,54 +339,37 @@ delaunay_t *deserialize_delaunay(FILE *fp, list_t *data_list)
 {
     size_t size_data_list;
     size_t size_triangulation;
-    size_t bytes_read = fread(&size_data_list, sizeof(size_t), 1, fp);
-    // check if fread failed with ferror
-    if (bytes_read == 0 && ferror(fp))
-    {
-        eprintf("fread failed\n");
-        exit(EXIT_FAILURE);
-    }
+    size_t bytes_read;
+    CHK_FREAD(bytes_read = fread(&size_data_list, sizeof(size_t), 1, fp), fp,
+              "fread failed");
     deprintf("number of nodes in the file: %ld\n", size_data_list);
     if (size_data_list > data_list->size)
     {
         eprintf("the number of nodes in the file is greater than the number of "
-                "nodes in the list\n");
+                "nodes in the list\n",
+                __FILE__, __LINE__);
         exit(1);
     }
-    bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp);
-    // check if fread failed with ferror
-    if (bytes_read == 0 && ferror(fp))
-    {
-        eprintf("fread failed\n");
-        exit(EXIT_FAILURE);
-    }
+    CHK_FREAD(bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp),
+              fp, "fread failed");
     deprintf("number of triangles in the file: %ld\n", size_triangulation);
-    delaunay_t *delaunay = malloc(sizeof(delaunay_t));
+    delaunay_t *delaunay;
+    CHK_ALLOC(delaunay = malloc(sizeof(delaunay_t)), "malloc failed");
     delaunay->size_triangles = size_triangulation;
     delaunay->size_vertices = size_data_list;
-    delaunay->triangles = malloc(sizeof(triangle_t *) * size_triangulation);
+    CHK_ALLOC(delaunay->triangles =
+                  malloc(sizeof(triangle_t *) * size_triangulation),
+              "malloc failed");
     for (size_t i = 0; i < size_triangulation; i++)
     {
         delaunay->triangles[i] = (triangle_t *)malloc(sizeof(triangle_t));
         int id1, id2, id3;
-        bytes_read = fread(&id1, sizeof(int), 1, fp);
-        if (bytes_read == 0 && ferror(fp))
-        {
-            eprintf("fread failed\n");
-            exit(EXIT_FAILURE);
-        }
-        bytes_read = fread(&id2, sizeof(int), 1, fp);
-        if (bytes_read == 0 && ferror(fp))
-        {
-            eprintf("fread failed\n");
-            exit(EXIT_FAILURE);
-        }
-        bytes_read = fread(&id3, sizeof(int), 1, fp);
-        if (bytes_read == 0 && ferror(fp))
-        {
-            eprintf("fread failed\n");
-            exit(EXIT_FAILURE);
-        }
+        CHK_FREAD(bytes_read = fread(&id1, sizeof(int), 1, fp), fp,
+                  "fread failed");
+        CHK_FREAD(bytes_read = fread(&id2, sizeof(int), 1, fp), fp,
+                  "fread failed");
+        CHK_FREAD(bytes_read = fread(&id3, sizeof(int), 1, fp), fp,
+                  "fread failed");
         delaunay->triangles[i]->s1 = list_get(data_list, id1);
         delaunay->triangles[i]->s2 = list_get(data_list, id2);
         delaunay->triangles[i]->s3 = list_get(data_list, id3);
@@ -425,12 +386,9 @@ delaunay_t *initiate_delaunay(list_t *data_list, char *path_to_save,
     {
         deprintf("Loading delaunay from \"%s\" ...\n", path_to_load);
         // Open delaunay binary file
-        FILE *fp_delaunay = fopen(path_to_load, "rb");
-        if (fp_delaunay == NULL)
-        {
-            eprintf("opening delaunay binary file\n");
-            exit(1);
-        }
+        FILE *fp_delaunay;
+        CHK_ALLOC(fp_delaunay = fopen(path_to_load, "rb"),
+                  "Opening delaunay binary file");
         delaunay = deserialize_delaunay(fp_delaunay, data_list);
         fclose(fp_delaunay);
         goto end;
@@ -441,12 +399,9 @@ delaunay_t *initiate_delaunay(list_t *data_list, char *path_to_save,
         // Apply Delaunay algorithm
         delaunay = delaunay_bowyer_watson(data_list);
         // save delaunay in a binary file
-        FILE *fp_delaunay = fopen(path_to_save, "wb");
-        if (fp_delaunay == NULL)
-        {
-            eprintf("opening delaunay binary file\n");
-            exit(1);
-        }
+        FILE *fp_delaunay;
+        CHK_ALLOC(fp_delaunay = fopen(path_to_save, "wb"),
+                  "Opening delaunay binary file");
         serialize_delaunay(delaunay, fp_delaunay);
         fclose(fp_delaunay);
         deprintf("Saved delaunay in \"%s\".\n", path_to_save);
