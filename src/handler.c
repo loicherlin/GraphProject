@@ -1,24 +1,24 @@
+#include "../include/handler.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include "../include/handler.h"
-
+#include <sys/types.h>
+#include <unistd.h>
 
 volatile signal_int_t _interrupt_signals = {0};
 
 void interrupt(int sig)
-{   
-    switch(sig){
-        // Ctrl + C
-        case SIGINT:
-            _interrupt_signals.sigint = 1;
-            break;
-        default:
-            break;
+{
+    switch (sig)
+    {
+    // Ctrl + C
+    case SIGINT:
+        _interrupt_signals.sigint = 1;
+        break;
+    default:
+        break;
     }
 }
 

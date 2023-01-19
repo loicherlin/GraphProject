@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include "../include/array_list.h"
 #include "../include/bin_builder.h"
 #include "../include/cprintf.h"
@@ -15,10 +9,17 @@
 #include "../include/min_heap.h"
 #include "../include/triangle.h"
 #include "../include/visualise.h"
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include "tps_unit_test.h"
 
-void test_graph_dist(void){
+void test_graph_dist(void)
+{
     data_t p1, p2;
     p1.latitude = 0.0;
     p1.longitude = 0.0;
@@ -30,21 +31,24 @@ void test_graph_dist(void){
     tps_assert((int)haversine_dist == 157);
 }
 
-void test_create_graph(void){
-    graph_t* graph = create_graph(10);
+void test_create_graph(void)
+{
+    graph_t *graph = create_graph(10);
     tps_assert(graph->size_vertices == 10);
-    for (int i = 0; i < graph->size_vertices; i++){
+    for (int i = 0; i < graph->size_vertices; i++)
+    {
         tps_assert(graph->arr[i].head == NULL);
     }
     free_graph(graph);
 }
 
-void test_create_node_adj(void){
+void test_create_node_adj(void)
+{
     data_t data;
     data.id = 1;
     data.latitude = 1.0;
     data.longitude = 1.0;
-    node_adj_t* node = create_node_adj(2, &data, 1.5);
+    node_adj_t *node = create_node_adj(2, &data, 1.5);
     tps_assert(node->id == 2);
     tps_assert(node->data == &data);
     tps_assert(node->weight == 1.5);
@@ -52,7 +56,8 @@ void test_create_node_adj(void){
     free(node);
 }
 
-void test_add_edge(void){
+void test_add_edge(void)
+{
     data_t data1, data2;
     data1.id = 1;
     data1.latitude = 0.0;
@@ -60,13 +65,13 @@ void test_add_edge(void){
     data2.id = 2;
     data2.latitude = 1.0;
     data2.longitude = 1.0;
-    
+
     set_distn(HAVESINE);
-    graph_t* graph = create_graph(3);
+    graph_t *graph = create_graph(3);
 
     add_edge(graph, &data1, &data2);
 
-    node_adj_t* node = graph->arr[1].head;
+    node_adj_t *node = graph->arr[1].head;
     tps_assert(node != NULL);
     tps_assert(node->id == 2);
     tps_assert(node->data == &data2);
@@ -82,7 +87,8 @@ void test_add_edge(void){
     free_graph(graph);
 }
 
-void test_prim_mst(void){
+void test_prim_mst(void)
+{
     data_t data1, data2, data3, data4, data5;
     data1.id = 0;
     data1.latitude = 0.0;
@@ -101,7 +107,7 @@ void test_prim_mst(void){
     data5.longitude = 4.0;
 
     set_distn(EUCLIDEAN);
-    graph_t* graph = create_graph(5);
+    graph_t *graph = create_graph(5);
 
     add_edge(graph, &data1, &data2);
     add_edge(graph, &data1, &data3);
@@ -115,9 +121,10 @@ void test_prim_mst(void){
     add_edge(graph, &data4, &data5);
     show_graph_adj(graph);
 
-    int* mst = prim_mst(graph, "");
-    
-    for(int i = 1; i < graph->size_vertices; i++){
+    int *mst = prim_mst(graph, "");
+
+    for (int i = 1; i < graph->size_vertices; i++)
+    {
         printf("%d - %d\n", i, mst[i]);
     }
 
@@ -125,7 +132,8 @@ void test_prim_mst(void){
     free(mst);
 }
 
-void unit_test_graph(void){
+void unit_test_graph(void)
+{
     TEST(test_graph_dist);
     TEST(test_create_graph);
     TEST(test_create_node_adj);
