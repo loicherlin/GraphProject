@@ -1,8 +1,7 @@
 TARGET=tests
-
-CFLAGS=-Wall -Wextra -g -fprofile-arcs -ftest-coverage
-
-LDLIBS=-lm -ltps -lSDL2 -lSDL2_ttf
+CC ?= gcc
+CFLAGS = -Wall -Wextra -g -fprofile-arcs -ftest-coverage
+LDLIBS = -lm -ltps -lSDL2 -lSDL2_ttf
 
 
 INCLUDE_PATH = ../include
