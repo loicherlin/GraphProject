@@ -23,7 +23,7 @@ void sanatize_coordinates(double *lattitude, double *longitude,
  * @param str
  * @param fp
  * @param n
- * @return 1 if done it successfuly, otherwise 0
+ * @return 0 if done it successfuly, otherwise 1
  * @note fp is not closed into this function.
  */
 int write_to_csv_bin(char **str, FILE *fp, int n);
@@ -33,7 +33,7 @@ int write_to_csv_bin(char **str, FILE *fp, int n);
  * @param fp
  * @param path_bin
  * @param delimiter
- * @return 1 if done it succesfuly, otherwise 0
+ * @return 0 if done it succesfuly, otherwise 1
  * @note fp is not closed into this function.
  * @note delimiter is by default ';'
  */
