@@ -39,7 +39,7 @@ test:
 	make -C $(TESTS_PATH) clean
 	make -C $(TESTS_PATH) all
 	@echo -e ${L_BLUE}Going into $(TESTS_PATH) for running tests${NC}
-	cd $(TESTS_PATH) && ./tests
+	@cd $(TESTS_PATH) && ./tests
 	@echo -e ${L_BLUE}Going back to root directory${NC}
 	@cd ..
 cov:
