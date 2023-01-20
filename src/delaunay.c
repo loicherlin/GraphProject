@@ -345,9 +345,8 @@ delaunay_t *deserialize_delaunay(FILE *fp, list_t *data_list)
     deprintf("number of nodes in the file: %ld\n", size_data_list);
     if (size_data_list > data_list->size)
     {
-        eprintf("the number of nodes in the file is greater than the number of "
-                "nodes in the list\n",
-                __FILE__, __LINE__);
+        ERR_MSG("the number of nodes in the file is greater than the number of "
+                "nodes in the list\n");
         exit(1);
     }
     CHK_FREAD(bytes_read = fread(&size_triangulation, sizeof(size_t), 1, fp),

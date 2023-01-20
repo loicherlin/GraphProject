@@ -30,15 +30,12 @@ void prprintf(char *task_name, int current, int size)
         printf(ANSI_COLOR_BLUE "\n%s completed.\n" ANSI_RESET, task_name);
 }
 
-void eprintf(const char *msg, ...)
+void eprintf(const char *msg, const char *file, int line)
 {
-    va_list args;
-    va_start(args, msg);
     fprintf(stderr, ANSI_BOLD ANSI_COLOR_RED "ERROR: " ANSI_RESET ANSI_BOLD);
-    vfprintf(stderr, "at %s:%d: " ANSI_RESET, args);
+    fprintf(stderr, "at %s:%d: " ANSI_RESET, file, line);
     fprintf(stderr, "%s", msg);
     fprintf(stderr, ANSI_RESET);
-    va_end(args);
 }
 
 noreturn void chprintf(int syserr, const char *file, int line, const char *info,
@@ -48,12 +45,15 @@ noreturn void chprintf(int syserr, const char *file, int line, const char *info,
     va_start(ap, msg);
     eprintf("", file, line);
     fprintf(stderr, "%s\n", info);
-    // vfprintf(stderr, msg, ap);
+    fprintf(stderr, "\t| " ANSI_COLOR_CYAN ANSI_BOLD);
+    vfprintf(stderr, msg, ap);
+    fprintf(stderr, ANSI_RESET "\n");
     va_end(ap);
     if (syserr == 1)
     {
-        fprintf(stderr, "perror: ");
+        fprintf(stderr, "\t| " ANSI_BOLD ANSI_COLOR_RED "PERROR: " ANSI_RESET);
         perror("");
+        fprintf(stderr, ANSI_RESET);
     }
     fprintf(stderr, "\n");
     exit(EXIT_FAILURE);
