@@ -57,7 +57,7 @@ char **split_line(char *line, char *delimiter, int n)
         str = strsep(&line, delimiter);
         if (str == NULL && i < n)
         {
-            eprintf("strsep failed in split_line.\n", __FILE__, __LINE__);
+            ERR_MSG("strsep failed in split_line.\n");
             exit(EXIT_FAILURE);
         }
         // if it finds a string with no data
