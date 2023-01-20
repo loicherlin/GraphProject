@@ -36,7 +36,7 @@ void eprintf(const char *msg, ...)
     va_start(args, msg);
     fprintf(stderr, ANSI_BOLD ANSI_COLOR_RED "ERROR: " ANSI_RESET ANSI_BOLD);
     vfprintf(stderr, "at %s:%d: " ANSI_RESET, args);
-    fprintf(stderr, msg);
+    fprintf(stderr, "%s", msg);
     fprintf(stderr, ANSI_RESET);
     va_end(args);
 }

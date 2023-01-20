@@ -18,10 +18,14 @@ double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type)
     switch (type)
     {
     case EUCLIDEAN:
-        return sqrt((p1.latitude - p2.latitude) * (p1.latitude - p2.latitude) +
-                    (p1.longitude - p2.longitude) *
-                        (p1.longitude - p2.longitude));
+    {
+        double x = p1.latitude - p2.latitude;
+        double y = p1.longitude - p2.longitude;
+        return sqrt(x * x + y * y);
+    }
+
     case HAVESINE:
+    {
         double radius = 6371.0;
         double plat = p1.latitude * M_PI / 180.0;
         double mlat = p2.latitude * M_PI / 180.0;
@@ -31,10 +35,13 @@ double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type)
                    cos(plat) * cos(mlat) * sin(dlong / 2) * sin(dlong / 2);
         double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return radius * c;
+    }
     default:
-        return sqrt((p1.latitude - p2.latitude) * (p1.latitude - p2.latitude) +
-                    (p1.longitude - p2.longitude) *
-                        (p1.longitude - p2.longitude));
+    {
+        double x = p1.latitude - p2.latitude;
+        double y = p1.longitude - p2.longitude;
+        return sqrt(x * x + y * y);
+    }
     }
 }
 
