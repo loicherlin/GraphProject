@@ -152,24 +152,25 @@ using Delaunay Triangulation and Prim algorithm.
 ```
 Exemple pour utiliser l'exécutable :
 
-- ``./bin/main -i tests/files/csv/les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K 
-`` Lis le fichier présent dans ``tests/files/csv/les-arbres.csv``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
+- ```./bin/main -i tests/files/csv/les-arbres.csv -o coor.bin -g -v -l tests/files/delaunay/to_load/delaunay_256K ``` 
+
+La commande ci-dessus lis le fichier présent dans ``tests/files/csv/les-arbres.csv``, sauvegarde le fichier binaire contenant les informations nécessaire dans ``coor.bin``, active les messages pour débugger, affiche le résultat dans une fênetre et lis le fichier binaire ``delaunay_256K`` où se trouve la triangulation pré-enregistré.
 
 ### Utilisation de l'interface graphique
 Il est possible d'utiliser une interface graphique pour visualiser les résultats grâce
-à l'option ``-v``. Vous pouvez utiliser les flèches directionnelles pour vous déplacer ou la souris, pour zoomer ou dézoomer vous pouvez utiliser la molette de la souris ou les touches ``SPACE`` et ``A``.
+à l'option ``-v``. Vous pouvez utiliser les flèches directionnelles pour vous déplacer ou clique gauche et bouger à la souris, pour zoomer ou dézoomer vous pouvez utiliser la molette de la souris ou les touches ``SPACE`` et ``A``.
 ### Lancement des tests unitaires
 
 Pour lancer les testes unitaires, vous pouvez les exécuters à partir de :
  - la racine du répertoire avec ``make test`` 
  - dans le dossier ``tests/`` avec ``make tests`` 
 
-Vous pouvez aussi obtenir un code coverage avec la commande ``make cov`` à la racine ou dans ``tests/``. Un rapport sera alors généré dans ``tests/rapport`` où se trouvera un ``index.html`` contenant le code coverage.
+Vous pouvez aussi obtenir un code coverage avec la commande ``make cov`` à la racine ou dans ``tests/``. Un rapport sera alors généré dans ``tests/rapport/`` où se trouvera un ``index.html`` contenant le code coverage.
 
 *Note: il est nécessaire d'avoir lcov d'installé sur votre machine.* 
 
 ### Génération de la documentation
-Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs`` sera alors généré et la documentation sera accessible via ``docs/html/index.html``.
+Il suffit d'exécuter ``make doc`` à la racine du projet, un dossier ``docs/`` sera alors généré et la documentation sera accessible via ``docs/html/index.html``.
 
 ## Notes
 - La librairie ``tps`` est nécessaire pour compiler le projet, pour l'installer rendez-vous sur [ce lien](https://gitlab.com/bramas/libtps.h/).
