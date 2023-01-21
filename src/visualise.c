@@ -91,14 +91,10 @@ void draw_edge(double x1, double y1, double x2, double y2)
 {
     if (out_of_screen(x1, y1) == false && out_of_screen(x2, y2) == false)
     {
-        tps_drawLine(normalize_to_screen(x1, _screen->x_max, _screen->x_min) *
-                         _screen->width,
-                     normalize_to_screen(y1, _screen->y_max, _screen->y_min) *
-                         _screen->height,
-                     normalize_to_screen(x2, _screen->x_max, _screen->x_min) *
-                         _screen->width,
-                     normalize_to_screen(y2, _screen->y_max, _screen->y_min) *
-                         _screen->height);
+        tps_drawLine(normalize_to_screen(x1, _screen->x_max, _screen->x_min) * _screen->width,
+                     normalize_to_screen(y1, _screen->y_max, _screen->y_min) * _screen->height,
+                     normalize_to_screen(x2, _screen->x_max, _screen->x_min) * _screen->width,
+                     normalize_to_screen(y2, _screen->y_max, _screen->y_min) * _screen->height);
     }
 }
 
@@ -124,16 +120,13 @@ void set_color(enum COLOR c)
 void draw_node(double x, double y, int rx, int ry, enum COLOR c)
 {
     set_color(c);
-    tps_drawEllipse(normalize_to_screen(x, _screen->x_max, _screen->x_min) *
-                        _screen->width,
-                    normalize_to_screen(y, _screen->y_max, _screen->y_min) *
-                        _screen->height,
-                    rx, ry);
+    tps_drawEllipse(normalize_to_screen(x, _screen->x_max, _screen->x_min) * _screen->width,
+                    normalize_to_screen(y, _screen->y_max, _screen->y_min) * _screen->height, rx, ry);
     set_color(COLOR_BLACK);
 }
 
-void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max,
-                    double *x_min, double *y_max, double *y_min)
+void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max, double *x_min, double *y_max,
+                    double *y_min)
 {
     for (int i = 0; i < size_vertices; i++)
     {
@@ -154,35 +147,29 @@ void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max,
             *y_min = (*(data_t *)list_get(node_list, i)).longitude;
         }
     }
-    deprintf("x_max: %f, x_min: %f, y_max: %f, y_min: %f\n", *x_max, *x_min,
-             *y_max, *y_min);
+    deprintf("x_max: %f, x_min: %f, y_max: %f, y_min: %f\n", *x_max, *x_min, *y_max, *y_min);
 }
 
-void update_texts(list_t *node_list, delaunay_t *delaunay, graph_t *g, int *mst,
-                  enum TXT flag)
+void update_texts(list_t *node_list, delaunay_t *delaunay, graph_t *g, int *mst, enum TXT flag)
 {
     switch (flag)
     {
     case TXT_DEFAULT:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
-        snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d",
-                 g->size_vertices);
-        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %ld",
-                 (delaunay->size_triangles - 1) * 3);
+        snprintf(_number_nodes, BUFFER_SIZE, "Number of nodes: %d", g->size_vertices);
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %ld", (delaunay->size_triangles - 1) * 3);
         snprintf(_binds, BUFFER_SIZE,
                  "Quit: [ESC], Zoom In/Out: [Mouse wheel, A/Space], Move "
                  "camera: [Click and drag, Arrow U/D/L/R]");
         break;
     case TXT_DELAUNAY:
         snprintf(_press_key, BUFFER_SIZE, "Show Prim: [O]");
-        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %d",
-                 g->size_edges);
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %d", g->size_edges);
         snprintf(_sum_weight, BUFFER_SIZE, " ");
         break;
     case TXT_PRIM:
         snprintf(_press_key, BUFFER_SIZE, "Show Delaunay: [O]");
-        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %d",
-                 (g->size_vertices - 1));
+        snprintf(_number_edges, BUFFER_SIZE, "Number of edges: %d", (g->size_vertices - 1));
         snprintf(_sum_weight, BUFFER_SIZE, "Sum of weights: %f",
                  sum_weight_graph(mst, node_list, g->size_vertices));
         break;
@@ -200,8 +187,7 @@ void draw_texts()
     tps_drawText(20, 120, _sum_weight, 15);
 }
 
-void initialize_screen(int width, int height, list_t *node_list,
-                       int size_vertices)
+void initialize_screen(int width, int height, list_t *node_list, int size_vertices)
 {
     double x_max = 0;
     double x_min = DBL_MAX;
@@ -217,8 +203,7 @@ void initialize_screen(int width, int height, list_t *node_list,
     _screen->y_min = y_min;
 }
 
-void visualize(int width, int height, list_t *node_list, int *mst,
-               delaunay_t *delaunay, graph_t *g)
+void visualize(int width, int height, list_t *node_list, int *mst, delaunay_t *delaunay, graph_t *g)
 {
     tps_createWindow("Delaunay & Prim", width, height);
     initialize_screen(width, height, node_list, g->size_vertices);
@@ -273,14 +258,11 @@ void show_delaunay(delaunay_t *triangles)
     {
         triangle_t *t = triangles->triangles[i];
         // draw edge between s1 and s2
-        draw_edge(t->s1->latitude, t->s1->longitude, t->s2->latitude,
-                  t->s2->longitude);
+        draw_edge(t->s1->latitude, t->s1->longitude, t->s2->latitude, t->s2->longitude);
         // draw edge between s2 and s3
-        draw_edge(t->s2->latitude, t->s2->longitude, t->s3->latitude,
-                  t->s3->longitude);
+        draw_edge(t->s2->latitude, t->s2->longitude, t->s3->latitude, t->s3->longitude);
         // draw edge between s3 and s1
-        draw_edge(t->s3->latitude, t->s3->longitude, t->s1->latitude,
-                  t->s1->longitude);
+        draw_edge(t->s3->latitude, t->s3->longitude, t->s1->latitude, t->s1->longitude);
     }
 }
 
@@ -334,8 +316,7 @@ void camera_move(int dx, int dy)
 {
     // Calculate the ratio of the width and height to the x_max and y_max fields
     double x_ratio = (double)_screen->width / (_screen->x_max - _screen->x_min);
-    double y_ratio =
-        (double)_screen->height / (_screen->y_max - _screen->y_min);
+    double y_ratio = (double)_screen->height / (_screen->y_max - _screen->y_min);
 
     // Calculate the change in the x_min and y_min fields based on the mouse
     // movement
@@ -367,8 +348,7 @@ void onKeyDown(int key)
     {
         zoom_out();
     }
-    if (key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT ||
-        key == SDLK_LEFT)
+    if (key == SDLK_DOWN || key == SDLK_UP || key == SDLK_RIGHT || key == SDLK_LEFT)
     {
         move_screen(key);
     }

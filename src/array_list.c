@@ -125,8 +125,7 @@ int list_insert(list_t *list, int idx, void *element)
         list->allocated *= 2;
         list->tab = tmp;
     }
-    memmove(list->tab + idx + 1, list->tab + idx,
-            sizeof(void *) * (list->size - idx));
+    memmove(list->tab + idx + 1, list->tab + idx, sizeof(void *) * (list->size - idx));
     list->tab[idx] = element;
     list->size++;
     return 1;
@@ -148,10 +147,7 @@ void *list_get(list_t *list, int idx) { return list->tab[idx]; }
  * remplace l'élément à la position donnée par l'élément donné
  */
 
-void list_set(list_t *list, int idx, void *element)
-{
-    list->tab[idx] = element;
-}
+void list_set(list_t *list, int idx, void *element) { list->tab[idx] = element; }
 
 /**
  * Fonction list_take
@@ -161,8 +157,7 @@ void list_set(list_t *list, int idx, void *element)
 void *list_take(list_t *list, int idx)
 {
     void *tmp = list->tab[idx];
-    memmove(list->tab + idx, list->tab + idx + 1,
-            sizeof(void *) * (list->size - idx - 1));
+    memmove(list->tab + idx, list->tab + idx + 1, sizeof(void *) * (list->size - idx - 1));
     list->size--;
     return tmp;
 }
@@ -203,8 +198,7 @@ void list_remove(list_t *list, void *to_remove)
     }
 }
 
-void list_sort(list_t *list,
-               int (*compare_function)(const void *, const void *))
+void list_sort(list_t *list, int (*compare_function)(const void *, const void *))
 {
     qsort(list->tab, list->size, sizeof(void *), compare_function);
 }

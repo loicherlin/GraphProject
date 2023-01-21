@@ -41,8 +41,7 @@ triangle_t create_triangle(data_t *a, data_t *b, data_t *c);
  * @param EPSILON
  * @return int return 1 if they share a same edge else 0
  */
-int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current,
-                double ESPILON);
+int edge_shared(edge_t bad_t_a, edge_t bad_t_b, edge_t bad_t_c, edge_t current, double ESPILON);
 
 /**
  * Compare two triangles if they share a same point

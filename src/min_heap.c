@@ -16,8 +16,7 @@ min_heap_t *create_min_heap(int capacity)
     CHK_ALLOC(min_heap->pos = malloc(capacity * sizeof(int)), "malloc failed");
     min_heap->size = 0;
     min_heap->capacity = capacity;
-    CHK_ALLOC(min_heap->array = malloc(capacity * sizeof(min_heap_node_t *)),
-              "malloc failed");
+    CHK_ALLOC(min_heap->array = malloc(capacity * sizeof(min_heap_node_t *)), "malloc failed");
     return min_heap;
 }
 
@@ -35,12 +34,10 @@ void min_heapify(min_heap_t *min_heap, int index)
     left = 2 * index + 1;
     right = 2 * index + 2;
 
-    if (left < min_heap->size &&
-        min_heap->array[left]->key < min_heap->array[smallest]->key)
+    if (left < min_heap->size && min_heap->array[left]->key < min_heap->array[smallest]->key)
         smallest = left;
 
-    if (right < min_heap->size &&
-        min_heap->array[right]->key < min_heap->array[smallest]->key)
+    if (right < min_heap->size && min_heap->array[right]->key < min_heap->array[smallest]->key)
         smallest = right;
 
     if (smallest != index)

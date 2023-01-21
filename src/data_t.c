@@ -27,14 +27,10 @@ data_t *deserialize_data_t(char *data_b)
 
 int compare_data_t(data_t *a, data_t *b, double epsilon)
 {
-    return ((fabs(a->latitude - b->latitude) < epsilon) &&
-            (fabs(a->longitude - b->longitude) < epsilon));
+    return ((fabs(a->latitude - b->latitude) < epsilon) && (fabs(a->longitude - b->longitude) < epsilon));
 }
 
-void print_data_t(data_t *da)
-{
-    printf("%d [%f, %f]\n", da->id, da->latitude, da->longitude);
-}
+void print_data_t(data_t *da) { printf("%d [%f, %f]\n", da->id, da->latitude, da->longitude); }
 
 // compare two data_t for qsort functions
 int qsort_compare_data_t(const void *d1, const void *d2)

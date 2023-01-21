@@ -9,8 +9,7 @@
 #include <string.h>
 #include <tps.h>
 
-void sanatize_coordinates(double *lattitude, double *longitude,
-                          char *coordinates)
+void sanatize_coordinates(double *lattitude, double *longitude, char *coordinates)
 {
     char *endPtr;
     char *checkPtr;

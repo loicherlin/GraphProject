@@ -13,8 +13,7 @@
  * @param longitude
  * @param coordinates
  */
-void sanatize_coordinates(double *lattitude, double *longitude,
-                          char *coordinates);
+void sanatize_coordinates(double *lattitude, double *longitude, char *coordinates);
 
 /**
  * Write serialized data to fp.

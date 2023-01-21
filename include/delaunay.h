@@ -55,8 +55,7 @@ delaunay_t *deserialize_delaunay(FILE *fp, list_t *data_list);
  * @param path_to_load
  * @return delaunay_t*
  */
-delaunay_t *initiate_delaunay(list_t *data_list, char *path_to_save,
-                              char *path_to_load);
+delaunay_t *initiate_delaunay(list_t *data_list, char *path_to_save, char *path_to_load);
 
 /**
  * @brief Free the memory allocated for the delaunay triangles

@@ -89,5 +89,4 @@ void list_free(list_t *list);
 
 void list_remove(list_t *list, void *to_remove);
 
-void list_sort(list_t *list,
-               int (*compare_function)(const void *, const void *));
+void list_sort(list_t *list, int (*compare_function)(const void *, const void *));
