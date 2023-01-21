@@ -31,8 +31,7 @@ double dist(data_t p1, data_t p2, enum DISTANCE_TYPE type)
         double mlat = p2.latitude * M_PI / 180.0;
         double dlat = (p2.latitude - p1.latitude) * M_PI / 180.0;
         double dlong = (p2.longitude - p1.longitude) * M_PI / 180.0;
-        double a = sin(dlat / 2) * sin(dlat / 2) +
-                   cos(plat) * cos(mlat) * sin(dlong / 2) * sin(dlong / 2);
+        double a = sin(dlat / 2) * sin(dlat / 2) + cos(plat) * cos(mlat) * sin(dlong / 2) * sin(dlong / 2);
         double c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return radius * c;
     }
@@ -67,8 +66,7 @@ graph_t *create_graph(int size_vertices)
     CHK_ALLOC(graph = malloc(sizeof(graph_t)), "malloc failed");
     graph->size_vertices = size_vertices;
     graph->size_edges = 0;
-    CHK_ALLOC(graph->arr = malloc(size_vertices * sizeof(adj_list_t)),
-              "malloc failed");
+    CHK_ALLOC(graph->arr = malloc(size_vertices * sizeof(adj_list_t)), "malloc failed");
     for (int i = 0; i < size_vertices; i++)
         graph->arr[i].head = NULL;
     deprintf("Graph created\n");

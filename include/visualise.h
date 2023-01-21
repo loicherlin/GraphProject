@@ -100,8 +100,8 @@ void draw_node(double x, double y, int rx, int ry, enum COLOR c);
  * @param y_min min value of y
  * @return 0 if no problems, otherwise 1.
  */
-void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max,
-                    double *x_min, double *y_max, double *y_min);
+void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max, double *x_min, double *y_max,
+                    double *y_min);
 
 /**
  * Update texts informations.
@@ -112,8 +112,7 @@ void get_xy_min_max(list_t *node_list, int size_vertices, double *x_max,
  * @param flag flag to know which text to update (TXT_DELAUNAY, TXT_PRIM,
  * TXT_DEFAULT)
  */
-void update_texts(list_t *node_list, delaunay_t *delaunay, graph_t *g, int *mst,
-                  enum TXT flag);
+void update_texts(list_t *node_list, delaunay_t *delaunay, graph_t *g, int *mst, enum TXT flag);
 
 /**
  * Draw inputs bindings, informations about the visualization (Numbers of nodes,
@@ -128,8 +127,7 @@ void draw_texts();
  * @param node_list list of nodes
  * @param size_vertices number of nodes
  */
-void initialize_screen(int width, int height, list_t *node_list,
-                       int size_vertices);
+void initialize_screen(int width, int height, list_t *node_list, int size_vertices);
 
 /**
  * Visualize delaunay and prim result in a SDL window.
@@ -140,8 +138,7 @@ void initialize_screen(int width, int height, list_t *node_list,
  * @param delaunay delaunay triangles
  * @param g graph of delaunay triangles
  */
-void visualize(int width, int height, list_t *node_list, int *mst,
-               delaunay_t *delaunay, graph_t *g);
+void visualize(int width, int height, list_t *node_list, int *mst, delaunay_t *delaunay, graph_t *g);
 
 /**
  * Draw mst in a SDL window.

@@ -22,8 +22,8 @@ void deprintf(const char *format, ...)
 
 void prprintf(char *task_name, int current, int size)
 {
-    printf(ANSI_COLOR_CYAN "\r%s: [%d/%d] (%d/100%%)" ANSI_RESET, task_name,
-           current, size, (current * 100) / size);
+    printf(ANSI_COLOR_CYAN "\r%s: [%d/%d] (%d/100%%)" ANSI_RESET, task_name, current, size,
+           (current * 100) / size);
     fflush(stdout);
     // Print a new line at the end
     if (current == size)
@@ -38,8 +38,7 @@ void eprintf(const char *msg, const char *file, int line)
     fprintf(stderr, ANSI_RESET);
 }
 
-noreturn void chprintf(int syserr, const char *file, int line, const char *info,
-                       const char *msg, ...)
+noreturn void chprintf(int syserr, const char *file, int line, const char *info, const char *msg, ...)
 {
     va_list ap;
     va_start(ap, msg);

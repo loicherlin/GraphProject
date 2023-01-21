@@ -32,8 +32,7 @@ list_t *initiate_data_list()
     FILE *fp;
     CHK_ALLOC(fp = fopen(arguments.input_file, "r"), "fopen failed");
     // Build bin file based on fp
-    int result =
-        build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
+    int result = build_csv_bin(fp, arguments.output_file, arguments.delimiter[0]);
     if (result == EXIT_FAILURE)
     {
         fclose(fp);
@@ -80,8 +79,7 @@ int main(int argc, char *argv[])
     // Initiate data_list
     list_t *data_list = initiate_data_list();
     // Initiate delaunay triangles
-    delaunay_t *delaunay = initiate_delaunay(data_list, arguments.save_delaunay,
-                                             arguments.load_delaunay);
+    delaunay_t *delaunay = initiate_delaunay(data_list, arguments.save_delaunay, arguments.load_delaunay);
     // Create graph from delaunay triangles
     set_distn(HAVESINE);
     graph_t *g = create_graph(delaunay->size_vertices);
@@ -90,9 +88,7 @@ int main(int argc, char *argv[])
     // Get minimum spanning tree using Prim algorithm
     int *mst = prim_mst(g, arguments.save_mst);
     // If visualise is true, visualize Prim and Delaunay result
-    arguments.visualise ? visualize(arguments.width, arguments.height,
-                                    data_list, mst, delaunay, g)
-                        : 0;
+    arguments.visualise ? visualize(arguments.width, arguments.height, data_list, mst, delaunay, g) : 0;
     // Free memory
     free_graph(g);
     free(mst);
